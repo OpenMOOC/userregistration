@@ -60,9 +60,17 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 		$entry = $this->makeNewEntry($userInfo);
 		$this->adminBindLdap();
 		// FIXME: Use errorcode from ldap_add instead
-		if($this->searchfordn($this->searchBase, $this->userIdAttr, $rdn, TRUE) ){
-			throw new sspmod_userregistration_Error_UserException('uid_taken');
-		}else{
+		$userdn = $this->searchfordn($this->searchBase, $this->userIdAttr, $rdn, TRUE);
+		if ($userdn){
+			$attrs = $this->getAttributes($userdn, array('userPassword'));
+
+			if (!empty($attrs)) {
+				throw new sspmod_userregistration_Error_UserException('uid_taken');
+			}
+			else {
+				throw new sspmod_userregistration_Error_UserException('uid_taken_but_not_verified');
+			}
+		} else {
 			$this->addObject($dn, $entry);
 		}
 	}

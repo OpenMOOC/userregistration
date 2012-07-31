@@ -21,7 +21,7 @@ class sspmod_userregistration_XHTML_Form {
 		foreach ($fieldsDef as $name => $field) {
 			$this->layout[$name] = $field['layout'];
 		}
-		if($actionEndpoint) $this->actionEndpoint = $actionEndpoint;
+		if ($actionEndpoint) $this->actionEndpoint = $actionEndpoint;
 
 		$config = SimpleSAML_Configuration::getInstance();
 		$this->transAttr = new SimpleSAML_XHTML_Template(
@@ -58,8 +58,8 @@ class sspmod_userregistration_XHTML_Form {
 	}
 
 
-	public function addTOS(){
-		$this->tos = true;
+	public function addTOS($tos){
+		$this->tos = $tos;
 	}
 
 	/*
@@ -95,7 +95,7 @@ class sspmod_userregistration_XHTML_Form {
 	private function writeFormElement($elementId){
 		$html = '<div class="element">';
 		$html .= $this->writeLabel($elementId);
-		$html .= $this->writeInputControl($elementId);
+		$html .= ' '.$this->writeInputControl($elementId);
 		$html .= $this->writeControlDescription($elementId);
 		$html .= '</div>';
 
@@ -106,10 +106,10 @@ class sspmod_userregistration_XHTML_Form {
 	private function writeLabel($elementId){
 		$format = '<label for="%s">%s</label>';
 		$trTag = strtolower('attribute_'.$elementId);
-		$trLabel = htmlspecialchars($this->transAttr->t($trTag));
+		$trLabel = htmlspecialchars($this->transDesc->t($trTag));
 		// Got no translation, try again
 		if( (bool)strstr($trLabel, 'not translated') ) {
-			$trLabel = htmlspecialchars($this->transDesc->t($elementId));
+			$trLabel = htmlspecialchars($this->transAttr->t($trTag));
 		}
 		$html = sprintf($format, $elementId, $trLabel);
 		return $html;
@@ -183,8 +183,13 @@ class sspmod_userregistration_XHTML_Form {
 		return $html;
 	}
 
-    private function writeTOS(){
-		$html = '<input type="checkbox" name="tos" value="tos"> I have read and agree with the terms of service<br>';
+    private function writeTOS($tos){
+		$template = new SimpleSAML_XHTML_Template(
+		SimpleSAML_Configuration::getInstance(),
+		'userregistration:step1_register.tpl.php',
+		'userregistration:userregistration');
+
+		$html = '<input type="checkbox" name="tos" value="tos"> '.$template->t('tos').' (<a href="'.$tos.'" >'.$template->t('see_tos').'</a>)<br>';
 		return $html;
 	}
 
@@ -204,7 +209,7 @@ class sspmod_userregistration_XHTML_Form {
 			}
 		}
 		if ($this->tos) {
-			$html .= $this->writeTOS();
+			$html .= $this->writeTOS($this->tos);
 		}
 		$html .= $this->writeFormSubmit();
 

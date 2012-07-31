@@ -15,9 +15,6 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 	  <div class="error"><?php echo $this->data['error']; ?></div>
 <?php }?>
 
-<h1><?php echo $this->t('s3_head'); ?></h1>
-<p><?php echo $this->t('s3_intro'); ?></p>
-
 <?php
 if(isset($this->data['passwordPolicy'])) {
 	include_once($this->data['passwordPolicytpl']);

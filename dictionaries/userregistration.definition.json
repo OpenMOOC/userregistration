@@ -1,4 +1,13 @@
 {
+	"attribute_cn": {
+		"en": "Name"
+	},
+	"attribute_pw1": {
+		"en": "New password"
+	},
+	"attribute_pw2": {
+		"en": "Retype password"
+	},
 	"mailNew_header": {
 		"en": "Registration at %SNAME% - email validation"
 	},
@@ -34,6 +43,9 @@
 	},
 	"submit_change": {
 		"en": "Submit change"
+	},
+	"save": {
+		"en": "Save"
 	},
 	"s2_para1": {
 		"en": "An e-mail is sent to you with a link that you need to follow in order to continue the registration proccess."
@@ -120,13 +132,22 @@
 		"en": "Empty value is not allowed for %VAR1%."
 	},
 	"uid_taken": {
-		"en": "Username taken. You have to select a different username."
+		"en": "Already an account was linked to this email."
+	},
+	"uid_taken_but_not_verified": {
+		"en": "This e-mail has been used to register an account. Check your mailbox"
 	},
 	"uid_not_found": {
 		"en": "User id: %VAR1% is not found in the catalog."
 	},
 	"wrong_pw": {
 		"en": "Wrong password for this user."
+	},
+	"tos": {
+		"en": "I have read and agree with the terms of service"
+	},
+	"see_tos": {
+		"en": "See Terms of Service"
 	},
 	"tos_failed": {
 		"en": "You must be agree with the Terms of Service"
@@ -145,12 +166,6 @@
 	},
 	"uid_desc": {
 		"en": "Allowed chars for the User id is a-z, - and 0-9. It must start with a letter. The length of the User ID must be at least 3 characters and no longer than 16."
-	},
-	"pw1": {
-		"en": "New password"
-	},
-	"pw2": {
-		"en": "Retype new password"
 	},
 	"oncepw": {
 		"en": "Old password"

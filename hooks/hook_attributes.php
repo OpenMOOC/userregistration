@@ -31,7 +31,7 @@
 	*/
 
 	function get_cn_hook($userinfo) {
-		$givenName = $userinfo['givenName'];
+		$givenName = (isset($userinfo['givenName'])? $userinfo['givenName'] :'');
 		if(!isset($userinfo['cn']) || empty($userinfo['cn']))
 		{	$sn = $userinfo['sn'];
 			$cn = $givenName.' '.$sn;
@@ -63,7 +63,6 @@
 	// For new registration, should also work for updated information
 	function processInput($fieldValues, $expectedValues){
 
-		global $eppnRealm;
 		$skv = array();
 
 		foreach($expectedValues as $db => $field){
@@ -75,20 +74,6 @@
 				break;
 			case "userPassword":
 				$skv[$db] = sspmod_userregistration_Util::validatePassword($fieldValues);
-				break;
-			case "mail":
-				if(array_key_exists('token', $_POST)){
-					global $tokenLifetime;
-					$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
-					$email = $_POST['emailconfirmed'];
-					$tg->addVerificationData($email);
-					$token = $_POST['token'];
-					if (!$tg->validate_token($token)){
-						throw new sspmod_userregistration_Error_UserException(
-							'invalid_token');
-					}
-					$skv[$db] = $email;
-				}
 				break;
 			default:
 				$skv[$db] = $fieldValues[$field];

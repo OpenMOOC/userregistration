@@ -1,4 +1,17 @@
 {
+	"attribute_cn": {
+		"es": "Nombre"
+	},
+	"attribute_pw1": {
+		"no": "Nytt passord",
+		"es": "Nueva contrase\u00f1a",
+		"de": "Neues Pa\u00dfwort"
+	},
+	"attribute_pw2": {
+		"no": "Gjenta nytt passord",
+		"es": "Reescribe contrase\u00f1a",
+		"de": "Wiederholung Pa\u00dfworts"
+	},
 	"mailNew_header": {
 		"no": "Registrering p\u00e5 %SNAME% - epost validering",
 		"es": "Registro en %SNAME% - validaci\u00f3n de email",
@@ -130,9 +143,12 @@
 		"de": "%VAR1% darf nicht leer bleiben."
 	},
 	"uid_taken": {
-		"no": "Brukernavn er opptatt. Du m\u00e5 velge et annet brukernavn.",
-		"es": "Nombre de usuario ya en uso. Debes elegir otro nombre de usuario.",
-		"de": "Die gew\u00e4hlte UserID ist bereits vergeben. Bitte w\u00e4hlen Sie eine andere."
+		"no": "Brukernavn er opptatt.",
+		"es": "Ya hay un usuario registrado con dicho correo.",
+		"de": "Die gew\u00e4hlte email ist bereits vergeben."
+	},
+	"uid_taken_but_not_verified": {
+		"es": "Este correo ya ha sido utilizado para registrar una cuenta. Compruebe su bandeja de entrada"
 	},
 	"cpw_head": {
 		"no": "Bytt passord",
@@ -149,16 +165,6 @@
 		"es": "Informaci\u00f3n de usuario actualizada con \u00e9xito",
 		"de": "Daten des Benutzerkontos erfolgreich ge\u00e4ndert"
 	},
-	"pw1": {
-		"no": "Nytt passord",
-		"es": "Nueva contrase\u00f1a",
-		"de": "Neues Pa\u00dfwort"
-	},
-	"pw2": {
-		"no": "Gjenta nytt passord",
-		"es": "Reescribe la nueva contrase\u00f1a",
-		"de": "Wiederholung des neuen Pa\u00dfworts"
-	},
 	"oncepw": {
 		"no": "Gammelt passord",
 		"es": "Antigua contrase\u00f1a",
@@ -173,6 +179,15 @@
 		"es": "La cuenta de correo no est\u00e1 registrada en el sistema.",
 		"de": "Diese E-Mail-Adresse ist in diesem Service nicht registriert.",
 		"no": "Denne e-post adressen er ikke registrert i systemet."
+	},
+	"tos": {
+		"en": "He leido y estoy de acuerdo con los t\u00e9rminos del servicio"
+	},
+	"see_tos": {
+		"es": "Ver los t\u00e9rminos del servicio"
+	},
+	"tos_failed": {
+		"en": "Debes marcar que estás de acuerdo con los t\u00e9rminos del servicio"
 	},
 	"wrong_pw": {
 		"es": "Contrase\u00f1a incorrecta",
@@ -251,6 +266,9 @@
 	"submit_change": {
 		"no": "Lagre endring",
 		"es": "Guardar los cambios"
+	},
+	"save": {
+		"es": "Guardar"
 	},
 	"ldap_add_invalid_syntax": {
 		"es": "Revise la configuración. Está intentando crear un usuario pero el objectClass es erroneo. También comprueba la estructura de datos del usuario."

@@ -1,34 +1,59 @@
 <?php
 
 class sspmod_userregistration_Registration_Validation {
-	private $validators = NULL;
+	private $validators = array();
+	private $optionals = array();
 
 	public function __construct($fieldsDef, $usedFields) {
 		foreach ($usedFields as $field) {
+			$this->validators[$field] = array();
 			$this->validators[$field] = $fieldsDef[$field]['validate'];
+			if (isset($fieldsDef[$field]['layout']) && isset($fieldsDef[$field]['layout']['optional']) && $fieldsDef[$field]['layout']['optional']) {
+				$this->optionals[] = $field;
+			}
 		}
 	}
 
 
 	public function validateInput(){
+		$config = SimpleSAML_Configuration::getInstance();
+		$transAttr = new SimpleSAML_XHTML_Template(
+			$config,
+			'userregistration:step1email.php', // Selected as a dummy
+			'attributes');
+		$transDesc = new SimpleSAML_XHTML_Template(
+			$config,
+			'userregistration:step1email.php', // Selected as a dummy
+			'userregistration:userregistration');
+
 
 		$filtered = filter_input_array(INPUT_POST, $this->validators);
 		// FIXME: Write failed validation values to log
 		foreach($filtered as $field => $value){
 			if(!$value){
+				$tag = strtolower('attribute_'.$field);
+				$fieldTranslated = htmlspecialchars($transDesc->t($tag));
+				// Got no translation, try again
+				if ((bool)strstr($fieldTranslated, 'not translated') ) {
+					$fieldTranslated = htmlspecialchars($transAttr->t($tag));
+				}
+
 				$rawValue = isset($_REQUEST[$field])?$_REQUEST[$field]:NULL;
-				if(!$rawValue){
-					throw new sspmod_userregistration_Error_UserException(
-						'void_value',
-						$field,
-						'',
-						'Validation of user input failed.'
-						.' Field:'.$field
-						.' is empty');
-				}else{
+
+				if (!$rawValue) {
+					if(!in_array($field, $this->optionals)) {
+						throw new sspmod_userregistration_Error_UserException(
+							'void_value',
+							"'$fieldTranslated'",
+							'',
+							'Validation of user input failed.'
+							.' Field:'.$field
+							.' is empty');
+					}
+				} else {
 					throw new sspmod_userregistration_Error_UserException(
 						'illegale_value',
-						$field,
+						"'$fieldTranslated'",
 						$rawValue,
 						'Validation of user input failed.'
 						.' Field:'.$field
