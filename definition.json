@@ -1,0 +1,19 @@
+{
+	"id"			: "userregistration",
+	"name"			: "User Registration",
+	"descr"			: "Allows users to register new accounts.",
+
+	"definition"	: "https://github.com/OpenMOOC/userregistration/definition.json",
+	"branch"		: "dev",
+
+	"dependencies"	: ["saml"],
+
+	"access"		: {
+		"dev"		: {
+			"type"		: "git",
+			"version"	: "0.1",
+			"url"		: "https://github.com/OpenMOOC/userregistration.git"
+		}
+	}
+
+}
