@@ -82,29 +82,29 @@ class sspmod_userregistration_XHTML_Form {
 
 
 	private function writeFormStart(){
-		$format = '<form action="%s" method="post">';
+		$format = '<form action="%s" method="post"><table class="formTable">';
 		$html = sprintf($format, $this->actionEndpoint);
 		return $html;
 	}
 
 
 	private function writeFormEnd(){
-		return '</form>';
+		return '</table></form>';
 	}
 
 	private function writeFormElement($elementId){
-		$html = '<div class="element">';
+		$html = '<tr class="element"><td class="labelcontainer">';
 		$html .= $this->writeLabel($elementId);
-		$html .= ' '.$this->writeInputControl($elementId);
+		$html .= '</td><td>'.$this->writeInputControl($elementId);
 		$html .= $this->writeControlDescription($elementId);
-		$html .= '</div>';
+		$html .= '</td></tr>';
 
 		return $html;
 	}
 
 
 	private function writeLabel($elementId){
-		$format = '<label for="%s">%s</label>';
+		$format = '<label for="%s">%s:</label>';
 		$trTag = strtolower('attribute_'.$elementId);
 		$trLabel = htmlspecialchars($this->transDesc->t($trTag));
 		// Got no translation, try again
@@ -177,7 +177,7 @@ class sspmod_userregistration_XHTML_Form {
 
 	private function writeFormSubmit(){
 		$html = '';
-		$format = '<input type="submit" name="%s" value="%s" />';
+		$format = '<tr><td></td><td><input type="submit" name="%s" value="%s" /></td></tr>';
 		$trValue = htmlspecialchars($this->transDesc->t($this->submitValue));
 		$html = sprintf($format, $this->submitName, $trValue);
 		return $html;
@@ -189,7 +189,7 @@ class sspmod_userregistration_XHTML_Form {
 		'userregistration:step1_register.tpl.php',
 		'userregistration:userregistration');
 
-		$html = '<input type="checkbox" name="tos" value="tos"> '.$template->t('tos').' (<a href="'.$tos.'" >'.$template->t('see_tos').'</a>)<br>';
+		$html = '<tr><td></td><td><input type="checkbox" name="tos" value="tos"> '.$template->t('tos').' (<a href="'.$tos.'" >'.$template->t('see_tos').'</a>)</td></tr>';
 		return $html;
 	}
 

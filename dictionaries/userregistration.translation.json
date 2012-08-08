@@ -274,6 +274,9 @@
 	"save": {
 		"es": "Guardar"
 	},
+	"register": {
+		"es": "Registrar"
+	},
 	"ldap_add_invalid_syntax": {
 		"es": "Revise la configuración. Está intentando crear un usuario pero el objectClass es erroneo. También comprueba la estructura de datos del usuario."
 	},

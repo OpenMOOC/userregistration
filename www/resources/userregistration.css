@@ -13,26 +13,35 @@
 	border: 1px solid #396;
 }
 
-div.element {
+tr.element {
 
 	margin: .3em 0px 1em 0px;
 	font-size: 110%;
 }
-div.element label { 
+
+tr.element  td.labelcontainer {
+	text-align: right;
+}
+
+tr.element label { 
 	font-weight: bold;
 	margin: 2px;
 }
-div.element input.inputelement {
+tr.element input.inputelement {
 	font-size: 115%;
 	display: inline;
 	margin: 2px;
 }
-div.element p {
+tr.element p {
 	font-size: 90%;
 	margin-top: .2em;
 	margin: 2px;
 }
 
-div.element input.inputelement[readonly="readonly"] {
+tr.element input.inputelement[readonly="readonly"] {
 	background: #d5d2d2;
+}
+
+input[type="submit"] {
+	margin-top: 5px;
 }

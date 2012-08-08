@@ -165,7 +165,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 			)
 		);
 
-		$formGen->setSubmitter('save');
+		$formGen->setSubmitter('register');
 		$formHtml = $formGen->genFormHtml();
 
 		$html = new SimpleSAML_XHTML_Template(
@@ -283,7 +283,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 		$values = $validator->getRawInput();
 
 		$formGen->setValues($values);
-		$formGen->setSubmitter('submit_change');
+		$formGen->setSubmitter('register');
 
 		if (!empty($tos)) {
 			$formGen->addTOS($tos);
@@ -319,7 +319,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 	if (!empty($tos)) {
 		$formGen->addTOS($tos);
 	}
-	$formGen->setSubmitter('submit_change');
+	$formGen->setSubmitter('register');
 	$formHtml = $formGen->genFormHtml();
 
 	$html = new SimpleSAML_XHTML_Template(
