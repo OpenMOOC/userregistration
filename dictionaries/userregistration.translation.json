@@ -38,8 +38,8 @@
 		"de": "Um Ihr Pa\u00dfwort f\u00fcr %SNAME% zu \u00e4ndern, rufen Sie folgenden URL auf:"
 	},
 	"mail_tokeninfo": {
-		"no": "Denne URL-en inneholder en billett som validerer epostadressen din. Denne billetten er gyldig i 5 dager. Dersom den utl\u00f8per blir du n\u00f8dt til \u00e5 be om en ny billett og starte registreringen om igjen.",
-		"es": "Esta URL contiene un token secreto que valida tu direcci\u00f3n de correo. Este token es v\u00e1lido s\u00f3lo durante 5 d\u00edas. Si el token expira deber\u00e1s repetir la solicitud.",
+		"no": "Denne URL-en inneholder en billett som validerer epostadressen din. Denne billetten er gyldig i %DAYS% dager. Dersom den utl\u00f8per blir du n\u00f8dt til \u00e5 be om en ny billett og starte registreringen om igjen.",
+		"es": "Esta URL contiene un token secreto que valida tu direcci\u00f3n de correo. Este token es v\u00e1lido s\u00f3lo durante %DAYS% d\u00edas. Si el token expira deber\u00e1s repetir la solicitud.",
 		"de": "Dieser URL enth\u00e4lt einen Code, um Ihre E-Mail-Adresse zu best\u00e4tigen. Dieser Code gilt f\u00fcnf Tage lang. Danach m\u00fcssten Sie die Registrierung von Neuem beginnen (und erhalten dann auch einen neuen Code)."
 	},
 	"mail1_signature": {
@@ -225,9 +225,9 @@
 		"no": "%VAR2% er en ugyldig verdi for %VAR1%."
 	},
 	"uid_not_found": {
-		"es": "Identificador: %VAR1% no encotrado en el cat\u00e1logo.",
+		"es": "Usuario %VAR1% no encontrado.",
 		"de": "Die UserID %VAR1% wurde nicht gefunden.",
-		"no": "Brukernavn %VAR1% ble ikke funnet i katalogen."
+		"no": "Brukernavn %VAR1% ble ikke funnet."
 	},
 	"cpw_para1": {
 		"es": "Tu identificador de usuario es %UID%. Escribe la nueva contrase\u00f1a dos veces y env\u00edala para actualizarla.",
@@ -255,9 +255,13 @@
 		"no": "En bruker er allerede registrert p\u00e5 %SNAME% med denne e-post adressen. Det tillates kun at man registrerer en bruker for hver e-post adresse."
 	},
 	"invalid_token": {
-		"es": "Suministraste un token inv\u00e1lido. La raz\u00f3n m\u00e1s com\u00fan por la que un token se vuelve no v\u00e1lido es porque alcaz\u00f3 la restricci\u00f3n temporal, s\u00f3lo es v\u00e1lido durante un periodo de tiempo. Reg\u00edstrate de nuevo para conseguir otro t\u00f3ken.",
+		"es": "Suministraste un token inv\u00e1lido. La raz\u00f3n m\u00e1s com\u00fan por la que un token es rechazado es porque super\u00f3 la restricci\u00f3n temporal. Consigue otro t\u00f3ken",
 		"de": "Ung\u00fcltiger Code. Der h\u00e4ufigste Grund f\u00fcr ung\u00fcltige Codes ist der Ablauf des Codes, da alle Codes nur begrenzte Zeit g\u00fcltig sind. Beginnen Sie die Registrierung erneut, dann erhalten Sie auch einen neuen Code.",
 		"no": "Ugyldig billett. Den mest vanlige \u00e5rsaken til at en billett blir ugyldig er at den har utl\u00f8pt p\u00e5 tid siden den ble sendt til deg. Fors\u00f8k \u00e5 registrer deg p\u00e5 nytt for \u00e5 f\u00e5 en ny billett."
+	},
+	"get_token": {
+		"es": "Consigue otro token",
+		"de": "Dann erhalten Sie auch einen neuen Code"
 	},
 	"submit_mail": {
 		"no": "Send e-post",

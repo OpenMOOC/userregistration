@@ -12,7 +12,13 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 
 
 <?php if(isset($this->data['error'])){ ?>
-	  <div class="error"><?php echo $this->data['error']; ?></div>
+	  <div class="error">
+	  <?php echo $this->data['error'];
+		if ($this->data['refreshtoken']) {
+			echo '<form method="POST"><input type="hidden" name="email" value="'.$this->data['email'].'"><input type="submit" name="refreshtoken" value="'.$this->t('get_token').'"></form>';
+		}
+	  ?>
+	  </div>
 <?php }?>
 
 <?php

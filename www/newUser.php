@@ -9,7 +9,6 @@ $eppnRealm = $uregconf->getString('user.realm');
 $tos = $uregconf->getString('tos', '');
 
 
-
 $systemName = array('%SNAME%' => $uregconf->getString('system.name') );
 $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 
@@ -83,6 +82,51 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		$terr->data['systemName'] = $systemName;
 		$terr->show();
 	}
+} elseif(array_key_exists('refreshtoken', $_POST)){
+	// Resend token
+
+	$email = $_POST['email'];
+
+	$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
+	$tg->addVerificationData($email);
+	$newToken = $tg->generate_token();
+
+	$url = SimpleSAML_Utilities::selfURL();
+
+	$registerurl = SimpleSAML_Utilities::addURLparameter(
+		$url,
+		array(
+			'email' => $email,
+			'token' => $newToken
+		)
+	);
+
+	$mailt = new SimpleSAML_XHTML_Template(
+		$config,
+		'userregistration:mail1_token.tpl.php',
+		'userregistration:userregistration');
+	$mailt->data['email'] = $email;
+	$tokenExpiration = 
+	$mailt->data['tokenLifetime'] = $tokenLifetime;
+	$mailt->data['registerurl'] = $registerurl;
+	$mailt->data['systemName'] = $systemName;
+
+	$mailer = new sspmod_userregistration_XHTML_Mailer(
+		$email,
+		$uregconf->getString('mail.subject'),
+		$uregconf->getString('mail.from'),
+		NULL,
+		$uregconf->getString('mail.replyto'));
+	$mailer->setTemplate($mailt);
+	$mailer->send();
+
+	$html = new SimpleSAML_XHTML_Template(
+		$config,
+		'userregistration:step2_sent.tpl.php',
+		'userregistration:userregistration');
+	$html->data['systemName'] = $systemName;
+	$html->show();
+
 }
 else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQUEST)){
 	// Stage 3: User access page from url in e-mail
@@ -98,8 +142,9 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 
 		$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
 		$tg->addVerificationData($email);
-		if (!$tg->validate_token($token))
+		if (!$tg->validate_token($token)) {
 			throw new sspmod_userregistration_Error_UserException('invalid_token');
+		}
 
 		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'newUser.php');
 
@@ -157,10 +202,15 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 
 		$terr->data['error'] = htmlspecialchars($error);
 
+		if ($e->getMesgId() == 'invalid_token') {
+			$terr->data['refreshtoken'] = true;
+			$terr->data['email'] = $email;
+		}
+		
 		$terr->data['systemName'] = $systemName;
 		$terr->show();
 	}
-}elseif(array_key_exists('sender', $_POST)){
+} elseif(array_key_exists('sender', $_POST)){
 	try{
 		// Add user object
 	
@@ -201,6 +251,8 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 			'userregistration:mail1_token.tpl.php',
 			'userregistration:userregistration');
 		$mailt->data['email'] = $email;
+		$tokenExpiration = 
+		$mailt->data['tokenLifetime'] = $tokenLifetime;
 		$mailt->data['registerurl'] = $registerurl;
 		$mailt->data['systemName'] = $systemName;
 
@@ -254,6 +306,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 		$html->data['error'] = htmlspecialchars($error);
 		$html->show();
 	}
+
 } else {
 	// Stage 1: New user clean access
 

@@ -24,7 +24,7 @@
 		"en": "To reset your password at %SNAME%, use the following URL:"
 	},
 	"mail_tokeninfo": {
-		"en": "This URL contains a secret token that validates your e-mail address. This token is valid for only 5 days. If this token expire, you have to request a new token by starting the process over again."
+		"en": "This URL contains a secret token that validates your e-mail address. This token is valid for only %DAYS% days. If this token expire, you have to request a new token by starting the process over again."
 	},
 	"mail1_signature": {
 		"en": "Kind regards\n%SNAME%"
@@ -120,7 +120,10 @@
 		"en": "This (%VAR1%) does not look like ann valid e-mail address."
 	},
 	"invalid_token": {
-		"en": "Invalid token provided. The most common reason why a token becomes invalid is that the token you received has timed out. A token is only valid in a limited time period. Repeat the process again to receive a new fresh token."
+		"en": "Invalid token provided. The most common reason why a token becomes invalid is that the token you received has timed out."
+	},
+	"get_token": {
+		"en": "Receive a new fresh token"
 	},
 	"err_retype_pw": {
 		"en": "The two typed password did not match."
@@ -138,7 +141,7 @@
 		"en": "This e-mail has been used to register an account. Check your mailbox"
 	},
 	"uid_not_found": {
-		"en": "User id: %VAR1% is not found in the catalog."
+		"en": "User %VAR1% was not found."
 	},
 	"wrong_pw": {
 		"en": "Wrong password for this user."
