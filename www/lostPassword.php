@@ -63,6 +63,7 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		$mailt->data['registerurl'] = $registerurl;
 		$systemName = array('%SNAME%' => $uregconf->getString('system.name') );
 		$mailt->data['systemName'] = $systemName;
+		$mailt->data['tokenLifetime'] = $tokenLifetime;
 
 		$emailto_list = array();
 		foreach($store->recoverPwEmailAttrs as $email_source) {

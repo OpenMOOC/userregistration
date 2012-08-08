@@ -32,3 +32,7 @@ div.element p {
 	margin-top: .2em;
 	margin: 2px;
 }
+
+div.element input.inputelement[readonly="readonly"] {
+	background: #d5d2d2;
+}

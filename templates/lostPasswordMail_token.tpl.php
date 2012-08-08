@@ -4,6 +4,6 @@
 <p><?php echo $this->t('mailLost_urlintro', $this->data['systemName']);?></p>
 <p><tt><a href="<?php echo $this->data['registerurl']; ?>"><?php echo $this->data['registerurl']; ?></a></tt></p>
 
-<p><?php echo $this->t('mail_tokeninfo');?></p>
+<p><?php echo $this->t('mail_tokeninfo', array('%DAYS%' => $this->data['tokenLifetime']/(3600*24)));?></p>
 
 <p><?php echo $this->t('mail1_signature', $this->data['systemName']);?></p>

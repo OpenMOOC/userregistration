@@ -122,7 +122,7 @@ class sspmod_userregistration_XHTML_Form {
 		if($this->actionEndpoint != 'delUser.php') {
 			$type = $this->layout[$elementId]['control_type'];
 
-			$format = '<input class="inputelement'.($type=='password'? ' simplePassMeterInput':'inputelement').'" type="%s" id="%s" name="%s" value="%s" size="%s" %s />';
+			$format = '<input class="'.($type=='password'? 'inputelement simplePassMeterInput':'inputelement').'" type="%s" id="%s" name="%s" value="%s" size="%s" %s />';
 
 			$attr = '';
 			if(in_array($elementId, $this->readonly)){
