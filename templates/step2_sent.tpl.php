@@ -10,10 +10,19 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 	  <p><?php echo $this->t('s2_para1'); ?></p>
 </div>
 
+
+<?php 
+	if (!$this->data['customNavigation']) {
+?>
+
 <p>
 <ul>
 	<li><a href="index.php"><?php echo $this->t('return'); ?></a></li>
 </ul>
 </p>
+
+<?php
+}
+?>
 
 <?php $this->includeAtTemplateBase('includes/footer.php'); ?>

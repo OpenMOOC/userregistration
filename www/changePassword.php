@@ -4,7 +4,7 @@ $config = SimpleSAML_Configuration::getInstance();
 $uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
 $formFields = $uregconf->getArray('formFields');
 $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
-
+$customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
 
 /* Get a reference to our authentication source. */
 $asId = $uregconf->getString('auth');
@@ -72,6 +72,7 @@ if(!empty($store->passwordPolicy)) {
 $formGen->setSubmitter('submit_change');
 $html->data['formHtml'] = $formGen->genFormHtml();
 $html->data['uid'] = $attributes[$store->userIdAttr][0];
+$html->data['customNavigation'] = $customNavigation;
 $html->show();
 
 ?>

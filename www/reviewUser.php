@@ -3,6 +3,7 @@
 $config = SimpleSAML_Configuration::getInstance();
 $uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
 $eppnRealm = $uregconf->getString('user.realm');
+$customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
 
 /* Get a reference to our authentication source. */
 $asId = $uregconf->getString('auth');
@@ -110,6 +111,7 @@ $formGen->setSubmitter('submit_change');
 $formHtml = $formGen->genFormHtml();
 $html->data['formHtml'] = $formHtml;
 $html->data['uid'] = $attributes[$store->userIdAttr][0];
+$html->data['customNavigation'] = $customNavigation;
 $html->show();
 
 ?>

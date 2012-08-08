@@ -23,9 +23,17 @@ if(isset($this->data['passwordPolicy'])) {
 
 <?php print $this->data['formHtml']; ?>
 
+<?php 
+	if (!$this->data['customNavigation']) {
+?>
+
 <h2><?php echo $this->t('new_head_other'); ?></h2>
 <ul>
 	<li><a href="index.php"><?php echo $this->t('return'); ?></a></li>
 </ul>
+
+<?php
+}
+?>
 
 <?php $this->includeAtTemplateBase('includes/footer.php'); ?>

@@ -23,6 +23,9 @@ $config = array (
 	// URL of the Terms of Service
 	'tos' => '',
 
+	// To enable/disable navigation links in the module block
+	'custom.navigation' => TRUE,
+
 	// User storage backend selector
 	'storage.backend' => 'LdapMod',
 

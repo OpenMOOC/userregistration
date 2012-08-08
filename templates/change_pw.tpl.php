@@ -31,11 +31,19 @@ if(isset($this->data['passwordPolicy'])) {
 
 <?php echo $this->data['formHtml']; ?>
 
+<?php 
+	if (!$this->data['customNavigation']) {
+?>
+
 <h2><?php echo $this->t('new_head_other'); ?></h2>
 <ul>
 <li><a href="reviewUser.php"><?php echo $this->t('link_review'); ?></a></li>
 <li><a href="index.php"><?php echo $this->t('return'); ?></a></li>
 <li><a href="changePassword.php?logout=true"><?php echo $this->t('{status:logout}'); ?></a></li>
 </ul>
+
+<?php
+}
+?>
 
 <?php $this->includeAtTemplateBase('includes/footer.php'); ?>

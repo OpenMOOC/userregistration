@@ -7,6 +7,7 @@ $viewAttr = $uregconf->getArray('attributes');
 $formFields = $uregconf->getArray('formFields');
 $eppnRealm = $uregconf->getString('user.realm');
 $tos = $uregconf->getString('tos', '');
+$customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
 
 
 $systemName = array('%SNAME%' => $uregconf->getString('system.name') );
@@ -34,6 +35,7 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		 'userregistration:userregistration');
 
 		$html->data['systemName'] = $systemName;
+		$html->data['customNavigation'] = $customNavigation;
 		$html->show();
 	}catch(sspmod_userregistration_Error_UserException $e){
 		$email = $_REQUEST['email'];
@@ -80,6 +82,7 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		$terr->data['error'] = htmlspecialchars($error);
 
 		$terr->data['systemName'] = $systemName;
+		$terr->data['customNavigation'] = $customNavigation;
 		$terr->show();
 	}
 } elseif(array_key_exists('refreshtoken', $_POST)){
@@ -125,6 +128,7 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		'userregistration:step2_sent.tpl.php',
 		'userregistration:userregistration');
 	$html->data['systemName'] = $systemName;
+	$html->data['customNavigation'] = $customNavigation;
 	$html->show();
 
 }
@@ -179,6 +183,8 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 			$html->data['passwordPolicytpl'] = SimpleSAML_Module::getModuleDir('userregistration').'/templates/password_policy_tpl.php';
 			$html->data['passwordField'] = 'pw1';
 		}
+
+		$html->data['customNavigation'] = $customNavigation;
 		$html->show();
 	}catch (sspmod_userregistration_Error_UserException $e){
 
@@ -208,6 +214,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 		}
 		
 		$terr->data['systemName'] = $systemName;
+		$terr->data['customNavigation'] = $customNavigation;
 		$terr->show();
 	}
 } elseif(array_key_exists('sender', $_POST)){
@@ -270,6 +277,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 			'userregistration:step2_sent.tpl.php',
 			'userregistration:userregistration');
 		$html->data['systemName'] = $systemName;
+		$html->data['customNavigation'] = $customNavigation;
 		$html->show();
 
 
@@ -291,20 +299,22 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 
 		$formHtml = $formGen->genFormHtml();
 
-		$html = new SimpleSAML_XHTML_Template(
+		$terr = new SimpleSAML_XHTML_Template(
 		 $config,
 		 'userregistration:step1_register.tpl.php',
 		 'userregistration:userregistration');
-		$html->data['formHtml'] = $formHtml;
+		$terr->data['formHtml'] = $formHtml;
 
-		$error = $html->t(
+		$error = $terr->t(
 			 $e->getMesgId(),
 			 $e->getTrVars()
 		);
 
-		$html->data['systemName'] = $systemName;
-		$html->data['error'] = htmlspecialchars($error);
-		$html->show();
+		$terr->data['systemName'] = $systemName;
+
+		$terr->data['error'] = htmlspecialchars($error);
+		$terr->data['customNavigation'] = $customNavigation;
+		$terr->show();
 	}
 
 } else {
@@ -326,11 +336,11 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 		$config,
 		'userregistration:step1_register.tpl.php',
 		'userregistration:userregistration');
-	$html->data['systemName'] = $systemName;
-
 
 	$html->data['formHtml'] = $formHtml;
 
+	$html->data['systemName'] = $systemName;
+	$html->data['customNavigation'] = $customNavigation;
 	$html->show();
 
 }

@@ -7,6 +7,7 @@ $viewAttr = $uregconf->getArray('attributes');
 $formFields = $uregconf->getArray('formFields');
 $eppnRealm = $uregconf->getString('user.realm');
 $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
+$customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
 
 
 if (array_key_exists('emailreg', $_REQUEST)) {
@@ -92,21 +93,22 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 			$config,
 			'userregistration:lostPassword_sent.tpl.php',
 			'userregistration:userregistration');
+		$html->data['customNavigation'] = $customNavigation;
 		$html->show();
 	}catch(sspmod_userregistration_Error_UserException $e){
-		$et = new SimpleSAML_XHTML_Template(
+		$terr = new SimpleSAML_XHTML_Template(
 			$config,
 			'userregistration:lostPassword_email.tpl.php',
 			'userregistration:userregistration');
-		$et->data['email'] = $_POST['emailreg'];
+		$terr->data['email'] = $_POST['emailreg'];
 
-		$error = $et->t(
+		$error = $terr->t(
 			$e->getMesgId(),
 			$e->getTrVars()
 		);
-		$et->data['error'] = htmlspecialchars($error);
-
-		$et->show();
+		$terr->data['error'] = htmlspecialchars($error);
+		$terr->data['customNavigation'] = $customNavigation;
+		$terr->show();
 	}
 
 } elseif(array_key_exists('token', $_GET)) {
@@ -116,7 +118,7 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 			INPUT_GET,
 			'email',
 			FILTER_VALIDATE_EMAIL);
-		if(!$email)
+		if (!$email)
 			throw new SimpleSAML_Error_Exception(
 				'E-mail parameter in request is lost');
 
@@ -152,7 +154,7 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 			$html->data['passwordPolicytpl'] = SimpleSAML_Module::getModuleDir('userregistration').'/templates/password_policy_tpl.php';
 			$html->data['passwordField'] = 'pw1';
 		}
-
+		$html->data['customNavigation'] = $customNavigation;
 		$html->show();
 	} catch(sspmod_userregistration_Error_UserException $e) {
 		// Invalid token
@@ -166,90 +168,93 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 			$e->getTrVars()
 		);
 		$terr->data['error'] = htmlspecialchar($error);
-
+		$terr->data['customNavigation'] = $customNavigation;
 		$terr->show();
 	}
 
-  } elseif(array_key_exists('sender', $_POST)) {
-	  try {
-		  // Add or update user object
-		  $listValidate = array('pw1', 'pw2');
-		  $validator = new sspmod_userregistration_Registration_Validation(
-			  $formFields,
-			  $listValidate);
+} elseif (array_key_exists('sender', $_POST)) {
+	try {
+		// Add or update user object
+		$listValidate = array('pw1', 'pw2');
+		$validator = new sspmod_userregistration_Registration_Validation(
+		  $formFields,
+		  $listValidate);
 
-		  $email = filter_input(
-			  INPUT_POST,
-			  'emailconfirmed',
-			  FILTER_VALIDATE_EMAIL);
-		  if(!$email)
-			  throw new SimpleSAML_Error_Exception(
-				  'E-mail parameter in request is lost');
+		$email = filter_input(
+		  INPUT_POST,
+		  'emailconfirmed',
+		  FILTER_VALIDATE_EMAIL);
+		if(!$email)
+		  throw new SimpleSAML_Error_Exception(
+			  'E-mail parameter in request is lost');
 
-		  $tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
-		  $tg->addVerificationData($email);
-		  $token = $_REQUEST['token'];
-		  if (!$tg->validate_token($token))
-			  throw new sspmod_userregistration_Error_UserException('invalid_token');
+		$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
+		$tg->addVerificationData($email);
+		$token = $_REQUEST['token'];
+		if (!$tg->validate_token($token))
+		  throw new sspmod_userregistration_Error_UserException('invalid_token');
 
-		  $userValues = $store->findAndGetUser($store->userRegisterEmailAttr, $email);
-		  $validValues = $validator->validateInput();
-		  $newPw = sspmod_userregistration_Util::validatePassword($validValues);
+		$userValues = $store->findAndGetUser($store->userRegisterEmailAttr, $email);
+		$validValues = $validator->validateInput();
+		$newPw = sspmod_userregistration_Util::validatePassword($validValues);
 
-		  if(!empty($store->passwordPolicy)) {
-			  $validator->validatePolicyPassword($store->passwordPolicy, $validValues, $newPw);
-		  }
+		if(!empty($store->passwordPolicy)) {
+		  $validator->validatePolicyPassword($store->passwordPolicy, $validValues, $newPw);
+		}
 
-		  $store->changeUserPassword($userValues[$store->userIdAttr], $newPw);
+		$store->changeUserPassword($userValues[$store->userIdAttr], $newPw);
 
-		  $html = new SimpleSAML_XHTML_Template(
-			  $config,
-			  'userregistration:lostPassword_complete.tpl.php',
-			  'userregistration:userregistration');
-		  $html->show();
-	  } catch(sspmod_userregistration_Error_UserException $e) {
-		  // Some user error detected
-		  $formGen = new sspmod_userregistration_XHTML_Form($formFields, 'lostPassword.php');
+		$html = new SimpleSAML_XHTML_Template(
+		  $config,
+		  'userregistration:lostPassword_complete.tpl.php',
+		  'userregistration:userregistration');
+		$html->data['customNavigation'] = $customNavigation;
+		$html->show();
+	} catch(sspmod_userregistration_Error_UserException $e) {
+		// Some user error detected
+		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'lostPassword.php');
 
-		  $showFields = array('pw1', 'pw2');
-		  $formGen->fieldsToShow($showFields);
+		$showFields = array('pw1', 'pw2');
+		$formGen->fieldsToShow($showFields);
 
-		  $hidden = array();
-		  $hidden['emailconfirmed'] = $_REQUEST['emailconfirmed'];
-		  $hidden['token'] = $_REQUEST['token'];
-		  $formGen->addHiddenData($hidden);
+		$hidden = array();
+		$hidden['emailconfirmed'] = $_REQUEST['emailconfirmed'];
+		$hidden['token'] = $_REQUEST['token'];
+		$formGen->addHiddenData($hidden);
 
-		  $formGen->setValues(array($store->userIdAttr => $_REQUEST[$store->userIdAttr]));
-		  $formGen->setSubmitter('submit_change');
-		  $formHtml = $formGen->genFormHtml();
+		$formGen->setValues(array($store->userIdAttr => $_REQUEST[$store->userIdAttr]));
+		$formGen->setSubmitter('submit_change');
+		$formHtml = $formGen->genFormHtml();
 
-		  $html = new SimpleSAML_XHTML_Template(
-			  $config,
-			  'userregistration:lostPassword_changePassword.tpl.php',
-			  'userregistration:userregistration');
-		  $html->data['formHtml'] = $formHtml;
-		  $html->data['uid'] = $userValues[$store->userIdAttr];
+		$terr = new SimpleSAML_XHTML_Template(
+		  $config,
+		  'userregistration:lostPassword_changePassword.tpl.php',
+		  'userregistration:userregistration');
+		$terr->data['formHtml'] = $formHtml;
+		$terr->data['uid'] = $userValues[$store->userIdAttr];
 
-		  $error = $html->t(
-			  $e->getMesgId(),
-			  $e->getTrVars()
-		  );
+		$error = $terr->t(
+		  $e->getMesgId(),
+		  $e->getTrVars()
+		);
 
-		  if(!empty($store->passwordPolicy)) {
-			  $html->data['passwordPolicy'] = $store->passwordPolicy;
-			  $html->data['passwordPolicytpl'] = SimpleSAML_Module::getModuleDir('userregistration').'/templates/password_policy_tpl.php';
-			  $html->data['passwordField'] = 'pw1';
-		  }
+		if(!empty($store->passwordPolicy)) {
+		  $terr->data['passwordPolicy'] = $store->passwordPolicy;
+		  $terr->data['passwordPolicytpl'] = SimpleSAML_Module::getModuleDir('userregistration').'/templates/password_policy_tpl.php';
+		  $terr->data['passwordField'] = 'pw1';
+		}
 
-		  $html->data['error'] = htmlspecialchars($error);
-		  $html->show();
-	  }
-	} else {
+		$terr->data['error'] = htmlspecialchars($error);
+		$terr->data['customNavigation'] = $customNavigation;
+		$terr->show();
+	}
+} else {
 	// Stage 1: User access page to enter mail address for pasword recovery
 	$html = new SimpleSAML_XHTML_Template(
 		$config,
 		'userregistration:lostPassword_email.tpl.php',
 		'userregistration:userregistration');
+	$html->data['customNavigation'] = $customNavigation;
 	$html->show();
 }
 
