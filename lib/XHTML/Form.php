@@ -177,7 +177,7 @@ class sspmod_userregistration_XHTML_Form {
 
 	private function writeFormSubmit(){
 		$html = '';
-		$format = '<tr><td></td><td><input type="submit" name="%s" value="%s" /></td></tr>';
+		$format = '<tr><td></td><td><input class="btn" type="submit" name="%s" value="%s" /></td></tr>';
 		$trValue = htmlspecialchars($this->transDesc->t($this->submitValue));
 		$html = sprintf($format, $this->submitName, $trValue);
 		return $html;
