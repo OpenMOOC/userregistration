@@ -24,6 +24,9 @@ if (array_key_exists('savepw', $_REQUEST)) {
 
 		$userInfo = sspmod_userregistration_Util::processInput($validValues, $viewAttrPW);
 
+		// Adding affiliation (student) when a user is registered
+		$userInfo['eduPersonAffiliation'] = 'student';
+
 		$newPw = sspmod_userregistration_Util::validatePassword($validValues);
 		$validator->validatePolicyPassword($store->passwordPolicy, $userInfo, $newPw);
 
