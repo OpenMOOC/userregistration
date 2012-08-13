@@ -25,7 +25,7 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 
 	<p><?php echo $this->t('lpw_para2'); ?></p>
 
-	<p><input type="submit" name="save" value="<?php echo $this->t('submit_mail'); ?>" />
+	<p><input type="submit" class="btn" name="save" value="<?php echo $this->t('submit_mail'); ?>" />
 
 </div>
 </form>
