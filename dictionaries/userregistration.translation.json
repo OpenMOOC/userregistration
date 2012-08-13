@@ -181,13 +181,13 @@
 		"no": "Denne e-post adressen er ikke registrert i systemet."
 	},
 	"tos": {
-		"en": "He leido y estoy de acuerdo con los t\u00e9rminos del servicio"
+		"es": "He leido y estoy de acuerdo con los t\u00e9rminos del servicio"
 	},
 	"see_tos": {
 		"es": "Ver los t\u00e9rminos del servicio"
 	},
 	"tos_failed": {
-		"en": "Debes marcar que estás de acuerdo con los t\u00e9rminos del servicio"
+		"es": "Debes marcar que estás de acuerdo con los t\u00e9rminos del servicio"
 	},
 	"wrong_pw": {
 		"es": "Contrase\u00f1a incorrecta",
