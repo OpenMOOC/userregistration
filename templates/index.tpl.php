@@ -6,7 +6,7 @@ $this->data['head'] = '<link rel="stylesheet" href="resources/userregistration.c
 $this->includeAtTemplateBase('includes/header.php');
 
 if(isset($this->data['userMessage'])){ ?>
-	<div class="umesg"><?php echo $this->t($this->data['userMessage']); ?></div>
+	<div class="alert alert-info"><?php echo $this->t($this->data['userMessage']); ?></div>
 <?php }?>
 
 <h1> <?php echo $this->t('{userregistration:userregistration:link_panel}') ?> </h1> 

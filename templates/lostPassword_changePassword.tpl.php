@@ -10,7 +10,7 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 <script type="text/javascript" src="resources/jquery-simplePassMeter/jquery.simplePassMeter-0.2b.js"></script>
 
 <?php if(isset($this->data['error'])){ ?>
-	  <div class="error"><?php echo $this->data['error']; ?></div>
+	  <div class="alert alert-error"><?php echo $this->data['error']; ?></div>
 <?php }?>
 <h1><?php echo $this->t('lpw_head'); ?></h1>
 <p><?php echo $this->t('lpw_reg_para1', array('%UID%' => $this->data['uid']) ); ?></p>

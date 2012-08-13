@@ -6,10 +6,10 @@ $this->data['head'] = '<link rel="stylesheet" href="resources/userregistration.c
 $this->includeAtTemplateBase('includes/header.php'); ?>
 
 <?php if(isset($this->data['error'])){ ?>
-          <div class="error"><?php echo $this->data['error']; ?></div>
+          <div class="alert alert-error"><?php echo $this->data['error']; ?></div>
 <?php }?>
 <?php if(isset($this->data['userMessage'])){ ?>
-        <div class="umesg"><?php echo $this->t($this->data['userMessage']); ?></div>
+        <div class="alert alert-info"><?php echo $this->t($this->data['userMessage']); ?></div>
 <?php }?>
 
 <h1><?php echo $this->t('review_head'); ?></h1>
