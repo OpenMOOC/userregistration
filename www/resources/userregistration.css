@@ -61,3 +61,12 @@ tr.element input.inputelement[readonly="readonly"] {
 input[type="submit"] {
 	margin-top: 5px;
 }
+
+table.users td.label{
+	min-width: 380px;
+}
+
+table.users td.teacher{
+	min-width: 50px;
+	text-align: center;
+}
