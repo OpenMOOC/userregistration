@@ -130,6 +130,7 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		$config,
 		'userregistration:step2_sent.tpl.php',
 		'userregistration:userregistration');
+	$html->data['email'] = $email;
 	$html->data['systemName'] = $systemName;
 	$html->data['customNavigation'] = $customNavigation;
 	$html->show();
@@ -279,6 +280,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 			$config,
 			'userregistration:step2_sent.tpl.php',
 			'userregistration:userregistration');
+		$html->data['email'] = $email;
 		$html->data['systemName'] = $systemName;
 		$html->data['customNavigation'] = $customNavigation;
 		$html->show();

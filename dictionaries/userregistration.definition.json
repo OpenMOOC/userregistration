@@ -36,7 +36,7 @@
 		"en": "The first step is to register and verify your e-mail address. Make sure that you fill in an e-mail address where you can receive e-mail."
 	},
 	"s1_para2": {
-		"en": "You will receive an e-mail including a url you have to follow to continue the registration."
+		"en": "You will receive an e-mail (%MAIL% account) including a url you have to follow to continue the registration process."
 	},
 	"submit_mail": {
 		"en": "Send e-mail"
@@ -49,9 +49,6 @@
 	},
 	"register": {
 		"en": "Register"
-	},
-	"s2_para1": {
-		"en": "An e-mail is sent to you with a link that you need to follow in order to continue the registration proccess."
 	},
 	"s3_head": {
 		"en": "New user information"
