@@ -30,6 +30,10 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		$newPw = sspmod_userregistration_Util::validatePassword($validValues);
 		$validator->validatePolicyPassword($store->passwordPolicy, $userInfo, $newPw);
 
+		if (isset($userInfo['userPassword'])) {
+			$userInfo['userPassword'] = $store->encrypt_pass($userInfo['userPassword']);
+		}
+
 		$store->updateUser($_POST['email'], $userInfo);
 
 		$html = new SimpleSAML_XHTML_Template(

@@ -94,7 +94,7 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 
 
 
-	private function encrypt_pass($plainPassword) {
+	public function encrypt_pass($plainPassword) {
 		if($this->pswEncrypt == 'sha1') {
 			$pw = $this->ssha1_crypt($plainPassword);
 		}
