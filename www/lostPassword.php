@@ -94,6 +94,7 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 			'userregistration:lostPassword_sent.tpl.php',
 			'userregistration:userregistration');
 		$html->data['customNavigation'] = $customNavigation;
+		$html->data['email'] = $emailto;
 		$html->show();
 	}catch(sspmod_userregistration_Error_UserException $e){
 		$terr = new SimpleSAML_XHTML_Template(

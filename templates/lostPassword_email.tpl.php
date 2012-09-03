@@ -16,8 +16,8 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 	<p><?php echo $this->t('lpw_para1'); ?></p>
 
 	<table>
-		<tr class="even">
-		<td>E-mail</td><td>
+		<tr>
+		<td><label><?php echo $this->t('{attributes:attribute_mail}'); ?>:</label></td><td>
 		<input type="text" size="50" name="emailreg" value="<?php
 		if (isset($this->data['email'])) echo htmlspecialchars($this->data['email']);
 		?>"/></td></tr>

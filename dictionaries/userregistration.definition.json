@@ -81,7 +81,7 @@
 		"en": "Mail is successfully sent"
 	},
 	"lpw_success_para1": {
-		"en": "An e-mail is sent to you with a link that you need to follow in order to reset your password."
+		"en": "An e-mail is sent to %MAIL% with a link that you need to follow in order to reset your password."
 	},
 	"lpw_complete_para1": {
 		"en": "The password is successfully reset"

@@ -34,7 +34,7 @@
 	},
 	"mailLost_urlintro": {
 		"no": "For \u00e5 nullstille ditt passord p\u00e5 %SNAME%, bruk f\u00f8lgende URL:",
-		"es": "Para reiniciar tu contrase\u00f1a en %SNAME%, visita la URL:",
+		"es": "Para restablecer tu contrase\u00f1a en %SNAME%, visita la URL:",
 		"de": "Um Ihr Pa\u00dfwort f\u00fcr %SNAME% zu \u00e4ndern, rufen Sie folgenden URL auf:"
 	},
 	"mail_tokeninfo": {
@@ -79,7 +79,7 @@
 	},
 	"lpw_head": {
 		"no": "Nullstill glemt passord",
-		"es": "Reiniciar contrase\u00f1a perdida",
+		"es": "Restablecer contrase\u00f1a perdida",
 		"de": "Vergessenes Pa\u00dfwort zur\u00fccksetzen"
 	},
 	"lpw_success_head": {
@@ -89,7 +89,7 @@
 	},
 	"lpw_complete_para1": {
 		"no": "Passord er nullstilt",
-		"es": "La contrase\u00f1a se reinici\u00f3 correctamente.",
+		"es": "La contrase\u00f1a se restableci\u00f3 correctamente.",
 		"de": "Ihr Pa\u00dfwort wurde erfolgreich zur\u00fcckgesetzt."
 	},
 	"new_head_other": {
@@ -109,7 +109,7 @@
 	},
 	"link_lostpw": {
 		"no": "Nullstill glemt passord",
-		"es": "Reiniciar contrase\u00f1a perdida",
+		"es": "Restablecer contrase\u00f1a perdida",
 		"de": "Vergessenes Pa\u00dfwort zur\u00fccksetzen"
 	},
 	"link_changepw": {
@@ -171,7 +171,7 @@
 		"de": "Altes Pa\u00dfwort"
 	},
 	"lpw_para2": {
-		"es": "Recibir\u00e1s un correo incluyendo una URL para poder reiniciar la contrase\u00f1a",
+		"es": "Recibir\u00e1s un correo incluyendo una URL para poder restablecer la contrase\u00f1a",
 		"de": "An diese Adresse wird eine E-Mail mit einem URL gesendet, mittels dessen Sie das Pa\u00dfwort Ihres %SNAME% Benutzerkontos zur\u00fccksetzen lassen k\u00f6nnen.",
 		"no": "Du vil motta en e-post som inkluderer en URL (lenke) som du kan trykke p\u00e5 for \u00e5 nullstille det glemte passordet."
 	},
@@ -205,7 +205,7 @@
 		"no": "Ditt brukernavn er %UID%. Skriv inn passordet ditt to ganger."
 	},
 	"lpw_success_para1": {
-		"es": "Se te envi\u00f3 un correo con instrucciones que debes seguir para reiniciar tu contrase\u00f1a.",
+		"es": "Se te envi\u00f3 un correo a %MAIL% con instrucciones que debes seguir para restablecer tu contrase\u00f1a.",
 		"de": "Ihnen wurde eine E-Mail gesendet, die einen URL enth\u00e4lt. Diesen URL rufen Sie in einem Webbrowser auf, um Ihr Pa\u00dfwort zur\u00fcckzusetzen.",
 		"no": "En e-post er sent til deg, med en URL (lenke) som du kan bruke for \u00e5 nullstille passordet."
 	},
@@ -240,7 +240,7 @@
 		"no": "Du vil motta en e-post som inkluderer en URL (lenke) som du m\u00e5 trykke p\u00e5 for \u00e5 fortsette registreringen."
 	},
 	"lpw_para1": {
-		"es": "Para reiniciar la contrase\u00f1a escribe la direcci\u00f3n de e-mail que usaste cuando registrarte la cuenta.",
+		"es": "Para restablecer la contrase\u00f1a escribe la direcci\u00f3n de e-mail que usaste cuando registrarte la cuenta.",
 		"de": "Geben Sie jene E-Mail-Adresse an, die Sie zur Registrierung Ihres %SNAME% Benutzerkontos verwendet haben.",
 		"no": "Skriv inn e-post adressen som du brukte da du registrerte brukerkontoen din, for \u00e5 kunne nullstille passordet."
 	},
