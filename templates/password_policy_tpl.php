@@ -69,8 +69,6 @@ echo '
   })
 });'."\n";
 
-echo '$(\'#'.$this->data["passwordField"].'_simplePassMeter\').text("hola");';
-
 echo '</script>
 ';
 

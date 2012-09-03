@@ -12,6 +12,9 @@
 		"es": "Reescribe contrase\u00f1a",
 		"de": "Wiederholung Pa\u00dfworts"
 	},
+	"attribute_oldpw": {
+		"es": "Contrase\u00f1a actual"
+	},
 	"mailNew_header": {
 		"no": "Registrering p\u00e5 %SNAME% - epost validering",
 		"es": "Registro en %SNAME% - validaci\u00f3n de email",
@@ -159,6 +162,9 @@
 		"no": "Passord er byttet",
 		"es": "Contrase\u00f1a actualizada con \u00e9xito",
 		"de": "Ihr Pa\u00dfwort wurde erfolgreich ge\u00e4ndert."
+	},
+	"message_invalid_oldpw": {
+		"es": "Introdujo una contraseña actual inválida, pruebe de nuevo"
 	},
 	"message_chuinfo": {
 		"no": "Brukerdata ble endret",

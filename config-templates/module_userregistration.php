@@ -178,7 +178,13 @@ $config = array (
 			'layout' => array(
 				'control_type' => 'password',
 			),
-		), // end pw2
+		),
+		'oldpw' => array(
+			'validate' => FILTER_DEFAULT,
+			'layout' => array(
+				'control_type' => 'password',
+			),
+		),
 	),
 
 );

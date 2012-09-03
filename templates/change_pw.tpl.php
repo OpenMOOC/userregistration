@@ -13,6 +13,9 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 <?php if(isset($this->data['error'])){ ?>
 	<div class="alert alert-error"><?php echo $this->data['error']; ?></div>
 <?php }?>
+<?php if(isset($this->data['userError'])){ ?>
+	<div class="alert alert-error"><?php echo $this->t($this->data['userError']); ?></div>
+<?php }?>
 <?php if(isset($this->data['userMessage'])){ ?>
 	<div class="alert alert-info"><?php echo $this->t($this->data['userMessage']); ?></div>
 <?php }?>

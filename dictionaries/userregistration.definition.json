@@ -8,6 +8,9 @@
 	"attribute_pw2": {
 		"en": "Retype password"
 	},
+	"attribute_oldpw": {
+		"en": "Current password"
+	},
 	"mailNew_header": {
 		"en": "Registration at %SNAME% - email validation"
 	},
@@ -163,6 +166,9 @@
 	},
 	"message_chpw": {
 		"en": "Password successfully changed"
+	},
+	"message_invalid_oldpw": {
+		"en": "Invalid current password, try again"
 	},
 	"message_chuinfo": {
 		"en": "User info successfully changed"

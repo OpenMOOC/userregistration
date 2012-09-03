@@ -13,7 +13,7 @@ $as->requireAuth();
 $attributes = $as->getAttributes();
 
 $formGen = new sspmod_userregistration_XHTML_Form($formFields, 'changePassword.php');
-$fields = array('pw1', 'pw2');
+$fields = array('oldpw', 'pw1', 'pw2');
 $formGen->fieldsToShow($fields);
 
 $html = new SimpleSAML_XHTML_Template(
@@ -22,25 +22,36 @@ $html = new SimpleSAML_XHTML_Template(
 	'userregistration:userregistration');
 
 if(array_key_exists('sender', $_REQUEST)) {
-	// Stage 2: Form submitted
-	try{
-		$validator = new sspmod_userregistration_Registration_Validation(
-			$formFields,
-			$fields );
-		$validValues = $validator->validateInput();
-		$newPw = sspmod_userregistration_Util::validatePassword($validValues);
-		if(!empty($store->passwordPolicy)) {
-			$validator->validatePolicyPassword($store->passwordPolicy, $attributes, $newPw);
-		}
-		$store->changeUserPassword($attributes[$store->userIdAttr][0], $newPw);
-		$html->data['userMessage'] = 'message_chpw';
+	$validOldPassword = true;
 
-	} catch(sspmod_userregistration_Error_UserException $e) {
-		$error = $html->t(
-			$e->getMesgId(),
-			$e->getTrVars()
-			);
-		$html->data['error'] = htmlspecialchars($error);
+	if(array_key_exists('oldpw', $_REQUEST)) {
+		$validOldPassword = $store->isValidPassword($attributes[$store->userIdAttr][0], $_REQUEST['oldpw']);
+	}
+
+	if($validOldPassword) {
+		// Stage 2: Form submitted
+		try{
+			$validator = new sspmod_userregistration_Registration_Validation(
+				$formFields,
+				$fields );
+			$validValues = $validator->validateInput();
+			$newPw = sspmod_userregistration_Util::validatePassword($validValues);
+			if(!empty($store->passwordPolicy)) {
+				$validator->validatePolicyPassword($store->passwordPolicy, $attributes, $newPw);
+			}
+			$store->changeUserPassword($attributes[$store->userIdAttr][0], $newPw);
+			$html->data['userMessage'] = 'message_chpw';
+
+		} catch(sspmod_userregistration_Error_UserException $e) {
+			$error = $html->t(
+				$e->getMesgId(),
+				$e->getTrVars()
+				);
+			$html->data['error'] = htmlspecialchars($error);
+		}
+	}
+	else {
+		$html->data['userError'] = 'message_invalid_oldpw';
 	}
 } elseif(array_key_exists('logout', $_GET)) {
 	$as->logout(SimpleSAML_Module::getModuleURL('userregistration/index.php'));
@@ -49,7 +60,7 @@ if(array_key_exists('sender', $_REQUEST)) {
 if(!empty($store->passwordPolicy)) {
 	$html->data['passwordPolicy'] = $store->passwordPolicy;
 	$html->data['passwordPolicytpl'] = SimpleSAML_Module::getModuleDir('userregistration').'/templates/password_policy_tpl.php';
-	$html->data['passwordField'] = $fields[0];
+	$html->data['passwordField'] = $fields[1];
 	if(array_key_exists('no.contains', $store->passwordPolicy)) {
 		$html->data['forbiddenValues'] = array();
 		$keys = '';
