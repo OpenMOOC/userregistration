@@ -150,13 +150,13 @@
 		"en": "Wrong password for this user."
 	},
 	"tos": {
-		"en": "I have read and agree with the terms of service"
+		"en": "I have read and agree with the terms of use"
 	},
 	"see_tos": {
-		"en": "See Terms of Service"
+		"en": "See Terms of Use"
 	},
 	"tos_failed": {
-		"en": "You must be agree with the Terms of Service"
+		"en": "You must be agree with the Terms of Use"
 	},
 	"cpw_head": {
 		"en": "Change password"
