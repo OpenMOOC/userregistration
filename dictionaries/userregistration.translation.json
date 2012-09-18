@@ -177,7 +177,7 @@
 		"de": "Altes Pa\u00dfwort"
 	},
 	"lpw_para2": {
-		"es": "Recibir\u00e1s un correo incluyendo una URL para poder restablecer la contrase\u00f1a",
+		"es": "Recibir\u00e1s un correo incluyendo una URL para poder restablecer la contrase\u00f1a. Ten en cuenta que algunos servidores pueden clasificar el correo como SPAM.",
 		"de": "An diese Adresse wird eine E-Mail mit einem URL gesendet, mittels dessen Sie das Pa\u00dfwort Ihres %SNAME% Benutzerkontos zur\u00fccksetzen lassen k\u00f6nnen.",
 		"no": "Du vil motta en e-post som inkluderer en URL (lenke) som du kan trykke p\u00e5 for \u00e5 nullstille det glemte passordet."
 	},
@@ -211,7 +211,7 @@
 		"no": "Ditt brukernavn er %UID%. Skriv inn passordet ditt to ganger."
 	},
 	"lpw_success_para1": {
-		"es": "Se te envi\u00f3 un correo a %MAIL% con instrucciones que debes seguir para restablecer tu contrase\u00f1a.",
+		"es": "Se te envi\u00f3 un correo a %MAIL% con instrucciones que debes seguir para restablecer tu contrase\u00f1a. Ten en cuenta que algunos servidores pueden clasificar el correo como SPAM.",
 		"de": "Ihnen wurde eine E-Mail gesendet, die einen URL enth\u00e4lt. Diesen URL rufen Sie in einem Webbrowser auf, um Ihr Pa\u00dfwort zur\u00fcckzusetzen.",
 		"no": "En e-post er sent til deg, med en URL (lenke) som du kan bruke for \u00e5 nullstille passordet."
 	},
@@ -241,7 +241,7 @@
 		"no": "F\u00f8rste steg er \u00e5 registrere og verifisere din e-post adresse. V\u00e6r n\u00f8ye med \u00e5 skrive inn en e-post adresse som du kan motta e-post p\u00e5."
 	},
 	"s1_para2": {
-		"es": "Recibir\u00e1s un correo en %MAIL% con instrucciones que deber\u00e1s seguir para continuar con el registro.",
+		"es": "Recibir\u00e1s un correo en %MAIL% con instrucciones que deber\u00e1s seguir para continuar con el registro. Ten en cuenta que algunos servidores pueden clasificar el correo como SPAM.",
 		"de": "An diese Adresse wird eine automatisierte E-Mail gesendet, die einen URL enth\u00e4lt. Diesen URL rufen Sie dann in einem Webbrowser auf, um zu best\u00e4tigen, da\u00df Sie die Email erhalten haben.",
 		"no": "Du vil motta en e-post som inkluderer en URL (lenke) som du m\u00e5 trykke p\u00e5 for \u00e5 fortsette registreringen."
 	},

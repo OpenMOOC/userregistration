@@ -36,7 +36,7 @@
 		"en": "Register new account at %SNAME%"
 	},
 	"s1_para1": {
-		"en": "The first step is to register and verify your e-mail address. Make sure that you fill in an e-mail address where you can receive e-mail."
+		"en": "The first step is to register and verify your e-mail address. Make sure that you fill in an e-mail address where you can receive e-mail. Notice that some servers could mark this email as SPAM."
 	},
 	"s1_para2": {
 		"en": "You will receive an e-mail (%MAIL% account) including a url you have to follow to continue the registration process."
@@ -75,7 +75,7 @@
 		"en": "Type the e-mail address you used when you registered your account to reset your password."
 	},
 	"lpw_para2": {
-		"en": "You will receive a e-mail including a url you can access to reset the lost password."
+		"en": "You will receive a e-mail including a url you can access to reset the lost password.  Notice that some servers could mark this email as SPAM."
 	},
 	"lpw_reg_para1": {
 		"en": "Your user id is %UID%. Type you new password twice."
@@ -84,7 +84,7 @@
 		"en": "Mail is successfully sent"
 	},
 	"lpw_success_para1": {
-		"en": "An e-mail is sent to %MAIL% with a link that you need to follow in order to reset your password."
+		"en": "An e-mail is sent to %MAIL% with a link that you need to follow in order to reset your password.  Notice that some servers could mark this email as SPAM."
 	},
 	"lpw_complete_para1": {
 		"en": "The password is successfully reset"
