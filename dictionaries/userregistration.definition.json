@@ -18,7 +18,7 @@
 		"en": "Lost password at %SNAME%"
 	},
 	"mailNew_mailintro": {
-		"en": "Hi thanks for using the %SNAME% service. This e-mail is sent so that you can verify your e-mail address:"
+		"en": "Hi thanks for using the %SNAME% service. This e-mail was sent so that you can verify your e-mail address:"
 	},
 	"mailNew_urlintro": {
 		"en": "In order to continue registration of a new user on %SNAME%, visit the following URL:"
@@ -81,13 +81,13 @@
 		"en": "Your user id is %UID%. Type you new password twice."
 	},
 	"lpw_success_head": {
-		"en": "Mail is successfully sent"
+		"en": "Mail was successfully sent"
 	},
 	"lpw_success_para1": {
-		"en": "An e-mail is sent to %MAIL% with a link that you need to follow in order to reset your password.  Notice that some servers could mark this email as SPAM."
+		"en": "An e-mail was sent to %MAIL% with a link that you need to follow in order to reset your password.  Notice that some servers could mark this email as SPAM."
 	},
 	"lpw_complete_para1": {
-		"en": "The password is successfully reset"
+		"en": "The password was successfully reset"
 	},
 	"new_head_other": {
 		"en": "Other choices"
@@ -171,8 +171,11 @@
 		"en": "Invalid current password, try again"
 	},
 	"message_chuinfo": {
-		"en": "User info successfully changed"
+		"en": "User info successfully changed at the registry component, if you want that the changes take effect on the other components of the platform you should"
 	},
+        "message_chuinfo2": {
+                "en": "and later login and access to those components"
+        },
 	"uid_desc": {
 		"en": "Allowed chars for the User id is a-z, - and 0-9. It must start with a letter. The length of the User ID must be at least 3 characters and no longer than 16."
 	},

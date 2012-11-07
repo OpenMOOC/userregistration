@@ -21,6 +21,8 @@ $html = new SimpleSAML_XHTML_Template(
 	'userregistration:change_pw.tpl.php',
 	'userregistration:userregistration');
 
+$html->data['customNavigation'] = $customNavigation;
+
 if(array_key_exists('sender', $_REQUEST)) {
 	$validOldPassword = true;
 
@@ -40,7 +42,9 @@ if(array_key_exists('sender', $_REQUEST)) {
 				$validator->validatePolicyPassword($store->passwordPolicy, $attributes, $newPw);
 			}
 			$store->changeUserPassword($attributes[$store->userIdAttr][0], $newPw);
-			$html->data['userMessage'] = 'message_chpw';
+
+	                header('Location: '.SimpleSAML_Module::getModuleURL('userregistration/changePassword.php?success'));
+			exit();
 
 		} catch(sspmod_userregistration_Error_UserException $e) {
 			$error = $html->t(
@@ -53,6 +57,10 @@ if(array_key_exists('sender', $_REQUEST)) {
 	else {
 		$html->data['userError'] = 'message_invalid_oldpw';
 	}
+} elseif (array_key_exists('success', $_GET)) {
+	$html->data['userMessage'] = 'message_chpw';
+        $html->show();
+        exit();
 } elseif(array_key_exists('logout', $_GET)) {
 	$as->logout(SimpleSAML_Module::getModuleURL('userregistration/index.php'));
 }
@@ -74,7 +82,10 @@ if(!empty($store->passwordPolicy)) {
 				$keys[] = $key;
 			}
 		}
-		$html->data['forbiddenValuesFieldnames'] = implode(", ", $keys);
+		$html->data['forbiddenValuesFieldnames'] = '';
+		if (!empty($keys)) {
+			$html->data['forbiddenValuesFieldnames'] = implode(", ", $keys);
+		}
 		$html->data['passwordPolicytpl'] = SimpleSAML_Module::getModuleDir('userregistration').'/templates/password_policy_tpl.php';
 	}
 }
@@ -83,7 +94,6 @@ if(!empty($store->passwordPolicy)) {
 $formGen->setSubmitter('submit_change');
 $html->data['formHtml'] = $formGen->genFormHtml();
 $html->data['uid'] = $attributes[$store->userIdAttr][0];
-$html->data['customNavigation'] = $customNavigation;
 $html->show();
 
 ?>

@@ -168,9 +168,13 @@
 	},
 	"message_chuinfo": {
 		"no": "Brukerdata ble endret",
-		"es": "Informaci\u00f3n de usuario actualizada con \u00e9xito",
+		"es": "Informaci\u00f3n de usuario actualizada con \u00e9xito en el componente de registro, para que los cambios tengan efecto en el resto de componentes de la plataforma debes",
 		"de": "Daten des Benutzerkontos erfolgreich ge\u00e4ndert"
 	},
+        "message_chuinfo2": {
+                "es": "y acceder posteriormente a los componentes"
+        },
+
 	"oncepw": {
 		"no": "Gammelt passord",
 		"es": "Antigua contrase\u00f1a",

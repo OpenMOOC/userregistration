@@ -18,7 +18,11 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 <?php }?>
 <?php if(isset($this->data['userMessage'])){ ?>
 	<div class="alert alert-info"><?php echo $this->t($this->data['userMessage']); ?></div>
-<?php }?>
+<?php }
+
+if (isset($this->data['formHtml'])) {
+
+?>
 
 <h1><?php echo $this->t('cpw_head'); ?></h1>
 <p><?php echo $this->t('cpw_para1', array('%UID%' => $this->data['uid']) ); ?></p>
@@ -32,7 +36,10 @@ if(isset($this->data['passwordPolicy'])) {
 ?>
 
 
-<?php echo $this->data['formHtml']; ?>
+<?php echo $this->data['formHtml'];
+
+}
+ ?>
 
 <?php 
 	if (!$this->data['customNavigation']) {

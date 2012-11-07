@@ -36,14 +36,9 @@ if (array_key_exists('savepw', $_REQUEST)) {
 
 		$store->updateUser($_POST['email'], $userInfo);
 
-		$html = new SimpleSAML_XHTML_Template(
-		 $config,
-		 'userregistration:step4_complete.tpl.php',
-		 'userregistration:userregistration');
+		header('Location: '.SimpleSAML_Module::getModuleURL('userregistration/newUser.php?success'));
+		$exit();
 
-		$html->data['systemName'] = $systemName;
-		$html->data['customNavigation'] = $customNavigation;
-		$html->show();
 	}catch(sspmod_userregistration_Error_UserException $e){
 		$email = $_REQUEST['email'];
 		$token = $_REQUEST['token'];
@@ -325,7 +320,15 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 		$terr->data['customNavigation'] = $customNavigation;
 		$terr->show();
 	}
+} elseif (array_key_exists('success', $_GET)) {
+	$html = new SimpleSAML_XHTML_Template(
+		$config,
+		'userregistration:step4_complete.tpl.php',
+		'userregistration:userregistration');
 
+		$html->data['systemName'] = $systemName;
+		$html->data['customNavigation'] = $customNavigation;
+		$html->show();
 } else {
 	// Stage 1: New user clean access
 

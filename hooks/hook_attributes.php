@@ -76,7 +76,9 @@
 				$skv[$db] = sspmod_userregistration_Util::validatePassword($fieldValues);
 				break;
 			default:
-				$skv[$db] = $fieldValues[$field];
+				if (isset($fieldValues[$field])) {
+					$skv[$db] = $fieldValues[$field];
+				}
 			}
 		}
 		return $skv;

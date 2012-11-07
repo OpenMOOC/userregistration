@@ -66,10 +66,13 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		$mailt->data['systemName'] = $systemName;
 		$mailt->data['tokenLifetime'] = $tokenLifetime;
 
+/*
+		TODO: Check $email in $store->userRegisterEmailAttr or in $store->recoverPwEmailAttrs
+
 		$emailto_list = array();
 		foreach($store->recoverPwEmailAttrs as $email_source) {
-			if($store->isRegistered($email_source, $value)) {
-				$emailto_list[] = $value;
+			if($store->isRegistered($email_source, $email)) {
+				$emailto_list[] = $email;
 			}
 		}
 		$emailto_list = array_unique($emailto_list);
@@ -79,6 +82,8 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		else {
 			$emailto = $email;
 		}
+*/
+		$emailto = $email;
 
 		$mailer = new sspmod_userregistration_XHTML_Mailer(
 			$emailto,
@@ -172,7 +177,6 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		$terr->data['customNavigation'] = $customNavigation;
 		$terr->show();
 	}
-
 } elseif (array_key_exists('sender', $_POST)) {
 	try {
 		// Add or update user object
@@ -204,13 +208,9 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		}
 
 		$store->changeUserPassword($userValues[$store->userIdAttr], $newPw);
+		header('Location: '.SimpleSAML_Module::getModuleURL('userregistration/lostPassword.php?success'));
+		exit();
 
-		$html = new SimpleSAML_XHTML_Template(
-		  $config,
-		  'userregistration:lostPassword_complete.tpl.php',
-		  'userregistration:userregistration');
-		$html->data['customNavigation'] = $customNavigation;
-		$html->show();
 	} catch(sspmod_userregistration_Error_UserException $e) {
 		// Some user error detected
 		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'lostPassword.php');
@@ -249,6 +249,14 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		$terr->data['customNavigation'] = $customNavigation;
 		$terr->show();
 	}
+}  elseif (array_key_exists('success', $_GET)) {
+	$html = new SimpleSAML_XHTML_Template(
+		$config,
+		'userregistration:lostPassword_complete.tpl.php',
+		'userregistration:userregistration');
+	$html->data['customNavigation'] = $customNavigation;
+	$html->show();
+ 
 } else {
 	// Stage 1: User access page to enter mail address for pasword recovery
 	$html = new SimpleSAML_XHTML_Template(

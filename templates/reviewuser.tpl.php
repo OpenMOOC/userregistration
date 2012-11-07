@@ -5,20 +5,32 @@ $this->data['head'] = '<link rel="stylesheet" href="resources/userregistration.c
 
 $this->includeAtTemplateBase('includes/header.php'); ?>
 
-<?php if(isset($this->data['error'])){ ?>
+<?php if(isset($this->data['error'])) { ?>
           <div class="alert alert-error"><?php echo $this->data['error']; ?></div>
-<?php }?>
-<?php if(isset($this->data['userMessage'])){ ?>
-        <div class="alert alert-info"><?php echo $this->t($this->data['userMessage']); ?></div>
-<?php }?>
+<?php
+      }
+ 
+      if(isset($this->data['success']) && $this->data['success']){
+
+          $logout_link = '<a href="' . $this->data['logout_url'] . '">' . $this->t('log_out').'</a>';
+	
+ ?>
+         <div class="alert alert-info"><?php echo $this->t('message_chuinfo').' '. $logout_link .' '.$this->t('message_chuinfo2');  ?></div>
+<?php } 
+
+if (isset($this->data['formHtml'])) {
+
+?>
 
 <h1><?php echo $this->t('review_head'); ?></h1>
 <p>
         <?php echo $this->t('review_intro', array('%UID%' => '<b>' . $this->data['uid'] . '</b>') ); echo $this->t('review_intro2'); ?>
 </p>
 
+<?php print $this->data['formHtml'];
 
-<?php print $this->data['formHtml']; ?>
+}
+ ?>
 
 <?php 
 	if (!$this->data['customNavigation']) {

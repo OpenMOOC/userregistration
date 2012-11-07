@@ -41,7 +41,7 @@ $html = new SimpleSAML_XHTML_Template(
 	'userregistration:reviewuser.tpl.php',
 	'userregistration:userregistration'
 );
-
+$html->data['customNavigation'] = $customNavigation;
 
 if(array_key_exists('sender', $_POST)) {
 	try{
@@ -84,13 +84,11 @@ if(array_key_exists('sender', $_POST)) {
 		$attributes = $as->getAttributes();
 		$values = sspmod_userregistration_Util::filterAsAttributes($attributes, $reviewAttr);
 
-		$html->data['userMessage'] = 'message_chuinfo';
-
-	}catch(sspmod_userregistration_Error_UserException $e){
+		header('Location: '.SimpleSAML_Module::getModuleURL('userregistration/reviewUser.php?success'));
+		exit();
+	} catch(sspmod_userregistration_Error_UserException $e){
 		// Some user error detected
 		$values = $validator->getRawInput();
-
-		$values['mail'] = $attributes['mail'][0];
 
 		$error = $html->t(
 			$e->getMesgId(),
@@ -99,19 +97,37 @@ if(array_key_exists('sender', $_POST)) {
 
 		$html->data['error'] = htmlspecialchars($error);
 	}
-}elseif(array_key_exists('logout', $_GET)) {
-	$as->logout(SimpleSAML_Module::getModuleURL('userregistration/index.php'));
+} elseif (array_key_exists('success', $_GET)) {
+	$html->data['success'] = True;
+
+	$html->data['logout_url'] = '?logout';
+	if (SimpleSAML_Module::isModuleEnabled('sspopenmooc')) {
+		$themeconf = SimpleSAML_Configuration::getConfig('module_sspopenmooc.php');
+		$urls = $themeconf->getArray('urls');
+		if (isset($urls['logout']) && !empty($urls['logout'])) {
+			$html->data['logout_url'] = $urls['logout'];
+		}
+	}
+	$html->show();
+	exit();	
+} elseif (array_key_exists('logout', $_GET)) {
+	if ($customNavigation) {
+		$as->logout($as->getLoginURL());
+	}
+	else {
+		$as->logout(SimpleSAML_Module::getModuleURL('userregistration/index.php'));
+	}
+	
+	
 } else {
 	// The GET access this endpoint
 	$values = sspmod_userregistration_Util::filterAsAttributes($attributes, $reviewAttr);
 }
-
 $formGen->setValues($values);
 $formGen->setSubmitter('submit_change');
 $formHtml = $formGen->genFormHtml();
 $html->data['formHtml'] = $formHtml;
 $html->data['uid'] = $attributes[$store->userIdAttr][0];
-$html->data['customNavigation'] = $customNavigation;
 $html->show();
 
 ?>
