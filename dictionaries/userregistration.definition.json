@@ -33,7 +33,7 @@
 		"en": "Kind regards\n%SNAME%"
 	},
 	"s1_head": {
-		"en": "Register new account at %SNAME%"
+		"en": "Create new account at %SNAME%"
 	},
 	"s1_para1": {
 		"en": "The first step is to register and verify your e-mail address. Make sure that you fill in an e-mail address where you can receive e-mail. Notice that some servers could mark this email as SPAM."
@@ -51,7 +51,7 @@
 		"en": "Save"
 	},
 	"register": {
-		"en": "Register"
+		"en": "Create"
 	},
 	"s3_head": {
 		"en": "New user information"
@@ -93,7 +93,7 @@
 		"en": "Other choices"
 	},
 	"link_newuser": {
-		"en": "Register new account"
+		"en": "Create new account"
 	},
 	"link_review": {
 		"en": "Change registered information"
@@ -111,7 +111,7 @@
 		"en": "You are now successfully registered at %SNAME%."
 	},
 	"new_mailUsed_head": {
-		"en": "Register new user"
+		"en": "Create new user"
 	},
 	"new_mailUsed_para1": {
 		"en": "A user is already registrated in %SNAME% with this e-mail address. This system allows only one user registration for each e-mail address."
@@ -244,5 +244,8 @@
 	},
 	"meter_excellent": {
 		"en": "Awesome password!"
+	},
+	"log_out": {
+		"en": "Log out"
 	}
 }

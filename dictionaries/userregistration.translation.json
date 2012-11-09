@@ -344,5 +344,8 @@
 	},
 	"meter_excellent": {
 		"es": "¡Excelecte clave!"
-	}
+	},
+	"log_out": {
+                "es": "Terminar sesión"
+        }
 }
