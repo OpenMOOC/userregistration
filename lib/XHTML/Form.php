@@ -8,7 +8,7 @@ class sspmod_userregistration_XHTML_Form {
 	private $hidden = array();
 	private $readonly = array();
 	private $disabled = array();
-	private $size = 20;
+	private $size = 30;
 	private $actionEndpoint = '?';
 	private $transAttr = NULL;
 	private $transDesc = NULL;
@@ -64,7 +64,7 @@ class sspmod_userregistration_XHTML_Form {
 
 	/*
 	 * String: field name
-	 * or arry of fieldnames
+	 * or array of fieldnames
 	 */
 	public function setReadOnly($fields){
 		$fields = SimpleSAML_Utilities::arrayize($fields);
@@ -73,7 +73,7 @@ class sspmod_userregistration_XHTML_Form {
 
 	/*
 	 * String: field name
-	 * or arry of fieldnames
+	 * or array of fieldnames
 	 */
 	public function setDisabled($fields){
 		$fields = SimpleSAML_Utilities::arrayize($fields);
@@ -82,7 +82,7 @@ class sspmod_userregistration_XHTML_Form {
 
 
 	private function writeFormStart(){
-		$format = '<form action="%s" method="post"><table class="formTable">';
+		$format = '<form id="userregistration" action="%s" method="post"><table class="formTable">';
 		$html = sprintf($format, $this->actionEndpoint);
 		return $html;
 	}
@@ -122,8 +122,6 @@ class sspmod_userregistration_XHTML_Form {
 		if($this->actionEndpoint != 'delUser.php') {
 			$type = $this->layout[$elementId]['control_type'];
 
-			$format = '<input class="'.($type=='password'? 'inputelement simplePassMeterInput':'inputelement').'" type="%s" id="%s" name="%s" value="%s" size="%s" %s />';
-
 			$attr = '';
 			if(in_array($elementId, $this->readonly)){
 				$attr .= 'readonly="readonly"';
@@ -139,7 +137,15 @@ class sspmod_userregistration_XHTML_Form {
 				$attr .= 'aria-controls="'.$elementId.'_simplePassMeter"';
 			}
 
-			$html = sprintf($format, $type, $elementId, $elementId, $value, $this->size, $attr);
+
+            $size = $this->size;
+            if(isset($this->layout[$elementId]['size']) && is_numeric((int)$this->layout[$elementId]['size'])) {
+                $size = $this->layout[$elementId]['size'];
+            }
+
+			$format = '<input class="'.($type=='password'? 'inputelement simplePassMeterInput':'inputelement').'" type="%s" id="%s" name="%s" value="%s" size="%s" %s '.(isset($this->layout[$elementId]['size'])? 'maxlength="'.$size.'"':''). ' />';
+
+			$html = sprintf($format, $type, $elementId, $elementId, $value, $size, $attr);
 		}
 		else {
 			$format = '<br>%s<input type="hidden" id="%s" name="%s" value="%s" >';

@@ -2,6 +2,9 @@
 	"attribute_cn": {
 		"es": "Nombre"
 	},
+	"attribute_sn": {
+		"es": "Apellidos"
+	},
 	"attribute_pw1": {
 		"no": "Nytt passord",
 		"es": "Nueva contrase\u00f1a",
@@ -229,6 +232,9 @@
 		"de": "%VAR2% ist kein g\u00fcltiger Wert f\u00fcr %VAR1%.",
 		"no": "%VAR2% er en ugyldig verdi for %VAR1%."
 	},
+    "illegale_length_value": {
+		"es": "El valor máximo que se admite para el campo %VAR1% es %VAR2%."
+    },
 	"uid_not_found": {
 		"es": "Usuario %VAR1% no encontrado.",
 		"de": "Die UserID %VAR1% wurde nicht gefunden.",
@@ -310,7 +316,10 @@
 		"es": "Volver"
 	},
 	"err_min_length_pw": {
-		"es": "La longitud de la clave debe de ser al menos de %VAR1% letras"
+		"es": "La longitud de la clave debe de ser al menos de %VAR1% caracteres"
+	},
+	"err_max_length_pw": {
+		"es": "La longitud de la clave debe de ser menor de %VAR1% caracteres"
 	},
 	"err_lowercaseUppercase_pw": {
 		"es": "La clave debe tener mayusculas y minusculas"

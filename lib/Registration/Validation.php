@@ -11,6 +11,9 @@ class sspmod_userregistration_Registration_Validation {
 			if (isset($fieldsDef[$field]['layout']) && isset($fieldsDef[$field]['layout']['optional']) && $fieldsDef[$field]['layout']['optional']) {
 				$this->optionals[] = $field;
 			}
+			if (isset($fieldsDef[$field]['layout']) && isset($fieldsDef[$field]['layout']['size']) && is_numeric((int)$fieldsDef[$field]['layout']['size'])) {
+				$this->size[$field] = (int)$fieldsDef[$field]['layout']['size'];
+			}
 		}
 	}
 
@@ -61,6 +64,20 @@ class sspmod_userregistration_Registration_Validation {
 				}
 			}
 		}
+		foreach($this->size as $field => $size){
+			if(isset($_REQUEST[$field]) && strlen($_REQUEST[$field]) > (int)$size) {
+				$tag = strtolower('attribute_'.$field);
+				$fieldTranslated = htmlspecialchars($transDesc->t($tag));
+				throw new sspmod_userregistration_Error_UserException(
+					'illegale_length_value',
+					"'$fieldTranslated'",
+					$size,
+					'Validation of user lenght input failed.'
+					.' Field:'.$field
+					.' Max size:'.$size);
+			}
+		}
+
 		return $filtered;
 	}
 
@@ -70,8 +87,12 @@ class sspmod_userregistration_Registration_Validation {
 		if(is_array($passwordPolicy)) {
 			if(array_key_exists('min.length', $passwordPolicy)) {
 				if(strlen($password) < (int)$passwordPolicy['min.length']) {
-					print_r(strlen($password));
 					throw new sspmod_userregistration_Error_UserException('err_min_length_pw', $passwordPolicy['min.length']);
+				}
+			}
+			if(array_key_exists('max.length', $passwordPolicy)) {
+				if(strlen($password) > (int)$passwordPolicy['max.length']) {
+					throw new sspmod_userregistration_Error_UserException('err_max_length_pw', $passwordPolicy['max.length']);
 				}
 			}
 			if(array_key_exists('require.lowercaseUppercase', $passwordPolicy) && $passwordPolicy['require.lowercaseUppercase']) {

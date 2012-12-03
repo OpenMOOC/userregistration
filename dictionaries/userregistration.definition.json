@@ -2,6 +2,9 @@
 	"attribute_cn": {
 		"en": "Name"
 	},
+	"attribute_sn": {
+		"en": "Surname"
+	},
 	"attribute_pw1": {
 		"en": "New password"
 	},
@@ -137,6 +140,9 @@
 	"void_value": {
 		"en": "Empty value is not allowed for %VAR1%."
 	},
+    "illegale_length_value": {
+		"en": "The max lenght for the field %VAR1% is %VAR2%."
+    },
 	"uid_taken": {
 		"en": "Already an account was linked to this email."
 	},
@@ -211,6 +217,9 @@
 	},
 	"err_min_length_pw": {
 		"en": "The length of password must be at least %VAR1% letters"
+	},
+	"err_max_length_pw": {
+		"en": "The length of password must be less than %VAR1% letters"
 	},
 	"err_lowercaseUppercase_pw": {
 		"en": "The password must contains lowercase and uppercase"
