@@ -33,7 +33,7 @@ class sspmod_userregistration_Registration_Validation {
 		$filtered = filter_input_array(INPUT_POST, $this->validators);
 		// FIXME: Write failed validation values to log
 		foreach($filtered as $field => $value){
-			if(!$value){
+			if(empty($value)) {
 				$tag = strtolower('attribute_'.$field);
 				$fieldTranslated = htmlspecialchars($transDesc->t($tag));
 				// Got no translation, try again
@@ -43,7 +43,7 @@ class sspmod_userregistration_Registration_Validation {
 
 				$rawValue = isset($_REQUEST[$field])?$_REQUEST[$field]:NULL;
 
-				if (!$rawValue) {
+				if (empty($rawValue)) {
 					if(!in_array($field, $this->optionals)) {
 						throw new sspmod_userregistration_Error_UserException(
 							'void_value',
@@ -62,6 +62,11 @@ class sspmod_userregistration_Registration_Validation {
 						.' Field:'.$field
 						.' Value:'.$rawValue);
 				}
+			}
+			else {
+				# sanitize data
+				$value = strip_tags($value);
+				$filtered[$field] = htmlentities($value, ENT_QUOTES);
 			}
 		}
 		foreach($this->size as $field => $size){
