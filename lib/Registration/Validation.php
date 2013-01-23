@@ -3,6 +3,7 @@
 class sspmod_userregistration_Registration_Validation {
 	private $validators = array();
 	private $optionals = array();
+	private $size = array();
 
 	public function __construct($fieldsDef, $usedFields) {
 		foreach ($usedFields as $field) {

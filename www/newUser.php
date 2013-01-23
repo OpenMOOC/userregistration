@@ -37,7 +37,7 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		$store->updateUser($_POST['email'], $userInfo);
 
 		header('Location: '.SimpleSAML_Module::getModuleURL('userregistration/newUser.php?success'));
-		$exit();
+		exit();
 
 	}catch(sspmod_userregistration_Error_UserException $e){
 		$email = $_REQUEST['email'];

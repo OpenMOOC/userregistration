@@ -190,6 +190,7 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 
 
 	private function makeDn($rdn){
+		$rdn = addcslashes($rdn, ',+"\\<>;*');
 		$dn = str_replace('%username%', $rdn, $this->dnPattern);
 		return $dn;
 	}
@@ -220,6 +221,9 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 		$result = ldap_add($this->ldap, $dn, $entry);
 		if (!$result) {
 			$error_msg = ldap_error($this->ldap);
+			if($error_msg == 'Invalid DN syntax') {
+				throw new sspmod_userregistration_Error_UserException('illegale_value');
+			}
 			if($error_msg == 'Invalid syntax') {
 				throw new sspmod_userregistration_Error_UserException('ldap_add_invalid_syntax');
 			}
