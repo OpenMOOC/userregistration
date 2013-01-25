@@ -71,6 +71,6 @@ table.users td.teacher{
 	text-align: center;
 }
 
-label[for=id_tos] {
+label[for=tos] {
     display: inline;
 }
