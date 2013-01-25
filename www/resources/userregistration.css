@@ -70,3 +70,7 @@ table.users td.teacher{
 	min-width: 50px;
 	text-align: center;
 }
+
+label[for=id_tos] {
+    display: inline;
+}
