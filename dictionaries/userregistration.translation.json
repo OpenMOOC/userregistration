@@ -18,6 +18,21 @@
 	"attribute_oldpw": {
 		"es": "Contrase\u00f1a actual"
 	},
+	"attribute_city": {
+		"es": "Ciudad"
+	},
+	"attribute_state": {
+		"es": "Estado/Provincia"
+	},
+	"attribute_country": {
+		"es": "País"
+	},
+	"attribute_zipcode": {
+		"es": "Código Postal"
+	},
+	"attribute_institutional_affilliation": {
+		"es": "Institutional Affilliation"
+	},
 	"mailNew_header": {
 		"no": "Registrering p\u00e5 %SNAME% - epost validering",
 		"es": "Registro en %SNAME% - validaci\u00f3n de email",

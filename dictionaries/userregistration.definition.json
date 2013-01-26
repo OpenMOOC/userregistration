@@ -14,6 +14,21 @@
 	"attribute_oldpw": {
 		"en": "Current password"
 	},
+	"attribute_city": {
+		"en": "City"
+	},
+        "attribute_state": {
+		"en": "State"
+	},
+	"attribute_country": {
+		"en": "Country"
+	},
+        "attribute_zipcode": {
+                "en": "Zip Code"
+        },
+        "attribute_institutional_affilliation": {
+                "en": "Institutional Affilliation"
+        },
 	"mailNew_header": {
 		"en": "Registration at %SNAME% - email validation"
 	},

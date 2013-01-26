@@ -27,9 +27,9 @@ $users['teacher'] = array();
 $attrs = array("mail", "eduPersonAffiliation");
 
 $attrlist = array ('sn' => 'sn',
-				   'cn' => 'cn',
-				   'mail' => 'mail', 
-				   'eduPersonAffiliation' => 'eduPersonAffiliation'
+		   'cn' => 'cn',
+		   'mail' => 'mail', 
+		   'eduPersonAffiliation' => 'eduPersonAffiliation'
 );
 
 if (isset($_POST['search_param']) && !empty($_POST['search_param'])) {

@@ -332,44 +332,41 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 
 		$info = ldap_get_entries($this->ldap, $res);
 
-        if($info !== FALSE) {
-            if($info['count']>0) {
-                unset($info['count']);
-                foreach($info as $entry) {
-			        // Assign values
-                    if($attrlist) {
-                        // Take care of case sensitive
-                        $entry = array_change_key_case($entry, CASE_LOWER);
-			            foreach ($attrlist as $finalattr => $ldapattr) {
-                            $ldapattr_lc = strtolower($ldapattr);
-				            if (isset($entry[$ldapattr_lc]) &&
-						            $entry[$ldapattr_lc]['count'] > 0) {
-					            unset ($entry[$ldapattr_lc]['count']);
-					            $retattr[$finalattr] = $entry[$ldapattr_lc];
-				            }
-			            }
-                    }
-                    else {
+		if($info !== FALSE) {
+			if($info['count']>0) {
+				unset($info['count']);
+				foreach($info as $entry) {
+			        	// Assign values
+					if($attrlist) {
+			                        // Take care of case sensitive
+						$entry = array_change_key_case($entry, CASE_LOWER);
+						foreach ($attrlist as $finalattr => $ldapattr) {
+							$ldapattr_lc = strtolower($ldapattr);
+							if (isset($entry[$ldapattr_lc]) &&
+							  $entry[$ldapattr_lc]['count'] > 0) {
+								unset ($entry[$ldapattr_lc]['count']);
+								$retattr[$finalattr] = $entry[$ldapattr_lc];
+							}
+						}
+					}
+					else {
                         
-                        foreach($entry as $key => $value) {
-                            if(!is_integer($key) && $entry[$key]['count'] > 0) {
-                                $retattr[$key] = array($value[0]);
-                            }
-                        }
-                    }
-
-                    if(isset($retattr[$this->userIdAttr]) && !empty($retattr[$this->userIdAttr][0])) {
-                        $id = $retattr[$this->userIdAttr][0];
-                        $entries[$id] = $retattr;
-                    }
-                    else {
-                        $entries[] = $retattr;
-                    }
-                    
-                }
-            }
+						foreach($entry as $key => $value) {
+							if(!is_integer($key) && $entry[$key]['count'] > 0) {
+								$retattr[$key] = array($value[0]);
+							}
+						}
+					}
+					if (isset($retattr[$this->userIdAttr]) && !empty($retattr[$this->userIdAttr][0])) {
+						$id = $retattr[$this->userIdAttr][0];
+						$entries[$id] = $retattr;
+					}
+					else {
+						$entries[] = $retattr;
+					}
+				}
+			}
 		}
-
 		return $entries;
 	}
 }
