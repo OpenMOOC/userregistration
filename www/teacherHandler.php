@@ -39,7 +39,8 @@ else {
 	$searchParam = '*';
 }
 
-$usersData = $store->getUsers($attrlist, $searchParam);
+$multivalued = true;
+$usersData = $store->getUsers($attrlist, $searchParam, $multivalued);
 
 $html = new SimpleSAML_XHTML_Template(
 	SimpleSAML_Configuration::getInstance(),

@@ -329,7 +329,7 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 	}
 
 
-	public function getUsers($attrlist, $search='*') {
+	public function getUsers($attrlist, $search='*', $multivalued=false) {
 		$entries = array();
 		$this->adminBindLdap();
 		$filter = '('.$this->userIdAttr.'='.$search.')';
@@ -358,7 +358,12 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
                         
 						foreach($entry as $key => $value) {
 							if(!is_integer($key) && $entry[$key]['count'] > 0) {
-								$retattr[$key] = array($value);
+								if(!$multivalued) {
+									$retattr[$key] = array($value[0]);
+								}
+								else {
+									$retattr[$key] = $value;
+								}
 							}
 						}
 					}
