@@ -167,7 +167,7 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 	}
 
 
-	public function findAndGetUser($keyName, $value) {
+	public function findAndGetUser($keyName, $value, $multivalued=false) {
 		$userObjectDn = $this->searchfordn($this->searchBase, $keyName, $value);
 		$userObject = $this->getAttributes($userObjectDn);
 
@@ -176,7 +176,12 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 		foreach ($userObject as $attrName => $values) {
 			if ($attrName == 'objectClass') {
 			} else {
-				$user[$attrName] = $values[0];
+				if(!$multivalued) {
+					$user[$attrName] = $values[0];
+				}
+				else {
+					$user[$attrName] = $values;
+				}
 			}
 		}
 		return $user;
@@ -353,7 +358,7 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
                         
 						foreach($entry as $key => $value) {
 							if(!is_integer($key) && $entry[$key]['count'] > 0) {
-								$retattr[$key] = array($value[0]);
+								$retattr[$key] = array($value);
 							}
 						}
 					}
