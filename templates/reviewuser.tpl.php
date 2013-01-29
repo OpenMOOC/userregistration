@@ -24,7 +24,7 @@ if (isset($this->data['formHtml'])) {
 
 <h1><?php echo $this->t('review_head'); ?></h1>
 <p>
-        <?php echo $this->t('review_intro', array('%UID%' => '<b>' . $this->data['uid'] . '</b>') ); echo $this->t('review_intro2'); ?>
+        <?php echo htmlspecialchars($this->t('review_intro', array('%UID%' => '<b>' . $this->data['uid'] . '</b>') ), ENT_QUOTES); echo $this->t('review_intro2'); ?>
 </p>
 
 <?php print $this->data['formHtml'];

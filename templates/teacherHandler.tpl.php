@@ -12,7 +12,7 @@ $this->includeAtTemplateBase('includes/header.php');
 <table>
 	<tr>
 		<td><label>Filter param:</label></td>
-		<td><input type="text" name="search_param" value="<?php echo (isset($_POST['search_param'])? $_POST['search_param']:'') ?>"></td>
+		<td><input type="text" name="search_param" value="<?php echo (isset($_POST['search_param'])? htmlspecialchars($_POST['search_param'], ENT_QUOTES):'') ?>"></td>
 		<td><input class="btn" type="submit" name="search" value="Filter"> (Filter if match any mail)</td>
 	</tr>
 </table>
@@ -30,8 +30,10 @@ foreach ($this->data['usersData'] as $userData) {
 		$teacher = true;
 		$oldteacher[] = $userData['mail'][0];
 	}
-
-	echo '<tr><td class="label"><label>'.$userData['cn'][0].' '.$userData['sn'][0].' ('.$userData['mail'][0].')</label></td><td class="teacher"><input type="checkbox" name="teachers[]" value="'.$userData['mail'][0].'" '.($teacher? 'checked="checked"':'').'></td></tr>';
+	$sn = htmlspecialchars($userData['sn'][0], ENT_QUOTES);
+	$cn = htmlspecialchars($userData['cn'][0], ENT_QUOTES);
+    $mail = htmlspecialchars($userData['mail'][0], ENT_QUOTES);
+	echo '<tr><td class="label"><label>'.$cn.' '.$sn.' ('.$mail.')</label></td><td class="teacher"><input type="checkbox" name="teachers[]" value="'.$mail.'" '.($teacher? 'checked="checked"':'').'></td></tr>';
 }
 
 ?>

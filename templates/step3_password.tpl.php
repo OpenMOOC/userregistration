@@ -15,7 +15,7 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 	  <div class="alert alert-error">
 	  <?php echo $this->data['error'];
 		if ($this->data['refreshtoken']) {
-			echo '<form method="POST"><input type="hidden" name="email" value="'.$this->data['email'].'"><input type="submit" name="refreshtoken" value="'.$this->t('get_token').'"></form>';
+			echo '<form method="POST"><input type="hidden" name="email" value="'.htmlspecialchars($this->data['email'], ENT_QUOTES).'"><input type="submit" name="refreshtoken" value="'.$this->t('get_token').'"></form>';
 		}
 	  ?>
 	  </div>

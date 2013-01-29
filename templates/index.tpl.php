@@ -14,7 +14,7 @@ if(isset($this->data['userMessage'])){ ?>
 <ul>
 <?php
 	foreach ($this->data['links'] AS $link) {
-		echo '<li><a href="' . htmlspecialchars($link['href']) . '">' . $this->t($link['text']) . '</a>';
+		echo '<li><a href="' . htmlspecialchars($link['href'], ENT_QUOTES) . '">' . htmlspecialchars($this->t($link['text']), ENT_QUOTES) . '</a>';
 		if(isset($link['extra_text'])) {
 			echo $link['extra_text'];
 		}
