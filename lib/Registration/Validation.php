@@ -66,8 +66,7 @@ class sspmod_userregistration_Registration_Validation {
 			}
 			else {
 				# sanitize data
-				$value = strip_tags($value);
-				$filtered[$field] = htmlentities($value, ENT_QUOTES);
+				$filtered[$field] = strip_tags($value);
 			}
 		}
 		foreach($this->size as $field => $size){
