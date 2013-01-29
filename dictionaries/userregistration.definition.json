@@ -57,7 +57,7 @@
 		"en": "The first step is to register and verify your e-mail address. Make sure that you fill in an e-mail address where you can receive e-mail. Notice that some servers could mark this email as SPAM."
 	},
 	"s1_para2": {
-		"en": "You will receive an e-mail (%MAIL% account) including a url you have to follow to continue the registration process."
+		"en": "You will receive an e-mail (%MAIL% account) including an url that you have to follow to continue the registration process."
 	},
 	"submit_mail": {
 		"en": "Send e-mail"
@@ -84,7 +84,7 @@
 		"en": "Your user id is %UID%. "
 	},
 	"review_intro2": {
-		"en": "On this page can you alter some of the registered user information."
+		"en": "On this page you can alter some of the registered user information."
 	},
 	"lpw_head": {
 		"en": "Reset password"
@@ -96,7 +96,7 @@
 		"en": "You will receive a e-mail including a url you can access to reset the lost password.  Notice that some servers could mark this email as SPAM."
 	},
 	"lpw_reg_para1": {
-		"en": "Your user id is %UID%. Type you new password twice."
+		"en": "Your user id is %UID%. Type your new password twice."
 	},
 	"lpw_success_head": {
 		"en": "Mail was successfully sent"
