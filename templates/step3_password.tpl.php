@@ -19,14 +19,18 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 		}
 	  ?>
 	  </div>
-<?php }?>
+<?php }
 
-<?php
 if(isset($this->data['passwordPolicy'])) {
-	include_once($this->data['passwordPolicytpl']);
+        include_once($this->data['passwordPolicytpl']);
 }
+
+if(isset($this->data['formHtml'])) {
+        print $this->data['formHtml'];
+}
+$this->includeAtTemplateBase('includes/footer.php');
+
 ?>
 
-<?php print $this->data['formHtml']; ?>
 
-<?php $this->includeAtTemplateBase('includes/footer.php'); ?>
+
