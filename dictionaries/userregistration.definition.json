@@ -45,7 +45,7 @@
 		"en": "To reset your password at %SNAME%, use the following URL:"
 	},
 	"mail_tokeninfo": {
-		"en": "This URL contains a secret token that validates your e-mail address. This token is valid for only %DAYS% days. If this token expire, you have to request a new token by starting the process over again."
+		"en": "This URL contains a secret token that validates your e-mail address. This token is valid for only %DAYS% days. If this token expires, you have to request a new token by starting the process over again."
 	},
 	"mail1_signature": {
 		"en": "Kind regards\n%SNAME%"
