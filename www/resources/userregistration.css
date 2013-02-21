@@ -73,4 +73,5 @@ table.users td.teacher{
 
 label[for=tos] {
     display: inline;
+    vertical-align: middle;
 }
