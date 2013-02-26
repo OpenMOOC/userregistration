@@ -128,6 +128,9 @@
 	"new_complete_para1": {
 		"en": "You are now successfully registered at %SNAME%."
 	},
+	"new_complete_para1_admin": {
+		"en": "User was succesfully created at %SNAME%."
+	},
 	"new_mailUsed_head": {
 		"en": "Create new user"
 	},
@@ -271,5 +274,8 @@
 	},
 	"log_out": {
 		"en": "Log out"
-	}
+	},
+    "admin": {
+		"en": "Administration"
+    }
 }

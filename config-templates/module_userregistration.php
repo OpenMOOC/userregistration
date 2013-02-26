@@ -8,6 +8,9 @@ $config = array (
 	/* The authentication source that should be used. */
 	'auth' => 'userregistration-ldap',
 
+	/* The authentication source for admin views. */
+	'admin.auth' => 'admin',
+
 	// Realm for eduPersonPrincipalName
 	'user.realm' => 'example.org',
 
@@ -101,6 +104,10 @@ $config = array (
 		// Set from password walidataion and encryption
 		'userPassword' => 'userPassword',
 	),
+	// Additional mappings for the admin views from the Storage backend field names to web frontend field names
+    'admin.additional_attributes' => array(
+		'userPassword' => 'userPassword',
+    ),
 
 	// Configuration for the field in the web frontend
 	// This controlls the order of the fields

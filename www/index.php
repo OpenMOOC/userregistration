@@ -7,6 +7,8 @@ $uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
 $asId = $uregconf->getString('auth');
 
 $links = array();
+$admin_links = array();
+
 
 
 	$links[] = array(
@@ -20,6 +22,14 @@ $links = array();
 	);
 
 	if($session->isAuthenticated()) {
+        // Admin links
+        $isadmin = SimpleSAML_Utilities::isAdmin();
+        if ($isadmin) {
+            $admin_links[] = array(
+                'href' => SimpleSAML_Module::getModuleURL('userregistration/admin_newUser.php'),
+                'text' => '{userregistration:userregistration:link_newuser}',
+            );
+        }
 		$uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
 		if($session->getAuthority() == $asId) {
 			$as = new SimpleSAML_Auth_Simple($asId);
@@ -42,15 +52,13 @@ $links = array();
 				'href' => $as->getLogoutURL(),
 				'text' => '{status:logout}',
 			);
-		}
-		else {
+		} else {
 			$links[] = array(
 				'href' => SimpleSAML_Module::getModuleURL('userregistration/reviewUser.php'),
 				'text' => '{userregistration:userregistration:link_enter}',
-		);
+            );
 		}
-	}
-	else {
+	} else {
 		$links[] = array(
 			'href' => SimpleSAML_Module::getModuleURL('userregistration/reviewUser.php'),
 			'text' => '{userregistration:userregistration:link_enter}',
@@ -63,6 +71,7 @@ $html = new SimpleSAML_XHTML_Template(
 		'userregistration:userregistration');
 $html->data['source'] = $asId;
 $html->data['links'] = $links;
+$html->data['admin_links'] = $admin_links;
 
 if(array_key_exists('status', $_GET) && $_GET['status'] == 'deleted') {
 	$html->data['userMessage'] = 'message_userdel';
@@ -71,4 +80,3 @@ if(array_key_exists('status', $_GET) && $_GET['status'] == 'deleted') {
 
 $html->show();
 
-?>

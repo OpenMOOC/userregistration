@@ -11,7 +11,9 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 
 <h1><?php echo $this->t('s1_head', $this->data['systemName']); ?></h1>
 
+<?php if (!isset($this->data['admin']) || $this->data['admin'] !== true): ?>
 <p><?php echo $this->t('s1_para1'); ?></p>
+<?php endif; ?>
 
 <?php print $this->data['formHtml']; ?>
 
