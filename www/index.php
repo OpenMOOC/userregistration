@@ -7,6 +7,7 @@ $uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
 $asId = $uregconf->getString('auth');
 
 $links = array();
+$admin_links = array();
 
 
 
@@ -24,13 +25,14 @@ $links = array();
         // Admin links
         $isadmin = SimpleSAML_Utilities::isAdmin();
         if ($isadmin) {
-            $admin_links = array();
             $admin_links[] = array(
                 'href' => SimpleSAML_Module::getModuleURL('userregistration/admin_newUser.php'),
                 'text' => '{userregistration:userregistration:link_newuser}',
             );
-
-            $html->data['admin_links'] = $admin_links;
+            $admin_links[] = array(
+                'href' => SimpleSAML_Module::getModuleURL('userregistration/admin_manageUsers.php'),
+                'text' => '{userregistration:userregistration:link_manageusers}',
+            );
         }
 		$uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
 		if($session->getAuthority() == $asId) {
@@ -73,6 +75,10 @@ $html = new SimpleSAML_XHTML_Template(
 		'userregistration:userregistration');
 $html->data['source'] = $asId;
 $html->data['links'] = $links;
+
+if (count($admin_links) != 0) {
+    $html->data['admin_links'] = $admin_links;
+}
 
 if(array_key_exists('status', $_GET) && $_GET['status'] == 'deleted') {
 	$html->data['userMessage'] = 'message_userdel';

@@ -277,5 +277,23 @@
 	},
     "admin": {
 		"en": "Administration"
+    },
+    "link_manageusers": {
+		"en": "Manage current users"
+    },
+    "starts_with": {
+		"en": "Starts with..."
+    },
+    "search": {
+		"en": "Search"
+    },
+    "no_results": {
+		"en": "Search yielded no results"
+    },
+    "edit": {
+		"en": "Edit"
+    },
+    "remove": {
+		"en": "Remove"
     }
 }

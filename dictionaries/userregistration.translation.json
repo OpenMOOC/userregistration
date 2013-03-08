@@ -377,5 +377,14 @@
     },
     "admin": {
 		"es": "Administración"
+    },
+    "link_manageusers": {
+		"es": "Gestionar usuarios existentes"
+    },
+    "starts_with": {
+		"en": "Empieza por..."
+    },
+    "search": {
+		"en": "Buscar"
     }
 }
