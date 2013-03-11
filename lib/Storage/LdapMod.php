@@ -407,7 +407,12 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 							$retattr[$finalattr] = $entry[$ldapattr_lc][0];
 						}
 					}
-					$entries[] = $retattr;
+					if (isset($retattr[$this->userIdAttr]) && !empty($retattr[$this->userIdAttr])) {
+						$id = $retattr[$this->userIdAttr];
+						$entries[$id] = $retattr;
+					} else {
+						$entries[] = $retattr;
+					}
 				}
 			}
 		}

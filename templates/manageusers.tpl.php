@@ -56,15 +56,19 @@ if ($results !== null):
  </thead>
  <tbody>
 <?php
-        foreach ($results as $u):
+        foreach ($results as $userid => $u):
+
+            $url_modify = SimpleSAML_Module::getModuleURL('userregistration/admin_modifyUser.php') . '?user=' . urlencode($userid);
+            $url_remove = SimpleSAML_Module::getModuleURL('userregistration/admin_removeUser.php') . '?user=' . urlencode($userid);
+
 ?>
   <tr>
   <td><?php echo $u['mail']?></td>
   <td><?php echo $u['cn']?></td>
   <td><?php echo $u['sn']?></td>
    <td>
-   <a class="btn btn-small"><?php echo $this->t('edit')?></a>
-   <a class="btn btn-small btn-danger"><?php echo $this->t('remove') ?></a>
+   <a href="<?php echo $url_modify?>" class="btn btn-small"><?php echo $this->t('edit')?></a>
+   <a href="<?php echo $url_remove?>" class="btn btn-small btn-danger"><?php echo $this->t('remove') ?></a>
    </td>
   </tr>
 <?php
