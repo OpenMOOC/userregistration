@@ -63,8 +63,8 @@ if ($results !== null):
   <td><?php echo $u['cn']?></td>
   <td><?php echo $u['sn']?></td>
    <td>
-   <a class="btn"><?php echo $this->t('edit')?></a>
-   <a class="btn btn-danger"><?php echo $this->t('remove') ?></a>
+   <a class="btn btn-small"><?php echo $this->t('edit')?></a>
+   <a class="btn btn-small btn-danger"><?php echo $this->t('remove') ?></a>
    </td>
   </tr>
 <?php
