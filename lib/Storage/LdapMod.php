@@ -379,6 +379,40 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 		}
 		return $entries;
 	}
+
+	public function searchUsers($attr, $pattern='*') {
+		$entries = array();
+		$this->adminBindLdap();
+		$filter = '('.$this->attributes[$attr].'='.$pattern.')';
+		$res = @ldap_search($this->ldap, $this->searchBase, $filter, array_values($this->attributes));
+
+		if ($res === false) {
+			// Bad filter
+			return array();
+		}
+
+		$info = ldap_get_entries($this->ldap, $res);
+
+		if($info !== FALSE) {
+			if($info['count']>0) {
+				unset($info['count']);
+				foreach($info as $entry) {
+					// Take care of case sensitive
+					$entry = array_change_key_case($entry, CASE_LOWER);
+					foreach ($this->attributes as $finalattr => $ldapattr) {
+						$ldapattr_lc = strtolower($ldapattr);
+						if (isset($entry[$ldapattr_lc]) &&
+						  $entry[$ldapattr_lc]['count'] > 0) {
+							unset ($entry[$ldapattr_lc]['count']);
+							$retattr[$finalattr] = $entry[$ldapattr_lc][0];
+						}
+					}
+					$entries[] = $retattr;
+				}
+			}
+		}
+		return $entries;
+	}
 }
 
 ?>
