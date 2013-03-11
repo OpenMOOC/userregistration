@@ -399,6 +399,9 @@
 	"remove": {
 		"es": "Eliminar"
     },
+    "filter": {
+		"es": "Filtro:"
+    },
     "manage1_search_instructions": {
 		"es": "Gestione los usuarios registrados desde esta sección. Elija un atributo y escriba algunos caracteres para buscar usuarios que tengan un valor para ese atributo que comience con la cadena escogida."
     }
