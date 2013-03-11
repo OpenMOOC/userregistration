@@ -382,9 +382,24 @@
 		"es": "Gestionar usuarios existentes"
     },
     "starts_with": {
-		"en": "Empieza por..."
+		"es": "empieza por"
     },
     "search": {
-		"en": "Buscar"
+		"es": "Buscar"
+    },
+	"search_results": {
+		"es": "Resultado de la búsqueda"
+	},
+    "no_results": {
+		"es": "La búsqueda no devolvió ningún resultado"
+    },
+    "edit": {
+		"es": "Modificar"
+    },
+    "remove": {
+		"es": "Eliminar"
+    },
+    "manage1_search_instructions": {
+		"es": "Gestione los usuarios registrados desde esta sección. Elija un atributo y escriba algunos caracteres para buscar usuarios que tengan un valor para ese atributo que comience con la cadena escogida."
     }
 }

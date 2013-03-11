@@ -11,20 +11,39 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 
 <h1><?php echo $this->t('link_manageusers'); ?></h1>
 
-<form class="form-inline" id="search_form" method="post">
+<p>
+<?php echo $this->t('manage1_search_instructions')?>
+</p>
+<?php
+$used_attr = isset($this->data['attr']) ? $this->data['attr'] : '';
+$used_pattern = isset($this->data['pattern']) ? $this->data['pattern'] : '';
+?>
+
+<form class="form-inline" id="search_form" method="get">
  <fieldset>
   <select class="input-small" name="attr">
-   <option name="mail">Email</option>
-   <option name="cn"><?php echo $this->t('attribute_cn')?></option>
-   <option name="sn"><?php echo $this->t('attribute_sn')?></option>
+  <option value="mail"<?php echo ($used_attr == 'mail' ? ' selected="selected"' : '')?>><?php echo $this->t('attribute_mail')?></option>
+   <option value="cn"<?php echo ($used_attr == 'cn' ? ' selected="selected"' : '')?>><?php echo $this->t('attribute_cn')?></option>
+   <option value="sn"<?php echo ($used_attr == 'sn' ? ' selected="selected"' : '')?>><?php echo $this->t('attribute_sn')?></option>
   </select>
-  <input class="input-normal" type="text" placeholder="<?php echo $this->t('starts_with')?>" />
-  <a class="btn" href="#" id="search_button"><?php echo $this->t('search')?></a>
+<?php echo $this->t('starts_with')?>
+  <input name="pattern" class="input-normal" type="text" value="<?php echo $used_pattern?>" />
+  <input class="btn" type="submit" id="search_button" name="search" value="<?php echo $this->t('search')?>" />
  </fieldset>
 </form>
+<?php
+if (!empty($used_attr) && !empty($used_pattern)):
+?>
+<h3>Search results</h3>
+<span class="label label-info"><?php echo $this->t('attribute_' . $used_attr) ?></span> <?php echo $this->t('starts_with')?> <span class="label"><?php echo $used_pattern ?></span>
+<?php
+endif;
 
-<div id="search_no_results" class="alert alert-error"><?php echo $this->t('no_results')?></div>
+$results = isset($this->data['search_results']) ? $this->data['search_results'] : null;
+if ($results !== null):
 
+    if (count($results) > 0):
+?>
 <table id="search_results" class="table table-striped table-hover">
  <thead>
   <tr>
@@ -35,16 +54,30 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
   </tr>
  </thead>
  <tbody>
+<?php
+        foreach ($results as $u):
+?>
   <tr>
-   <td>email@email.xxx</td>
-   <td>Jorge</td>
-   <td>López</td>
+  <td><?php echo $u['mail']?></td>
+  <td><?php echo $u['cn']?></td>
+  <td><?php echo $u['sn']?></td>
    <td>
    <a class="btn"><?php echo $this->t('edit')?></a>
    <a class="btn btn-danger"><?php echo $this->t('remove') ?></a>
    </td>
   </tr>
+<?php
+        endforeach;
+?>
  </tbody>
 </table>
+<?php
+    else:
+?>
+<div id="search_no_results" class="alert alert-error"><?php echo $this->t('no_results')?></div>
+<?php
+    endif;
+endif;
+?>
 
 <?php $this->includeAtTemplateBase('includes/footer.php'); ?>
