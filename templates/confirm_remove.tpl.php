@@ -13,7 +13,7 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 <input type="hidden" name="attr" value="<?php echo $this->data['attr']?>" />
 <input type="hidden" name="pattern" value="<?php echo $this->data['pattern']?>" />
 <input class="btn btn-danger" type="submit" name="confirm" value="<?php echo $this->t('remove') ?>" />
-<a class="btn" href="<?php echo SimpleSAML_Module::getModuleURL('userregistration/admin_manageUsers.php') . '?search=x&attr=' . urlencode($this->data['attr']) . '&pattern=' . urlencode($this->data['pattern']) ?>"><?php echo $this->t('cancel')?></a>
+<a class="btn" href="<?php echo $this->data['return_url'] ?>"><?php echo $this->t('cancel')?></a>
 </form>
 
 <?php $this->includeAtTemplateBase('includes/footer.php'); ?>

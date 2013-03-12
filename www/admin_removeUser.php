@@ -49,11 +49,21 @@ if (empty($user)) {
             'userregistration:user_removed.tpl.php',
             'userregistration:userregistration');
     }
-        $html->data['user'] = $user;
-        $html->data['attr'] = $attr;
-        $html->data['pattern'] = $pattern;
-        $html->data['customNavigation'] = $customNavigation;
 
-        $html->show();
+    $html->data['return_url'] = SimpleSAML_Utilities::addURLparameter(
+        SimpleSAML_Module::getModuleURL('userregistration/admin_manageUsers.php'),
+        array(
+            'search' => '',
+            'attr' => $attr,
+            'pattern' => $pattern,
+        )
+    );
+
+    $html->data['user'] = $user;
+    $html->data['attr'] = $attr;
+    $html->data['pattern'] = $pattern;
+    $html->data['customNavigation'] = $customNavigation;
+
+    $html->show();
 }
 
