@@ -304,5 +304,20 @@
     },
     "manage1_search_instructions": {
 		"en": "Manage currently registered users here. Choose an attribute and type some characters to search for users that have that attribute starting with the string you used."
+    },
+    "confirm_remove_head": {
+        "en": "Confirm remove"
+    },
+    "confirm_remove_par": {
+		"en": "Are you sure you want to permantently remove user %USER%?"
+    },
+    "cancel": {
+		"en": "Cancel"
+    },
+    "user_removed": {
+		"en": "User %USER% was removed"
+    },
+    "back_to_search": {
+		"en": "Return to search"
     }
 }

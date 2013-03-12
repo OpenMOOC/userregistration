@@ -404,5 +404,20 @@
     },
     "manage1_search_instructions": {
 		"es": "Gestione los usuarios registrados desde esta sección. Elija un atributo y escriba algunos caracteres para buscar usuarios que tengan un valor para ese atributo que comience con la cadena escogida."
+    },
+    "confirm_remove_head": {
+        "es": "Confirmar el borrado"
+    },
+    "confirm_remove_par": {
+		"es": "¿Está seguro de querer eliminar la cuenta del usuario %USER%?"
+    },
+    "cancel": {
+		"es": "Cancelar"
+    },
+    "user_removed": {
+		"es": "El usuario %USER% fue eliminado"
+    },
+    "back_to_search": {
+		"es": "Volver a la búsqueda"
     }
 }

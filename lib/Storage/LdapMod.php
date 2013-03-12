@@ -129,13 +129,11 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 	}
 
 
-/*
 	public function delUser($userId) {
 		$dn = $this->makeDn($userId);
 		$this->adminBindLdap();
 		$this->deleteObject($dn);
 	}
-*/
 
 
 	public function changeUserPassword($userId, $newPlainPassword) {

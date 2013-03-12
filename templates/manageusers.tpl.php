@@ -56,10 +56,11 @@ if ($results !== null):
  </thead>
  <tbody>
 <?php
+        $common_return = '&attr=' . urlencode($used_attr) .'&pattern=' . urlencode($used_pattern);
         foreach ($results as $userid => $u):
 
-            $url_modify = SimpleSAML_Module::getModuleURL('userregistration/admin_modifyUser.php') . '?user=' . urlencode($userid);
-            $url_remove = SimpleSAML_Module::getModuleURL('userregistration/admin_removeUser.php') . '?user=' . urlencode($userid);
+            $url_modify = SimpleSAML_Module::getModuleURL('userregistration/admin_modifyUser.php') . '?user=' . urlencode($userid) . $common_return;
+            $url_remove = SimpleSAML_Module::getModuleURL('userregistration/admin_removeUser.php') . '?user=' . urlencode($userid) . $common_return;
 
 ?>
   <tr>
