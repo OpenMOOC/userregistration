@@ -22,20 +22,19 @@ $admin_links = array();
 	);
 
 	if($session->isAuthenticated()) {
-        // Admin links
-        $isadmin = SimpleSAML_Utilities::isAdmin();
-        if ($isadmin) {
-            $admin_links[] = array(
-                'href' => SimpleSAML_Module::getModuleURL('userregistration/admin_newUser.php'),
-                'text' => '{userregistration:userregistration:link_newuser}',
-            );
-            $admin_links[] = array(
-                'href' => SimpleSAML_Module::getModuleURL('userregistration/admin_manageUsers.php'),
-                'text' => '{userregistration:userregistration:link_manageusers}',
-            );
-        }
+		// Admin links
+		$admin_links[] = array(
+			'href' => SimpleSAML_Module::getModuleURL('userregistration/admin_newUser.php'),
+			'text' => '{userregistration:userregistration:link_newuser}',
+		);
+		$admin_links[] = array(
+			'href' => SimpleSAML_Module::getModuleURL('userregistration/admin_manageUsers.php'),
+			'text' => '{userregistration:userregistration:link_manageusers}',
+		);
+
 		$uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
-		if($session->getAuthority() == $asId) {
+
+		if ($session->getAuthority() == $asId) {
 			$as = new SimpleSAML_Auth_Simple($asId);
 
 			$links[] = array(
@@ -63,6 +62,7 @@ $admin_links = array();
             );
 		}
 	} else {
+		// Not authenticated
 		$links[] = array(
 			'href' => SimpleSAML_Module::getModuleURL('userregistration/reviewUser.php'),
 			'text' => '{userregistration:userregistration:link_enter}',
