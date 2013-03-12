@@ -29,7 +29,7 @@ $html->data['customNavigation'] = $customNavigation;
 
 if ($search === true) {
     $attr = isset($_GET['attr']) ? $_GET['attr'] : '';
-    $pattern = isset($_GET['pattern']) ? $_GET['pattern'] : '';
+    $pattern = isset($_GET['pattern']) ? trim($_GET['pattern']) : '';
 
     if (!empty($attr) && !empty($pattern)) {
         $html->data['attr'] = $attr;
