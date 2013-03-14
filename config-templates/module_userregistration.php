@@ -91,7 +91,6 @@ $config = array (
 
 
 	// Mapping from the Storage backend field names to web frontend field names
-	// This also indicate which user attributes that will be saved
 	'attributes'  => array(
 		'uid' => 'uid',
 		'givenName' => 'givenName',
@@ -104,10 +103,6 @@ $config = array (
 		// Set from password walidataion and encryption
 		'userPassword' => 'userPassword',
 	),
-	// Additional mappings for the admin views from the Storage backend field names to web frontend field names
-    'admin.additional_attributes' => array(
-		'userPassword' => 'userPassword',
-    ),
 
 	// Configuration for the field in the web frontend
 	// This controlls the order of the fields
@@ -120,16 +115,27 @@ $config = array (
 			),
 			'layout' => array(
 				'control_type' => 'text',
-				'show' => true,
-				'read_only' => true,
+                'show' => array(
+                    'new_user',
+                    'edit_user',
+                    'admin_new_user',
+                ),
+                'read_only' => array(
+                    'edit_user',
+                ),
 			),
 		), // end uid
 		'givenName' => array(
 			'validate' => FILTER_DEFAULT,
 			'layout' => array(
 				'control_type' => 'text',
-				'show' => true,
-				'read_only' => false,
+                'show' => array(
+                    'new_user',
+                    'edit_user',
+                    'admin_new_user',
+                ),
+                'read_only' => array(
+                ),
 			),
 		), // end givenName
 		// Surname (ldap: sn)
@@ -137,16 +143,27 @@ $config = array (
 			'validate' => FILTER_DEFAULT,
 			'layout' => array(
 				'control_type' => 'text',
-				'show' => true,
-				'read_only' => false,
+                'show' => array(
+                    'new_user',
+                    'edit_user',
+                    'admin_new_user',
+                ),
+                'read_only' => array(
+                ),
 			),
 		), // end ename
 		'mail' => array(
 			'validate' => FILTER_VALIDATE_EMAIL,
 			'layout' => array(
 				'control_type' => 'text',
-				'show' => true,
-				'read_only' => false,
+                'show' => array(
+                    'new_user',
+                    'edit_user',
+                    'admin_new_user',
+                ),
+                'read_only' => array(
+                    'edit_user',
+                ),
 			),
 		), // end mail
 		// Common name: read only
@@ -154,9 +171,14 @@ $config = array (
 			'validate' => FILTER_DEFAULT,
 			'layout' => array(
 				'control_type' => 'text',
-				'show' => true,
-				'read_only' => false,
 				'size' => '35',
+                'show' => array(
+                    'new_user',
+                    'edit_user',
+                    'admin_new_user',
+                ),
+                'read_only' => array(
+                ),
 			),
 		), // end cn
 		// eduPersonPrincipalName
@@ -164,32 +186,59 @@ $config = array (
 			'validate' => FILTER_DEFAULT,
 			'layout' => array(
 				'control_type' => 'text',
-				'show' => true,
-				'read_only' => false,
+                'show' => array(
+                    'admin_new_user',
+                ),
+                'read_only' => array(
+                ),
 			),
 		), // end eduPersonPrincipalName
 		'userPassword' => array(
 			'validate' => FILTER_DEFAULT,
 			'layout' => array(
 				'control_type' => 'password',
+                'show' => array(
+                    'first_password',
+                    'change_password',
+                    'admin_new_user',
+                ),
+                'read_only' => array(
+                ),
 			),
 		),
 		'pw1' => array(
 			'validate' => FILTER_DEFAULT,
 			'layout' => array(
 				'control_type' => 'password',
+                'show' => array(
+                    'change_password',
+                    'admin_new_user',
+                ),
+                'read_only' => array(
+                ),
 			),
 		),
 		'pw2' => array(
 			'validate' => FILTER_DEFAULT,
 			'layout' => array(
 				'control_type' => 'password',
+                'show' => array(
+                    'change_password',
+                    'admin_new_user',
+                ),
+                'read_only' => array(
+                ),
 			),
 		),
 		'oldpw' => array(
 			'validate' => FILTER_DEFAULT,
 			'layout' => array(
 				'control_type' => 'password',
+                'show' => array(
+                    'change_password',
+                ),
+                'read_only' => array(
+                ),
 			),
 		),
 	),

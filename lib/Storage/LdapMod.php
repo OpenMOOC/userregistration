@@ -55,6 +55,7 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 
 
 	public function addUser($userInfo){
+		SimpleSAML_Logger::debug('Creating ' . var_export($userInfo, true));
 		$rdn = $userInfo[$this->userIdAttr];
 		$dn = $this->makeDn($rdn);
 		$entry = $this->makeNewEntry($userInfo);
@@ -81,12 +82,14 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 		$entry['objectClass'] = $this->objectClass;
 
 		foreach($this->attributes as $attrName => $fieldName){
-			switch ($attrName){
-			case "userPassword":
-				$entry[$attrName] = $this->encrypt_pass($userInfo[$attrName]);
-				break;
-			default:
-				$entry[$attrName] = $userInfo[$attrName];
+			if (isset($userInfo[$attrName])) {
+				switch ($attrName){
+				case "userPassword":
+					$entry[$attrName] = $this->encrypt_pass($userInfo[$attrName]);
+					break;
+				default:
+					$entry[$attrName] = $userInfo[$attrName];
+				}
 			}
 		}
 		return $entry;
@@ -146,6 +149,7 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 
 
 	public function updateUser($userId, $userInfo) {
+		SimpleSAML_Logger::debug('Updating  ' $userId . ' with info: ' . var_export($userInfo, true));
 		$dn = $this->makeDn($userId);
 		$this->adminBindLdap();
 		if($this->searchfordn($this->searchBase, $this->userIdAttr, $userId, TRUE) ){
@@ -216,7 +220,7 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 		}
 		return $dn;
 	}
-	*/
+	 */
 
 
 
@@ -339,21 +343,21 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 			if($info['count']>0) {
 				unset($info['count']);
 				foreach($info as $entry) {
-			        	// Assign values
+					// Assign values
 					if($attrlist) {
-			                        // Take care of case sensitive
+						// Take care of case sensitive
 						$entry = array_change_key_case($entry, CASE_LOWER);
 						foreach ($attrlist as $finalattr => $ldapattr) {
 							$ldapattr_lc = strtolower($ldapattr);
 							if (isset($entry[$ldapattr_lc]) &&
-							  $entry[$ldapattr_lc]['count'] > 0) {
-								unset ($entry[$ldapattr_lc]['count']);
-								$retattr[$finalattr] = $entry[$ldapattr_lc];
-							}
+								$entry[$ldapattr_lc]['count'] > 0) {
+									unset ($entry[$ldapattr_lc]['count']);
+									$retattr[$finalattr] = $entry[$ldapattr_lc];
+								}
 						}
 					}
 					else {
-                        
+
 						foreach($entry as $key => $value) {
 							if(!is_integer($key) && $entry[$key]['count'] > 0) {
 								if(!$multivalued) {
@@ -400,10 +404,10 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 					foreach ($this->attributes as $finalattr => $ldapattr) {
 						$ldapattr_lc = strtolower($ldapattr);
 						if (isset($entry[$ldapattr_lc]) &&
-						  $entry[$ldapattr_lc]['count'] > 0) {
-							unset ($entry[$ldapattr_lc]['count']);
-							$retattr[$finalattr] = $entry[$ldapattr_lc][0];
-						}
+							$entry[$ldapattr_lc]['count'] > 0) {
+								unset ($entry[$ldapattr_lc]['count']);
+								$retattr[$finalattr] = $entry[$ldapattr_lc][0];
+							}
 					}
 					if (isset($retattr[$this->userIdAttr]) && !empty($retattr[$this->userIdAttr])) {
 						$id = $retattr[$this->userIdAttr];

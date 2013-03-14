@@ -3,7 +3,7 @@
 $config = SimpleSAML_Configuration::getInstance();
 $uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
 $tokenLifetime = $uregconf->getInteger('mailtoken.lifetime');
-$viewAttr = $uregconf->getArray('attributes');
+$attributes = $uregconf->getArray('attributes');
 $formFields = $uregconf->getArray('formFields');
 $eppnRealm = $uregconf->getString('user.realm');
 $tos = $uregconf->getString('tos', '');
@@ -15,14 +15,13 @@ $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 
 if (array_key_exists('savepw', $_REQUEST)) {
 	try{
-		$viewAttrPW = array ('userPassword' => 'userPassword');
-		$listValidate = sspmod_userregistration_Util::genFieldView($viewAttrPW);
+		$listValidate = sspmod_userregistration_Util::getFieldsFor('first_password');
 		$validator = new sspmod_userregistration_Registration_Validation(
 		 $formFields,
 		 $listValidate);
 		$validValues = $validator->validateInput();
 
-		$userInfo = sspmod_userregistration_Util::processInput($validValues, $viewAttrPW);
+		$userInfo = sspmod_userregistration_Util::processInput($validValues, $listValidate, $attributes);
 
 		// Adding affiliation (student) when a user is registered
 		$userInfo['eduPersonAffiliation'] = 'student';
@@ -46,7 +45,7 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'newUser.php');
 
 		$viewAttrPW = array ('userPassword' => 'userPassword');
-		$showFields = sspmod_userregistration_Util::genFieldView($viewAttrPW);
+		$showFields = sspmod_userregistration_Util::getFieldsFor('first_password');
 
 		$formGen->fieldsToShow($showFields);
 
@@ -156,7 +155,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'newUser.php');
 
 		$viewAttrPW = array ('userPassword' => 'userPassword');
-		$showFields = sspmod_userregistration_Util::genFieldView($viewAttrPW);
+		$showFields = sspmod_userregistration_Util::getFieldsFor('first_password');
 
 		$formGen->fieldsToShow($showFields);
 
@@ -224,14 +223,14 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 	try{
 		// Add user object
 	
-		$listValidate = sspmod_userregistration_Util::genFieldView($viewAttr);
+		$listValidate = sspmod_userregistration_Util::getFieldsFor('new_user');
 
 		$validator = new sspmod_userregistration_Registration_Validation(
 		 $formFields,
 		 $listValidate);
 		$validValues = $validator->validateInput();
 
-		$userInfo = sspmod_userregistration_Util::processInput($validValues, $viewAttr);
+		$userInfo = sspmod_userregistration_Util::processInput($validValues, $listValidate, $attributes);
 
 		if(!empty($tos) && !array_key_exists('tos', $_POST)) {
 			$e = new sspmod_userregistration_Error_UserException('tos_failed');
@@ -289,7 +288,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 		// Some user error detected
 		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'newUser.php');
 
-		$showFields = sspmod_userregistration_Util::genFieldView($viewAttr);
+		$showFields = sspmod_userregistration_Util::getFieldsFor('new_user');
 		$formGen->fieldsToShow($showFields);
 
 		$values = $validator->getRawInput();
@@ -334,7 +333,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 
 	$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'newUser.php');
 
-	$showFields = sspmod_userregistration_Util::genFieldView($viewAttr);
+	$showFields = sspmod_userregistration_Util::getFieldsFor('new_user');
 
 	$formGen->fieldsToShow($showFields);
 
