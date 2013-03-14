@@ -133,6 +133,7 @@ $config = array (
                     'new_user',
                     'edit_user',
                     'admin_new_user',
+                    'admin_edit_user',
                 ),
                 'read_only' => array(
                 ),
@@ -147,6 +148,7 @@ $config = array (
                     'new_user',
                     'edit_user',
                     'admin_new_user',
+                    'admin_edit_user',
                 ),
                 'read_only' => array(
                 ),
@@ -160,6 +162,7 @@ $config = array (
                     'new_user',
                     'edit_user',
                     'admin_new_user',
+                    'admin_edit_user',
                 ),
                 'read_only' => array(
                     'edit_user',
@@ -176,6 +179,7 @@ $config = array (
                     'new_user',
                     'edit_user',
                     'admin_new_user',
+                    'admin_edit_user',
                 ),
                 'read_only' => array(
                 ),
@@ -188,6 +192,7 @@ $config = array (
 				'control_type' => 'text',
                 'show' => array(
                     'admin_new_user',
+                    'admin_edit_user',
                 ),
                 'read_only' => array(
                 ),
@@ -201,6 +206,7 @@ $config = array (
                     'first_password',
                     'change_password',
                     'admin_new_user',
+                    'admin_edit_user',
                 ),
                 'read_only' => array(
                 ),
@@ -213,6 +219,7 @@ $config = array (
                 'show' => array(
                     'change_password',
                     'admin_new_user',
+                    'admin_edit_user',
                 ),
                 'read_only' => array(
                 ),
@@ -225,6 +232,7 @@ $config = array (
                 'show' => array(
                     'change_password',
                     'admin_new_user',
+                    'admin_edit_user',
                 ),
                 'read_only' => array(
                 ),

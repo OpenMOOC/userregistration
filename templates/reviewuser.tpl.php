@@ -1,6 +1,7 @@
 <?php
 
-$this->data['header'] = $this->t('{userregistration:userregistration:link_review}');
+$title = isset($this->data['admin']) ? 'modifying_user' : 'link_review';
+$this->data['header'] = $this->t('{userregistration:userregistration:'.$title.'}');
 $this->data['head'] = '<link rel="stylesheet" href="resources/userregistration.css" type="text/css">';
 
 $this->includeAtTemplateBase('includes/header.php'); ?>
@@ -22,9 +23,15 @@ if (isset($this->data['formHtml'])) {
 
 ?>
 
-<h1><?php echo $this->t('review_head'); ?></h1>
+<h1><?php echo $this->t(isset($this->data['admin']) ? 'modifying_user' : 'review_head'); ?></h1>
 <p>
-        <?php echo $this->t('review_intro', array('%UID%' => '<b>' . htmlspecialchars($this->data['uid'], ENT_QUOTES) . '</b>') ); echo $this->t('review_intro2'); ?>
+<?php
+    echo $this->t(
+            (isset($this->data['admin']) ? 'admin_review_intro' : 'review_intro'),
+            array('%UID%' => '<b>' . htmlspecialchars($this->data['uid'], ENT_QUOTES) . '</b>')
+        );
+    echo $this->t(isset($this->data['admin']) ? 'admin_review_intro2' : 'review_intro2');
+?>
 </p>
 
 <?php print $this->data['formHtml'];

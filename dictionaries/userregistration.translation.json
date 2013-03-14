@@ -419,5 +419,14 @@
     },
     "back_to_search": {
 		"es": "Volver a la búsqueda"
+    },
+    "modifying_user": {
+        "es": "Modificación de un usuario"
+    },
+	"admin_review_intro": {
+		"es": "Está modificando el usuario cuyo identificador es %UID%. "
+	},
+	"admin_review_intro2": {
+		"en": "En esta página puede modificar su información."
     }
 }

@@ -319,5 +319,14 @@
     },
     "back_to_search": {
 		"en": "Return to search"
-    }
+    },
+    "modifying_user": {
+        "en": "Modifying an user"
+    },
+	"admin_review_intro": {
+		"en": "You are modifying the user whose id is %UID%. "
+	},
+	"admin_review_intro2": {
+		"en": "On this page you can alter the registered user information."
+	}
 }
