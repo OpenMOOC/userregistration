@@ -149,7 +149,7 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 
 
 	public function updateUser($userId, $userInfo) {
-		SimpleSAML_Logger::debug('Updating  ' $userId . ' with info: ' . var_export($userInfo, true));
+		SimpleSAML_Logger::debug('Updating  ' . $userId . ' with info: ' . var_export($userInfo, true));
 		$dn = $this->makeDn($userId);
 		$this->adminBindLdap();
 		if($this->searchfordn($this->searchBase, $this->userIdAttr, $userId, TRUE) ){
