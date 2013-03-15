@@ -5,12 +5,21 @@ class sspmod_userregistration_Registration_Validation {
 	private $optionals = array();
 	private $size = array();
 
-	public function __construct($fieldsDef, $usedFields) {
+	public function __construct($fieldsDef, $usedFields, $form_name = '') {
 		foreach ($usedFields as $field) {
 			$this->validators[$field] = array();
 			$this->validators[$field] = $fieldsDef[$field]['validate'];
-			if (isset($fieldsDef[$field]['layout']) && isset($fieldsDef[$field]['layout']['optional']) && $fieldsDef[$field]['layout']['optional']) {
+            if (isset($fieldsDef[$field]['layout']) && isset($fieldsDef[$field]['layout']['optional'])) {
+                $opt = $fieldsDef[$field]['layout']['optional'];
+                $is_optional = false;
+                if (is_array($opt)) {
+                    $is_optional = in_array($form_name, $opt);
+                } else {
+                    $is_optional = $opt;
+                }
+               if ($is_optional === true) {
 				$this->optionals[] = $field;
+               }
 			}
 			if (isset($fieldsDef[$field]['layout']) && isset($fieldsDef[$field]['layout']['size']) && is_numeric((int)$fieldsDef[$field]['layout']['size'])) {
 				$this->size[$field] = (int)$fieldsDef[$field]['layout']['size'];

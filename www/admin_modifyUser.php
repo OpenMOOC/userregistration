@@ -11,9 +11,9 @@ $asId = $uregconf->getString('admin.auth');
 $as = new SimpleSAML_Auth_Simple($asId);
 $as->requireAuth();
 
-$user = isset($_GET['user']) ? $_GET['user'] : '';
-$attr = isset($_GET['attr']) ? $_GET['attr'] : '';
-$pattern = isset($_GET['pattern']) ? $_GET['pattern'] : '';
+$user = isset($_REQUEST['user']) ? $_REQUEST['user'] : '';
+$attr = isset($_REQUEST['attr']) ? $_REQUEST['attr'] : '';
+$pattern = isset($_REQUEST['pattern']) ? $_REQUEST['pattern'] : '';
 
 if (empty($user)) {
     throw new sspmod_userregistration_Error_UserException(
@@ -56,7 +56,8 @@ if(array_key_exists('sender', $_POST)) {
 		// Update user object
 		$validator = new sspmod_userregistration_Registration_Validation(
 			$formFields,
-			$showFields
+            $showFields,
+            'admin_edit_user'
 		);
 		$validValues = $validator->validateInput();
 
@@ -68,6 +69,11 @@ if(array_key_exists('sender', $_POST)) {
 			$attributes
 		);
 
+        // Optional password field
+        if (empty($userInfo['userPassword'])) {
+            unset($userInfo['userPassword']);
+        }
+
 		// Always prevent changes on User identification param in DataSource and Session.
 		unset($userInfo[$store->userIdAttr]);
 
@@ -78,13 +84,17 @@ if(array_key_exists('sender', $_POST)) {
 		// But now atributes from the logged user is obsolete, So I can actualize it and get values from session
 		// but maybe we could have security problem if IdP isnt configured correctly.
 
-		$session = SimpleSAML_Session::getInstance();
-//		$session->setAttribute('givenName', array(0 => 'migivenname'));
-
 		$values = $currentAttributes;
 
-        echo "EA, PERFECTO!";
-		//header('Location: '.SimpleSAML_Module::getModuleURL('userregistration/admin_modifyUser.php?success'));
+        $url = SimpleSAML_Utilities::addURLparameter(
+            SimpleSAML_Module::getModuleURL('userregistration/admin_manageUsers.php'),
+            array(
+                'search' => '',
+                'attr' => $attr,
+                'pattern' => $pattern,
+            )
+        );
+		header('Location: '.$url);
 		exit();
 	} catch(sspmod_userregistration_Error_UserException $e){
 		// Some user error detected

@@ -210,6 +210,9 @@ $config = array (
                 ),
                 'read_only' => array(
                 ),
+                'optional' => array(
+                    'admin_edit_user',
+                ),
 			),
 		),
 		'pw1' => array(
@@ -223,6 +226,9 @@ $config = array (
                 ),
                 'read_only' => array(
                 ),
+                'optional' => array(
+                    'admin_edit_user',
+                ),
 			),
 		),
 		'pw2' => array(
@@ -235,6 +241,9 @@ $config = array (
                     'admin_edit_user',
                 ),
                 'read_only' => array(
+                ),
+                'optional' => array(
+                    'admin_edit_user',
                 ),
 			),
 		),

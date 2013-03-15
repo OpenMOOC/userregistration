@@ -427,6 +427,6 @@
 		"es": "Está modificando el usuario cuyo identificador es %UID%. "
 	},
 	"admin_review_intro2": {
-		"en": "En esta página puede modificar su información."
+		"en": "En esta página puede modificar su información. Si no desea cambiar la contraseña, deje en blanco los campos"
     }
 }
