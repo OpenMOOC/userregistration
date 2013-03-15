@@ -327,6 +327,6 @@
 		"en": "You are modifying the user whose id is %UID%. "
 	},
 	"admin_review_intro2": {
-		"en": "On this page you can alter the registered user information."
+		"en": "On this page you can alter the registered user information. If you want to keep unchanged the password, just leave the fields blank"
 	}
 }
