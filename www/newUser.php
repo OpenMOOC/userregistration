@@ -308,6 +308,12 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 		 'userregistration:userregistration');
 		$terr->data['formHtml'] = $formHtml;
 
+        if ($e->getMesgId() == 'uid_taken_but_not_verified') {
+            $email = $userInfo[$store->userRegisterEmailAttr];
+			$terr->data['refreshtoken'] = true;
+			$terr->data['email'] = $email;
+        }
+
 		$error = $terr->t(
 			 $e->getMesgId(),
 			 $e->getTrVars()

@@ -328,5 +328,8 @@
 	},
 	"admin_review_intro2": {
 		"en": "On this page you can alter the registered user information. If you want to keep unchanged the password, just leave the fields blank"
+	},
+	"didnt_receive_verification_email": {
+		"en": "Didn't receive the verification email?"
 	}
 }
