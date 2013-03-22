@@ -147,7 +147,7 @@
 		"en": "Invalid token provided. The most common reason why a token becomes invalid is that the token you received has timed out."
 	},
 	"get_token": {
-		"en": "Receive a new fresh token"
+		"en": "Resend verification email"
 	},
 	"err_retype_pw": {
 		"en": "The two typed password did not match."

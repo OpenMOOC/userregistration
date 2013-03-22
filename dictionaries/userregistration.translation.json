@@ -289,7 +289,7 @@
 		"no": "Ugyldig billett. Den mest vanlige \u00e5rsaken til at en billett blir ugyldig er at den har utl\u00f8pt p\u00e5 tid siden den ble sendt til deg. Fors\u00f8k \u00e5 registrer deg p\u00e5 nytt for \u00e5 f\u00e5 en ny billett."
 	},
 	"get_token": {
-		"es": "Consigue otro token",
+		"es": "Reenviar correo de verificación",
 		"de": "Dann erhalten Sie auch einen neuen Code"
 	},
 	"submit_mail": {
