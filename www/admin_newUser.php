@@ -12,7 +12,7 @@ $asId = $uregconf->getString('admin.auth');
 $as = new SimpleSAML_Auth_Simple($asId);
 $as->requireAuth();
 
-$systemName = array('%SNAME%' => $uregconf->getString('system.name') );
+$systemName = $uregconf->getString('system.name');
 $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 
 if (array_key_exists('sender', $_POST)) {
@@ -37,8 +37,9 @@ if (array_key_exists('sender', $_POST)) {
 			$config,
 			'userregistration:admin_create_complete.tpl.php',
 			'userregistration:userregistration');
-		$html->data['systemName'] = $systemName;
 		$html->data['customNavigation'] = $customNavigation;
+        $html->data['systemName'] = $systemName;
+		$html->data['userid'] = $userInfo[$store->userIdAttr];
 		$html->show();
 
 
@@ -69,7 +70,7 @@ if (array_key_exists('sender', $_POST)) {
 			 $e->getTrVars()
 		);
 
-		$terr->data['systemName'] = $systemName;
+		$terr->data['systemName'] = array('%SNAME%' => $systemName);
 
 		$terr->data['admin'] = true;
 		$terr->data['error'] = htmlspecialchars($error);
@@ -96,7 +97,7 @@ if (array_key_exists('sender', $_POST)) {
 
 	$html->data['formHtml'] = $formHtml;
 
-	$html->data['systemName'] = $systemName;
+	$html->data['systemName'] = array('%SNAME%' => $systemName);
 	$html->data['customNavigation'] = $customNavigation;
 	$html->data['admin'] = true;
 	$html->show();

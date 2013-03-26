@@ -149,7 +149,7 @@
 		"de": "Sie k\u00f6nnen nun \u00fcber Ihr %SNAME% Benutzerkonto verf\u00fcgen."
 	},
 	"new_complete_para1_admin": {
-		"es": "Usuario creado correctamente en %SNAME%."
+		"es": "Usuario %USERID% creado correctamente en %SNAME%."
 	},
 	"new_mailUsed_head": {
 		"no": "Registrer ny bruker",

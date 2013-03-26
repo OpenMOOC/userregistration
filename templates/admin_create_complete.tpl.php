@@ -6,7 +6,13 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 
 <div style="margin: 1em">
   <h1><?php echo $this->t('new_complete_head'); ?></h1>
-  <p><?php echo $this->t('new_complete_para1_admin', $this->data['systemName']); ?></p>
+  <p><?php echo $this->t(
+      'new_complete_para1_admin',
+      array(
+          '%USERID%' => $this->data['userid'],
+          '%SNAME%' => $this->data['systemName'],
+      )
+    ); ?></p>
 
 <?php 
 	if (!$this->data['customNavigation']) {
