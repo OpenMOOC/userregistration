@@ -47,7 +47,9 @@ if (array_key_exists('sender', $_POST)) {
 		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'admin_newUser.php');
 
 		$showFields = sspmod_userregistration_Util::getFieldsFor('admin_new_user');
+		$readOnlyFields = sspmod_userregistration_Util::getReadOnlyFieldsFor('admin_new_user');
 		$formGen->fieldsToShow($showFields);
+		$formGen->setReadOnly($readOnlyFields);
 
 		$values = $validator->getRawInput();
 
@@ -79,8 +81,10 @@ if (array_key_exists('sender', $_POST)) {
 	$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'admin_newUser.php');
 
 	$showFields = sspmod_userregistration_Util::getFieldsFor('admin_new_user');
+	$readOnlyFields = sspmod_userregistration_Util::getReadOnlyFieldsFor('admin_new_user');
 
 	$formGen->fieldsToShow($showFields);
+	$formGen->setReadOnly($readOnlyFields);
 
 	$formGen->setSubmitter('register');
 	$formHtml = $formGen->genFormHtml();
