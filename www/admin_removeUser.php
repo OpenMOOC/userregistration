@@ -3,8 +3,6 @@
 $config = SimpleSAML_Configuration::getInstance();
 $uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
 $viewAttr = $uregconf->getArray('attributes');
-$adminViewAttr = $uregconf->getArray('admin.additional_attributes');
-$adminViewAttr = array_merge($viewAttr, $adminViewAttr);
 $formFields = $uregconf->getArray('formFields');
 $eppnRealm = $uregconf->getString('user.realm');
 $customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
