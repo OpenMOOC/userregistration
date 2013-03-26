@@ -15,6 +15,7 @@ class sspmod_userregistration_XHTML_Form {
 	private $submitName = 'sender';
 	private $submitValue = 'Submit';
 	private $tos = false;
+	private $sendemail = false;
 
 
 	public function __construct($fieldsDef = array(), $actionEndpoint = NULL){
@@ -60,6 +61,10 @@ class sspmod_userregistration_XHTML_Form {
 
 	public function addTOS($tos){
 		$this->tos = $tos;
+	}
+
+	public function addSendEmail($sendemail){
+		$this->sendemail = $sendemail;
 	}
 
 	/*
@@ -200,6 +205,18 @@ class sspmod_userregistration_XHTML_Form {
 		$html = '<tr><td></td><td><input type="checkbox" name="tos" id="tos" value="tos"><label for="tos"> '.$template->t('tos').' (<a href="'.$tos.'" >'.$template->t('see_tos').'</a>)</label></td></tr>';
 		return $html;
 	}
+
+	private function writeSendEmail()
+	{
+		$template = new SimpleSAML_XHTML_Template(
+		SimpleSAML_Configuration::getInstance(),
+		'userregistration:step1_register.tpl.php',
+		'userregistration:userregistration');
+
+		$html = '<tr><td></td><td><input type="checkbox" name="sendemail" id="sendemail" value="sendemail"><label for="sendemail"> '.$template->t('sendemail').'</label></td></tr>';
+		return $html;
+	}
+
 
 	private function writeCountrySelect($value, $attr){
 		if(empty($value)) {
@@ -473,6 +490,9 @@ class sspmod_userregistration_XHTML_Form {
 		}
 		if ($this->tos) {
 			$html .= $this->writeTOS($this->tos);
+		}
+		if ($this->sendemail) {
+			$html .= $this->writeSendEmail();
 		}
 		$html .= $this->writeFormSubmit();
 

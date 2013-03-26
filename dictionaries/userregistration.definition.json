@@ -331,5 +331,14 @@
 	},
 	"didnt_receive_verification_email": {
 		"en": "Didn't receive the verification email?"
+	},
+	"sendemail": {
+		"en": "Send details to user"
+	},
+	"mailNew_admin_header": {
+		"en": "Account created at %SNAME%"
+	},
+	"mailNew_admin_intro": {
+		"en": "An account for you has been created at %SNAME%. Your account credentials follow:"
 	}
 }

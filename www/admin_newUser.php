@@ -33,6 +33,10 @@ if (array_key_exists('sender', $_POST)) {
 
 		$store->addUser($userInfo);
 
+        if (isset($_POST['sendemail'])) {
+            echo "Se supone que lo avisaría";
+        }
+
 		$html = new SimpleSAML_XHTML_Template(
 			$config,
 			'userregistration:admin_create_complete.tpl.php',
@@ -54,6 +58,7 @@ if (array_key_exists('sender', $_POST)) {
 
 		$values = $validator->getRawInput();
 
+		$formGen->addSendEmail(true);
 		$formGen->setValues($values);
 		$formGen->setSubmitter('register');
 
@@ -88,6 +93,7 @@ if (array_key_exists('sender', $_POST)) {
 	$formGen->setReadOnly($readOnlyFields);
 
 	$formGen->setSubmitter('register');
+	$formGen->addSendEmail(true);
 	$formHtml = $formGen->genFormHtml();
 
 	$html = new SimpleSAML_XHTML_Template(

@@ -71,7 +71,8 @@ table.users td.teacher{
 	text-align: center;
 }
 
-label[for=tos] {
+label[for=tos],
+label[for=sendemail] {
     display: inline;
     vertical-align: middle;
 }

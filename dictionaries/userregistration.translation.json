@@ -431,5 +431,14 @@
 	},
 	"didnt_receive_verification_email": {
 		"es": "¿No recibió el email de verificación?"
+	},
+	"sendemail": {
+		"es": "Enviar detalles al usuario"
+	},
+	"mailNew_admin_header": {
+		"es": "Cuenta creada en %SNAME%"
+	},
+	"mailNew_admin_intro": {
+		"es": "Ha sido creada una cuenta para usted en %SNAME%. Encontrará sus credenciales a continuación:"
     }
 }
