@@ -34,9 +34,9 @@ class sspmod_userregistration_Util {
 		$defined_fields = $uregconf->getArray('formFields');
 		$read_only_fields = array();
 		foreach ($defined_fields as $fieldName => $options){
-			if (isset($options['layout']['readonly']) 
-				&& is_array($options['layout']['readonly'])
-				&& in_array($form_name, $options['layout']['readonly'])) {
+			if (isset($options['layout']['read_only'])
+				&& is_array($options['layout']['read_only'])
+				&& in_array($form_name, $options['layout']['read_only'])) {
 					$read_only_fields[] = $fieldName;
 				}
 		}
