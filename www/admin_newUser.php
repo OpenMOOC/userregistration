@@ -33,9 +33,6 @@ if (array_key_exists('sender', $_POST)) {
 
 		$store->addUser($userInfo);
 
-        if (isset($_POST['sendemail'])) {
-            echo "Se supone que lo avisaría";
-        }
 
 		$html = new SimpleSAML_XHTML_Template(
 			$config,
@@ -44,6 +41,41 @@ if (array_key_exists('sender', $_POST)) {
 		$html->data['customNavigation'] = $customNavigation;
         $html->data['systemName'] = $systemName;
 		$html->data['userid'] = $userInfo[$store->userIdAttr];
+		
+		// Send user details to his/her email address
+		if (isset($_POST['sendemail'])) {
+			$email = $userInfo[$store->userRegisterEmailAttr];
+			$mailt = new SimpleSAML_XHTML_Template(
+				$config,
+				'userregistration:mail_admin_created_account.tpl.php',
+				'userregistration:userregistration');
+
+			// Additional translations. Use dummy template
+			$trans = new SimpleSAML_XHTML_Template(
+				$config,
+				'userregistration:mail_admin_created_account.tpl.php',
+				'login'
+			);
+			
+			$mailt->data['userid_translated'] = $trans->t('username');
+			$mailt->data['userid'] = $userInfo[$store->userIdAttr];
+			$mailt->data['password_translated'] = $trans->t('password');
+			$mailt->data['password'] = $userInfo['userPassword'];
+			$mailt->data['systemName'] = $systemName;
+
+			$mailer = new sspmod_userregistration_XHTML_Mailer(
+				$email,
+				$uregconf->getString('mail.admin_create_subject'),
+				$uregconf->getString('mail.from'),
+				NULL,
+				$uregconf->getString('mail.replyto'));
+			$mailer->setTemplate($mailt);
+			$mailer->send();
+
+			$html->data['email'] = $email;
+			$html->data['mail_sent'] = true;
+		}
+
 		$html->show();
 
 

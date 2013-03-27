@@ -15,6 +15,19 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
     ); ?></p>
 
 <?php 
+
+    if (isset($this->data['mail_sent']) && $this->data['mail_sent'] === true):
+?>
+<p><?php echo $this->t(
+    'account_details_sent',
+    array(
+        '%EMAIL%' => $this->data['email'],
+    )
+);?></p>
+<?php
+    endif;
+
+
 	if (!$this->data['customNavigation']) {
 ?>
 

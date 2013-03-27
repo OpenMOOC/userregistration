@@ -440,5 +440,8 @@
 	},
 	"mailNew_admin_intro": {
 		"es": "Ha sido creada una cuenta para usted en %SNAME%. Encontrará sus credenciales a continuación:"
+	},
+	"account_details_sent": {
+		"es": "Los datos de acceso a la cuenta fueron enviados a %EMAIL%"
     }
 }

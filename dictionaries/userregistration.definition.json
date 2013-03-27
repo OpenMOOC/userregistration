@@ -340,5 +340,8 @@
 	},
 	"mailNew_admin_intro": {
 		"en": "An account for you has been created at %SNAME%. Your account credentials follow:"
+	},
+	"account_details_sent": {
+		"en": "User account details were sent to %EMAIL%"
 	}
 }
