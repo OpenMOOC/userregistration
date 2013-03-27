@@ -27,6 +27,7 @@ if (array_key_exists('sender', $_POST)) {
 
 		$userInfo = sspmod_userregistration_Util::processInput($validValues, $listValidate, $attributes);
 		$userInfo['userPassword'] = sspmod_userregistration_Util::validatePassword($validValues);
+		$validator->validatePolicyPassword($store->passwordPolicy, $userInfo, $userInfo['userPassword']);
 
 		// Adding affiliation (student) when a user is registered
 		$userInfo['eduPersonAffiliation'] = 'student';
@@ -98,9 +99,16 @@ if (array_key_exists('sender', $_POST)) {
 
 		$terr = new SimpleSAML_XHTML_Template(
 		 $config,
-		 'userregistration:step1_register.tpl.php',
+		 'userregistration:admin_create_account.tpl.php',
 		 'userregistration:userregistration');
 		$terr->data['formHtml'] = $formHtml;
+
+		if(!empty($store->passwordPolicy)) {
+			$terr->data['passwordPolicy'] = $store->passwordPolicy;
+			$terr->data['passwordPolicytpl'] = SimpleSAML_Module::getModuleDir('userregistration').'/templates/password_policy_tpl.php';
+			$terr->data['passwordField'] = 'pw1';
+		}
+
 
 		$error = $terr->t(
 			 $e->getMesgId(),
@@ -130,10 +138,16 @@ if (array_key_exists('sender', $_POST)) {
 
 	$html = new SimpleSAML_XHTML_Template(
 		$config,
-		'userregistration:step1_register.tpl.php',
+		'userregistration:admin_create_account.tpl.php',
 		'userregistration:userregistration');
 
 	$html->data['formHtml'] = $formHtml;
+
+	if(!empty($store->passwordPolicy)) {
+		$html->data['passwordPolicy'] = $store->passwordPolicy;
+		$html->data['passwordPolicytpl'] = SimpleSAML_Module::getModuleDir('userregistration').'/templates/password_policy_tpl.php';
+		$html->data['passwordField'] = 'pw1';
+	}
 
 	$html->data['systemName'] = array('%SNAME%' => $systemName);
 	$html->data['customNavigation'] = $customNavigation;
