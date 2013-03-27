@@ -44,11 +44,28 @@ $formGen = new sspmod_userregistration_XHTML_Form($formFields, 'admin_modifyUser
 $formGen->fieldsToShow($showFields);
 $formGen->setReadOnly($readOnlyFields);
 
+
 $html = new SimpleSAML_XHTML_Template(
 	$config,
 	'userregistration:reviewuser.tpl.php',
 	'userregistration:userregistration'
 );
+
+// Cancel modification, return to search
+$cancel_url = SimpleSAML_Utilities::addURLparameter(
+	SimpleSAML_Module::getModuleURL('userregistration/admin_manageUsers.php'),
+	array(
+		'search' => '',
+		'attr' => $attr,
+		'pattern' => $pattern,
+	)
+);
+
+$formGen->addCancelButton(
+	$html->t('cancel'),
+	$cancel_url
+);
+
 $html->data['customNavigation'] = $customNavigation;
 
 if(array_key_exists('sender', $_POST)) {

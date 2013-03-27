@@ -14,6 +14,9 @@ class sspmod_userregistration_XHTML_Form {
 	private $transDesc = NULL;
 	private $submitName = 'sender';
 	private $submitValue = 'Submit';
+	private $cancelButton = false;
+	private $cancelURL = NULL;
+	private $cancelText = NULL;
 	private $tos = false;
 	private $sendemail = false;
 
@@ -65,6 +68,12 @@ class sspmod_userregistration_XHTML_Form {
 
 	public function addSendEmail($sendemail){
 		$this->sendemail = $sendemail;
+	}
+
+	public function addCancelButton($text, $url){
+		$this->cancelButton = true;
+		$this->cancelText = $text;
+		$this->cancelURL = $url;
 	}
 
 	/*
@@ -188,9 +197,14 @@ class sspmod_userregistration_XHTML_Form {
 	}
 
 
-	private function writeFormSubmit(){
+	private function writeFormButtons(){
 		$html = '';
-		$format = '<tr><td></td><td><input class="btn" type="submit" name="%s" value="%s" /></td></tr>';
+		$format = '<tr><td></td><td>'
+			.'<button type="submit" class="btn btn-primary" type="submit" name="%s">%s</button>';
+		if ($this->cancelButton === true) {
+			$format .= $this->writeCancel();
+		}
+		$format .= '</td></tr>';
 		$trValue = htmlspecialchars($this->transDesc->t($this->submitValue));
 		$html = sprintf($format, $this->submitName, $trValue);
 		return $html;
@@ -214,6 +228,12 @@ class sspmod_userregistration_XHTML_Form {
 		'userregistration:userregistration');
 
 		$html = '<tr><td></td><td><input type="checkbox" name="sendemail" id="sendemail" value="sendemail"><label for="sendemail"> '.$template->t('sendemail').'</label></td></tr>';
+		return $html;
+	}
+	private function writeCancel(){
+		$html = '<button class="btn" type="cancel" onclick="javascript:window.location=\'' 
+			. $this->cancelURL.'\'; return false">'
+			.$this->cancelText.'</button>';
 		return $html;
 	}
 
@@ -494,7 +514,7 @@ class sspmod_userregistration_XHTML_Form {
 		if ($this->sendemail) {
 			$html .= $this->writeSendEmail();
 		}
-		$html .= $this->writeFormSubmit();
+		$html .= $this->writeFormButtons();
 
 		$html .= $this->writeFormEnd();
 
