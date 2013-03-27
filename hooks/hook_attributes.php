@@ -52,9 +52,9 @@
 			if ($field == 'pw1' || $field == 'pw2') {
 				$db = 'userPassword';
 			} else {
-				$db = $attributeDefinitions[$field];
+				$db = isset($attributeDefinitions[$field]) ?
+					$attributeDefinitions[$field] : $field;
 			}
-
 			switch($db){
 				case "cn":
 					$skv[$db] = get_cn_hook($fieldValues);
