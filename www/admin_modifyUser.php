@@ -47,7 +47,7 @@ $formGen->setReadOnly($readOnlyFields);
 
 $html = new SimpleSAML_XHTML_Template(
 	$config,
-	'userregistration:reviewuser.tpl.php',
+	'userregistration:admin_modify_account.tpl.php',
 	'userregistration:userregistration'
 );
 
@@ -86,10 +86,15 @@ if(array_key_exists('sender', $_POST)) {
 			$attributes
 		);
 
-        // Optional password field
-        if (empty($userInfo['userPassword'])) {
-            unset($userInfo['userPassword']);
-        }
+		// Optional password field
+		if (empty($userInfo['userPassword'])) {
+			unset($userInfo['userPassword']);
+		} else {
+			$userInfo['userPassword'] = sspmod_userregistration_Util::validatePassword($validValues);
+			if(!empty($store->passwordPolicy)) {
+				$validator->validatePolicyPassword($store->passwordPolicy, $attributes, $userInfo['userPassword']);
+			}
+		}
 
 		// Always prevent changes on User identification param in DataSource and Session.
 		unset($userInfo[$store->userIdAttr]);
@@ -124,19 +129,6 @@ if(array_key_exists('sender', $_POST)) {
 
 		$html->data['error'] = htmlspecialchars($error);
 	}
-} elseif (array_key_exists('success', $_GET)) {
-	$html->data['success'] = True;
-
-	$html->data['logout_url'] = '?logout';
-	if (SimpleSAML_Module::isModuleEnabled('sspopenmooc')) {
-		$themeconf = SimpleSAML_Configuration::getConfig('module_sspopenmooc.php');
-		$urls = $themeconf->getArray('urls');
-		if (isset($urls['logout']) && !empty($urls['logout'])) {
-			$html->data['logout_url'] = $urls['logout'];
-		}
-	}
-	$html->show();
-	exit();	
 } else {
 	// The GET access this endpoint
 	$values = $currentAttributes;
@@ -150,6 +142,33 @@ $formGen->addHiddenData(
         'attr' => $attr,
     )
 );
+
+if(!empty($store->passwordPolicy)) {
+	$html->data['passwordPolicy'] = $store->passwordPolicy;
+	$html->data['passwordPolicytpl'] = SimpleSAML_Module::getModuleDir('userregistration').'/templates/password_policy_tpl.php';
+	$html->data['passwordField'] = 'pw1';
+	if(array_key_exists('no.contains', $store->passwordPolicy)) {
+		$html->data['forbiddenValues'] = array();
+		$keys = '';
+		foreach($store->passwordPolicy['no.contains'] as $key) {
+			if(array_key_exists($key, $attributes) && !empty($attributes[$key])) {
+				$value = $attributes[$key];
+				if(is_array($value)) {
+					$value = $value[0];
+				}
+				$html->data['forbiddenValues'][] = $value;
+				$keys[] = $key;
+			}
+		}
+		$html->data['forbiddenValuesFieldnames'] = '';
+		if (!empty($keys)) {
+			$html->data['forbiddenValuesFieldnames'] = implode(", ", $keys);
+		}
+		$html->data['passwordPolicytpl'] = SimpleSAML_Module::getModuleDir('userregistration').'/templates/password_policy_tpl.php';
+	}
+}
+
+
 $formHtml = $formGen->genFormHtml();
 $html->data['admin'] = true;
 $html->data['formHtml'] = $formHtml;
