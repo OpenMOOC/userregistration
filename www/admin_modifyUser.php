@@ -47,7 +47,7 @@ $formGen->setReadOnly($readOnlyFields);
 
 $html = new SimpleSAML_XHTML_Template(
 	$config,
-	'userregistration:admin_modify_account.tpl.php',
+	'userregistration:admin_modify_user.tpl.php',
 	'userregistration:userregistration'
 );
 

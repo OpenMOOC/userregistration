@@ -99,7 +99,7 @@ if (array_key_exists('sender', $_POST)) {
 
 		$terr = new SimpleSAML_XHTML_Template(
 		 $config,
-		 'userregistration:admin_create_account.tpl.php',
+		 'userregistration:admin_create_user.tpl.php',
 		 'userregistration:userregistration');
 		$terr->data['formHtml'] = $formHtml;
 
@@ -138,7 +138,7 @@ if (array_key_exists('sender', $_POST)) {
 
 	$html = new SimpleSAML_XHTML_Template(
 		$config,
-		'userregistration:admin_create_account.tpl.php',
+		'userregistration:admin_create_user.tpl.php',
 		'userregistration:userregistration');
 
 	$html->data['formHtml'] = $formHtml;
