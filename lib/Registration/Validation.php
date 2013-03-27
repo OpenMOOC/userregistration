@@ -106,7 +106,7 @@ class sspmod_userregistration_Registration_Validation {
 				}
 			}
 			if(array_key_exists('require.digits', $passwordPolicy) && $passwordPolicy['require.digits']) {
-				if(preg_match("/\d/", $password) < 0) {
+				if(preg_match("/\d/", $password) <= 0) {
 					throw new sspmod_userregistration_Error_UserException('err_digits_pw');
 				}
 			}
