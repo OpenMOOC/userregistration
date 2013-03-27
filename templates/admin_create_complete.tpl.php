@@ -26,6 +26,12 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 );?></p>
 <?php
     endif;
+?>
+<ul>
+<li><a href="admin_newUser.php"><?php echo $this->t('link_newuser')?></a>
+<li><a href="admin_manageUsers.php"><?php echo $this->t('link_manageusers')?></a>
+</ul>
+<?php
 
 
 	if (!$this->data['customNavigation']) {
