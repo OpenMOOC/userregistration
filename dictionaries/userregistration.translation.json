@@ -433,7 +433,7 @@
 		"es": "¿No recibió el email de verificación?"
 	},
 	"sendemail": {
-		"es": "Enviar detalles al usuario"
+		"es": "Enviar datos de la cuenta creada al correo del usuario"
 	},
 	"mailNew_admin_header": {
 		"es": "Cuenta creada en %SNAME%"
