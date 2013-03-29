@@ -92,6 +92,7 @@ if (array_key_exists('sender', $_POST)) {
 		$values = $validator->getRawInput();
 
 		$formGen->addSendEmail(true);
+		$formGen->addGeneratePassword();
 		$formGen->setValues($values);
 		$formGen->setSubmitter('register');
 
@@ -134,6 +135,7 @@ if (array_key_exists('sender', $_POST)) {
 
 	$formGen->setSubmitter('register');
 	$formGen->addSendEmail(true);
+	$formGen->addGeneratePassword();
 	$formHtml = $formGen->genFormHtml();
 
 	$html = new SimpleSAML_XHTML_Template(

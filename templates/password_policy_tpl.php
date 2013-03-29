@@ -4,9 +4,7 @@
 
 echo '
 <script>
-$(document).ready(function() {
-
-  $(\'#'.$this->data['passwordField'].'\').simplePassMeter({
+var simplePassMeterOptions = {
 	"offset": 5,
 	"requirements": {'."\n";
 		if(array_key_exists('min.length', $passwordPolicy)) {
@@ -66,10 +64,11 @@ echo '
 			"text": "'.$this->t('meter_excellent').'"
 		}
 	]
-  })
-});'."\n";
-
-echo '</script>
+  };
+$(document).ready(function() {
+  $(\'#'.$this->data['passwordField'].'\').simplePassMeter(simplePassMeterOptions);
+});
+</script>
 ';
 
 ?>

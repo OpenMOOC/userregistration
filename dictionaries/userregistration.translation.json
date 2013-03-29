@@ -443,5 +443,8 @@
 	},
 	"account_details_sent": {
 		"es": "Los datos de acceso a la cuenta fueron enviados a %EMAIL%"
-    }
+	},
+	"generate_password": {
+		"es": "Generar contraseña aleatoria"
+	}
 }

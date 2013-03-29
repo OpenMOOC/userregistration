@@ -343,5 +343,8 @@
 	},
 	"account_details_sent": {
 		"en": "User account details were sent to %EMAIL%"
+	},
+	"generate_password": {
+		"en": "Generate random password"
 	}
 }

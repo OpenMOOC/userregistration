@@ -19,6 +19,7 @@ class sspmod_userregistration_XHTML_Form {
 	private $cancelText = NULL;
 	private $tos = false;
 	private $sendemail = false;
+	private $autogeneratepassword = false;
 
 
 	public function __construct($fieldsDef = array(), $actionEndpoint = NULL){
@@ -68,6 +69,10 @@ class sspmod_userregistration_XHTML_Form {
 
 	public function addSendEmail($sendemail){
 		$this->sendemail = $sendemail;
+	}
+
+	public function addGeneratePassword(){
+		$this->autogeneratepassword = true;
 	}
 
 	public function addCancelButton($text, $url){
@@ -228,6 +233,17 @@ class sspmod_userregistration_XHTML_Form {
 		'userregistration:userregistration');
 
 		$html = '<tr><td></td><td><input type="checkbox" name="sendemail" id="sendemail" value="sendemail"><label for="sendemail"> '.$template->t('sendemail').'</label></td></tr>';
+		return $html;
+	}
+
+	private function writeGeneratePassword()
+	{
+		$template = new SimpleSAML_XHTML_Template(
+		SimpleSAML_Configuration::getInstance(),
+		'userregistration:step1_register.tpl.php',
+		'userregistration:userregistration');
+
+		$html = '<tr><td></td><td><a id="generate-password" class="btn btn-small">'.$template->t('generate_password').'</a></td></tr>';
 		return $html;
 	}
 	private function writeCancel(){
@@ -510,6 +526,9 @@ class sspmod_userregistration_XHTML_Form {
 		}
 		if ($this->tos) {
 			$html .= $this->writeTOS($this->tos);
+		}
+		if ($this->autogeneratepassword) {
+			$html .= $this->writeGeneratePassword();
 		}
 		if ($this->sendemail) {
 			$html .= $this->writeSendEmail();
