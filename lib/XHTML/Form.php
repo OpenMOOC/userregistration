@@ -206,12 +206,12 @@ class sspmod_userregistration_XHTML_Form {
 		$html = '';
 		$format = '<tr><td></td><td>'
 			.'<button type="submit" class="btn btn-primary" type="submit" name="%s">%s</button>';
-		if ($this->cancelButton === true) {
-			$format .= $this->writeCancel();
-		}
-		$format .= '</td></tr>';
 		$trValue = htmlspecialchars($this->transDesc->t($this->submitValue));
 		$html = sprintf($format, $this->submitName, $trValue);
+		if ($this->cancelButton === true) {
+			$html .= $this->writeCancel();
+		}
+		$html .= '</td></tr>';
 		return $html;
 	}
 
