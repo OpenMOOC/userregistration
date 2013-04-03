@@ -29,6 +29,7 @@ if (array_key_exists('sender', $_POST)) {
 		$userInfo['userPassword'] = sspmod_userregistration_Util::validatePassword($validValues);
 		$validator->validatePolicyPassword($store->passwordPolicy, $userInfo, $userInfo['userPassword']);
 
+		$userInfo['userPassword'] = $store->encrypt_pass($userInfo['userPassword']);
 		// Adding affiliation (student) when a user is registered
 		$userInfo['eduPersonAffiliation'] = 'student';
 

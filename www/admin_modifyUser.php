@@ -94,6 +94,7 @@ if(array_key_exists('sender', $_POST)) {
 			if(!empty($store->passwordPolicy)) {
 				$validator->validatePolicyPassword($store->passwordPolicy, $attributes, $userInfo['userPassword']);
 			}
+			$userInfo['userPassword'] = $store->encrypt_pass($userInfo['userPassword']);
 		}
 
 		// Always prevent changes on User identification param in DataSource and Session.
