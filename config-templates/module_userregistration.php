@@ -218,6 +218,18 @@ $config = array (
                 ),
             ),
         ), // end eduPersonPrincipalName
+        'eduPersonAffiliation' => array(
+            'validate' => FILTER_DEFAULT,
+            'layout' => array(
+                'control_type' => 'affiliation',
+                'show' => array(
+                    'admin_new_user',
+                    'admin_edit_user',
+                ),
+                'read_only' => array(
+                ),
+            ),
+        ), // end eduPersonAffiliation
 
         'userPassword' => array(
             'validate' => FILTER_DEFAULT,

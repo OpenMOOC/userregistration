@@ -159,6 +159,10 @@ class sspmod_userregistration_XHTML_Form {
 				return $this->writeCountrySelect($value, $attr);
 			}
 
+			if ($type=='affiliation') {
+				return $this->writeAffiliationSelect($elementId, $value, $attr);
+			}
+
             $size = $this->size;
             if(isset($this->layout[$elementId]['size']) && is_numeric((int)$this->layout[$elementId]['size'])) {
                 $size = $this->layout[$elementId]['size'];
@@ -503,6 +507,25 @@ class sspmod_userregistration_XHTML_Form {
 		$html = '<select name="country" id="country" '.$attr.' >';
 		foreach ($countries as $code => $name) {
 			$html .= '<option value="' . $code . '" ' . ($value == $code ? 'selected="selected"' : '') . '>' . $name . '</option>';
+		}
+	
+		$html .= '</select>';
+		return $html;
+	}
+
+	private function writeAffiliationSelect($elementId, $value, $attr){
+		if(empty($value)) {
+			$value = 'student';
+		}
+
+		$affiliations = array(
+			'student' => 'student',
+			'teacher' => 'teacher',
+		);
+		$html = '<select name="'.$elementId.'" '.$attr.'>';
+		foreach ($affiliations as $affvalue => $label) {
+			$html .= '<option value="' . $affvalue . '" ' . ($affvalue == $value ? 'selected="selected"' : '') . '>' 
+				. $this->transDesc->t($label) . '</option>';
 		}
 	
 		$html .= '</select>';

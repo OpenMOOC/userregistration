@@ -446,5 +446,11 @@
 	},
 	"generate_password": {
 		"es": "Generar contraseña aleatoria"
+	},
+	"student": {
+		"es": "Estudiante"
+	},
+	"teacher": {
+		"es": "Profesor"
 	}
 }

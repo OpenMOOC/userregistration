@@ -346,5 +346,11 @@
 	},
 	"generate_password": {
 		"en": "Generate random password"
+	},
+	"student": {
+		"en": "Student"
+	},
+	"teacher": {
+		"en": "Teacher"
 	}
 }
