@@ -21,16 +21,17 @@ $admin_links = array();
 		'text' => '{userregistration:userregistration:link_lostpw}',
 	);
 
+	// Admin links
+	$admin_links[] = array(
+		'href' => SimpleSAML_Module::getModuleURL('userregistration/admin_newUser.php'),
+		'text' => '{userregistration:userregistration:link_newuser}',
+	);
+	$admin_links[] = array(
+		'href' => SimpleSAML_Module::getModuleURL('userregistration/admin_manageUsers.php'),
+		'text' => '{userregistration:userregistration:link_manageusers}',
+	);
+
 	if($session->isAuthenticated()) {
-		// Admin links
-		$admin_links[] = array(
-			'href' => SimpleSAML_Module::getModuleURL('userregistration/admin_newUser.php'),
-			'text' => '{userregistration:userregistration:link_newuser}',
-		);
-		$admin_links[] = array(
-			'href' => SimpleSAML_Module::getModuleURL('userregistration/admin_manageUsers.php'),
-			'text' => '{userregistration:userregistration:link_manageusers}',
-		);
 
 		$uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
 
