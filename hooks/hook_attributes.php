@@ -42,6 +42,19 @@
 		return $cn;
 	}
 
+	function get_affiliation_hook($userinfo) {
+		$affiliations = array();
+		if (isset($userinfo['eduPersonAffiliation'])) {
+			$main_affiliation = $userinfo['eduPersonAffiliation'];
+			$affiliations = array($main_affiliation);
+			if ($main_affiliation == 'teacher') {
+				// Add student relation
+				$affiliations[] = 'student';
+			}
+		}
+		return $affiliations;
+	}
+
 
 	// For new registration, should also work for updated information
 	function processInput($fieldValues, $wanted, $attributeDefinitions){
@@ -61,6 +74,9 @@
 					break;
 				case "userPassword":
 					$skv[$db] = sspmod_userregistration_Util::validatePassword($fieldValues);
+					break;
+				case "eduPersonAffiliation":
+					$skv[$db] = get_affiliation_hook($fieldValues);
 					break;
 				default:
 					if (isset($fieldValues[$field])) {

@@ -31,7 +31,6 @@ if (array_key_exists('sender', $_POST)) {
 
 		$userInfo['userPassword'] = $store->encrypt_pass($userInfo['userPassword']);
 		// Adding affiliation (student) when a user is registered
-		$userInfo['eduPersonAffiliation'] = 'student';
 
 		$store->addUser($userInfo);
 
