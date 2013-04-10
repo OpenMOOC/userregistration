@@ -197,7 +197,7 @@ class sspmod_userregistration_XHTML_Form {
 		'userregistration:step1_register.tpl.php',
 		'userregistration:userregistration');
 
-		$html = '<tr><td></td><td><input type="checkbox" name="tos" id="tos" value="tos"><label for="tos"> '.$template->t('tos').' (<a href="'.$tos.'" >'.$template->t('see_tos').'</a>)</label></td></tr>';
+		$html = '<tr><td></td><td><input type="checkbox" name="tos" id="tos" value="tos"><label for="tos"> '.$template->t('tos').' (<a href="'.$tos.'" target="_new">'.$template->t('see_tos').'</a>)</label></td></tr>';
 		return $html;
 	}
 
