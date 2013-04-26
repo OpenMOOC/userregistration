@@ -37,7 +37,8 @@ if ($search === true) {
     }
 
     if (!isset($searchOptions['min_length']) || strlen($pattern) >= $searchOptions['min_length']) {
-        $search_results = $store->searchUsers($attr, $pattern . '*');
+        $search_filter = preg_replace('/%STRING%/', $pattern, $searchOptions['filter']);
+        $search_results = $store->searchUsers($attr, $search_filter);
     } else {
         $html->data['error'] = $html->t('min_search_length', array('%MIN%' => $searchOptions['min_length']));
     }

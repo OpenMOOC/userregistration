@@ -281,8 +281,8 @@
     "link_manageusers": {
 		"en": "Manage current users"
     },
-    "starts_with": {
-		"en": "starts with"
+    "search_string": {
+		"en": "Search string"
     },
     "search": {
 		"en": "Search"

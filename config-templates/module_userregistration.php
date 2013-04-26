@@ -124,6 +124,7 @@ $config = array (
      */
     'search' => array(
         'min_length' => 3, // Minimum string length allowed
+        'filter' => '*%STRING%*',
     ),
 
     // Configuration for the field in the web frontend

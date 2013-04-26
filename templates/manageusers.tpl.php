@@ -27,8 +27,7 @@ $results = isset($this->data['search_results']) ? $this->data['search_results'] 
    <option value="cn"<?php echo ($used_attr == 'cn' ? ' selected="selected"' : '')?>><?php echo $this->t('attribute_cn')?></option>
    <option value="sn"<?php echo ($used_attr == 'sn' ? ' selected="selected"' : '')?>><?php echo $this->t('attribute_sn')?></option>
   </select>
-<?php echo $this->t('starts_with')?>
-  <input name="pattern" class="input-normal" type="text" value="<?php echo $used_pattern?>" />
+  <input placeholder="<?php echo $this->t('search_string')?>" name="pattern" class="input-normal" type="text" value="<?php echo $used_pattern?>" />
   <input class="btn" type="submit" id="search_button" name="search" value="<?php echo $this->t('search')?>" />
  </fieldset>
 </form>
