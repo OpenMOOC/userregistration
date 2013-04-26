@@ -80,6 +80,35 @@ class sspmod_userregistration_Util {
 		}
 	}
 
+	public static function sendEmail($email, $subject, $template, $data)
+	{
+		$uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
+		$config = SimpleSAML_Configuration::getInstance();
+
+		$mailt = new SimpleSAML_XHTML_Template(
+			$config,
+			$template,
+			'userregistration:userregistration');
+
+		// Additional translations. Use dummy template
+		$trans = new SimpleSAML_XHTML_Template(
+			$config,
+			$template,
+			'login'
+		);
+
+		$mailt->data = $data;
+
+		$mailer = new sspmod_userregistration_XHTML_Mailer(
+			$email,
+			$subject,
+			$uregconf->getString('mail.from'),
+			NULL,
+			$uregconf->getString('mail.replyto'));
+		$mailer->setTemplate($mailt);
+		$mailer->send();
+	}
+
 }
 
 ?>

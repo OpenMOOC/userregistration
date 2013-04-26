@@ -11,6 +11,7 @@ $asId = $uregconf->getString('admin.auth');
 $as = new SimpleSAML_Auth_Simple($asId);
 $as->requireAuth();
 
+$systemName = $uregconf->getString('system.name');
 $user = isset($_REQUEST['user']) ? $_REQUEST['user'] : '';
 $attr = isset($_REQUEST['attr']) ? $_REQUEST['attr'] : '';
 $pattern = isset($_REQUEST['pattern']) ? $_REQUEST['pattern'] : '';
@@ -61,6 +62,8 @@ $cancel_url = SimpleSAML_Utilities::addURLparameter(
 	)
 );
 
+$formGen->addSendEmail(true);
+$formGen->addGeneratePassword();
 $formGen->addCancelButton(
 	$html->t('cancel'),
 	$cancel_url
@@ -87,9 +90,11 @@ if(array_key_exists('sender', $_POST)) {
 		);
 
 		// Optional password field
+		$clearPassword = null;
 		if (empty($userInfo['userPassword'])) {
 			unset($userInfo['userPassword']);
 		} else {
+			$clearPassword = $userInfo['userPassword'];
 			$userInfo['userPassword'] = sspmod_userregistration_Util::validatePassword($validValues);
 			if(!empty($store->passwordPolicy)) {
 				$validator->validatePolicyPassword($store->passwordPolicy, $attributes, $userInfo['userPassword']);
@@ -102,6 +107,36 @@ if(array_key_exists('sender', $_POST)) {
 
 
 		$store->updateUser($currentAttributes[$store->userIdAttr], $userInfo);
+
+
+		if (isset($_POST['sendemail'])) {
+			$email = $currentAttributes[$store->userRegisterEmailAttr];
+			$subject = $uregconf->getString('mail.admin_modify_subject');
+
+			// Additional translations. Use dummy template
+			$trans = new SimpleSAML_XHTML_Template(
+				$config,
+				'userregistration:mail_admin_modified_account.tpl.php',
+				'login'
+			);
+
+			$password = ($clearPassword === null) ?  $html->t('password_not_modified') : $clearPassword;
+
+			$data = array(
+				'userid_translated' => $trans->t('username'),
+				'userid' => $currentAttributes[$store->userIdAttr],
+				'password_translated' => $trans->t('password'),
+				'password' => $password,
+				'systemName' => $systemName,
+			);
+
+			sspmod_userregistration_Util::sendEmail(
+				$email,
+				$subject,
+				'userregistration:mail_admin_modified_account.tpl.php',
+				$data
+			);
+		}
 
 		// I must override the values with the userInfo values due in processInput i can change the values.
 		// But now atributes from the logged user is obsolete, So I can actualize it and get values from session

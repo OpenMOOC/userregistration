@@ -338,8 +338,17 @@
 	"mailNew_admin_header": {
 		"en": "Account created at %SNAME%"
 	},
+	"mailModified_admin_header": {
+		"en": "Account modified at %SNAME%"
+	},
 	"mailNew_admin_intro": {
 		"en": "An account for you has been created at %SNAME%. Your account credentials follow:"
+	},
+	"mailModified_admin_intro": {
+		"en": "Your account on %SNAME% has been modified by an administrator. Your new account details follow:"
+	},
+	"password_not_modified": {
+		"en": "Not modified"
 	},
 	"account_details_sent": {
 		"en": "User account details were sent to %EMAIL%"

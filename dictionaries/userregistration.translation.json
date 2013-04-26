@@ -381,8 +381,8 @@
     "link_manageusers": {
 		"es": "Gestionar usuarios existentes"
     },
-    "starts_with": {
-		"es": "empieza por"
+    "search_string": {
+		"es": "Cadena de búsqueda"
     },
     "search": {
 		"es": "Buscar"
@@ -433,13 +433,22 @@
 		"es": "¿No recibió el email de verificación?"
 	},
 	"sendemail": {
-		"es": "Enviar datos de la cuenta creada al correo del usuario"
+		"es": "Enviar datos de la cuenta al correo del usuario"
 	},
 	"mailNew_admin_header": {
 		"es": "Cuenta creada en %SNAME%"
 	},
+	"mailModified_admin_header": {
+		"es": "Cuenta modificada en %SNAME%"
+	},
 	"mailNew_admin_intro": {
 		"es": "Ha sido creada una cuenta para usted en %SNAME%. Encontrará sus credenciales a continuación:"
+	},
+	"mailModified_admin_intro": {
+		"es": "Su cuenta en %SNAME% ha sido modificada por un administrador. Encontrará los nuevos detalles de su cuenta a continuación:"
+	},
+	"password_not_modified": {
+		"es": "No modificada"
 	},
 	"account_details_sent": {
 		"es": "Los datos de acceso a la cuenta fueron enviados a %EMAIL%"

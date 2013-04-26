@@ -24,6 +24,7 @@ $config = array (
     'mail.subject'  => 'Example - email verification',
     'mail.subject'  => 'Example - email verification',
     'mail.admin_create_subject'  => 'Example - user account created',
+    'mail.admin_modify_subject'  => 'Example - user account modified',
 
     // URL of the Terms of Service
     'tos' => '',
