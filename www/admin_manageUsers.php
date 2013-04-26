@@ -6,6 +6,7 @@ $viewAttr = $uregconf->getArray('attributes');
 $formFields = $uregconf->getArray('formFields');
 $eppnRealm = $uregconf->getString('user.realm');
 $customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
+$searchOptions = $uregconf->getArray('search');
 
 /* Get a reference to our authentication source. */
 $asId = $uregconf->getString('admin.auth');
@@ -22,6 +23,7 @@ $html = new SimpleSAML_XHTML_Template(
     $config,
     'userregistration:manageusers.tpl.php',
     'userregistration:userregistration');
+$html->data['searchOptions'] = $searchOptions;
 $html->data['systemName'] = $systemName;
 $html->data['customNavigation'] = $customNavigation;
 
@@ -32,8 +34,12 @@ if ($search === true) {
     if (!empty($attr) && !empty($pattern)) {
         $html->data['attr'] = $attr;
         $html->data['pattern'] = $pattern;
+    }
 
+    if (!isset($searchOptions['min_length']) || strlen($pattern) >= $searchOptions['min_length']) {
         $search_results = $store->searchUsers($attr, $pattern . '*');
+    } else {
+        $html->data['error'] = $html->t('min_search_length', array('%MIN%' => $searchOptions['min_length']));
     }
 }
 

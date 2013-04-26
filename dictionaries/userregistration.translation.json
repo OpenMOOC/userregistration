@@ -452,5 +452,8 @@
 	},
 	"teacher": {
 		"es": "Profesor"
+	},
+	"min_search_length": {
+		"es": "La cadena de búsqueda debe ser de al menos %MIN% caracteres"
 	}
 }

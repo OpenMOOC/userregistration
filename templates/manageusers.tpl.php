@@ -17,6 +17,7 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 <?php
 $used_attr = isset($this->data['attr']) ? $this->data['attr'] : '';
 $used_pattern = isset($this->data['pattern']) ? $this->data['pattern'] : '';
+$results = isset($this->data['search_results']) ? $this->data['search_results'] : null;
 ?>
 
 <form class="form-inline" id="search_form" method="get">
@@ -32,16 +33,12 @@ $used_pattern = isset($this->data['pattern']) ? $this->data['pattern'] : '';
  </fieldset>
 </form>
 <?php
-if (!empty($used_attr) && !empty($used_pattern)):
+if ($results !== null):
 ?>
 <h3><?php echo $this->t('search_results')?></h3>
 
 <p class="pull-right"><?php echo $this->t('filter')?> <span class="label label-info"><?php echo $this->t('{attributes:attribute_' . $used_attr . '}') ?></span> <?php echo $this->t('starts_with')?> <span class="label"><?php echo $used_pattern ?></span></p>
 <?php
-endif;
-
-$results = isset($this->data['search_results']) ? $this->data['search_results'] : null;
-if ($results !== null):
 
     if (count($results) > 0):
 ?>

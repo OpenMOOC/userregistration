@@ -352,5 +352,8 @@
 	},
 	"teacher": {
 		"en": "Teacher"
+	},
+	"min_search_length": {
+		"en": "The search string has to be at least %MIN% characters long"
 	}
 }

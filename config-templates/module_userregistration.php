@@ -119,6 +119,13 @@ $config = array (
         'userPassword' => 'userPassword',
     ),
 
+    /*
+     * Search options
+     */
+    'search' => array(
+        'min_length' => 3, // Minimum string length allowed
+    ),
+
     // Configuration for the field in the web frontend
     // This controlls the order of the fields
     'formFields' => array(
