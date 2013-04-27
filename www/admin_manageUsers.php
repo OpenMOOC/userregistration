@@ -27,6 +27,14 @@ $html->data['searchOptions'] = $searchOptions;
 $html->data['systemName'] = $systemName;
 $html->data['customNavigation'] = $customNavigation;
 
+// Searchable attributes
+$searchable_attributes = array();
+foreach ($searchOptions['searchable'] as $attr) {
+    $lc_attr = strtolower($attr);
+    $searchable_attributes[$attr] = $html->t('{attributes:attribute_' . $lc_attr . '}');
+}
+
+
 if ($search === true) {
     $attr = isset($_GET['attr']) ? $_GET['attr'] : '';
     $pattern = isset($_GET['pattern']) ? trim($_GET['pattern']) : '';
@@ -36,13 +44,17 @@ if ($search === true) {
         $html->data['pattern'] = $pattern;
     }
 
-    if (!isset($searchOptions['min_length']) || strlen($pattern) >= $searchOptions['min_length']) {
+    if (!isset($searchable_attributes[$attr])) {
+        $html->data['error'] = $html->t('attribute_not_searchable');
+    } elseif (isset($searchOptions['min_length']) && strlen($pattern) < $searchOptions['min_length']) {
+        $html->data['error'] = $html->t('min_search_length', array('%MIN%' => $searchOptions['min_length']));
+    } else {
         $search_filter = preg_replace('/%STRING%/', $pattern, $searchOptions['filter']);
         $search_results = $store->searchUsers($attr, $search_filter);
-    } else {
-        $html->data['error'] = $html->t('min_search_length', array('%MIN%' => $searchOptions['min_length']));
     }
 }
 
+
+$html->data['searchable_attributes'] = $searchable_attributes;
 $html->data['search_results'] = $search_results;
 $html->show();

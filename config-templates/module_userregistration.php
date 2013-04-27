@@ -126,6 +126,13 @@ $config = array (
     'search' => array(
         'min_length' => 3, // Minimum string length allowed
         'filter' => '*%STRING%*',
+        // Searchable attributes
+        // Use same names from recognized attributes (case sensitive)
+        'searchable' => array(
+            'cn',
+            'sn',
+            'mail',
+        ),
     ),
 
     // Configuration for the field in the web frontend

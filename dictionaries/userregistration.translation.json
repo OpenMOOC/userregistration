@@ -464,5 +464,8 @@
 	},
 	"min_search_length": {
 		"es": "La cadena de búsqueda debe ser de al menos %MIN% caracteres"
+	},
+	"attribute_not_searchable": {
+		"es": "El atributo no se puede usar para búsquedas"
 	}
 }

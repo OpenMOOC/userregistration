@@ -364,5 +364,8 @@
 	},
 	"min_search_length": {
 		"en": "The search string has to be at least %MIN% characters long"
+	},
+	"attribute_not_searchable": {
+		"en": "Specified attribute is not searchable"
 	}
 }

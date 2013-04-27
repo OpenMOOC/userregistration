@@ -23,9 +23,15 @@ $results = isset($this->data['search_results']) ? $this->data['search_results'] 
 <form class="form-inline" id="search_form" method="get">
  <fieldset>
   <select class="input-small" name="attr">
-  <option value="mail"<?php echo ($used_attr == 'mail' ? ' selected="selected"' : '')?>><?php echo $this->t('{attributes:attribute_mail}')?></option>
-   <option value="cn"<?php echo ($used_attr == 'cn' ? ' selected="selected"' : '')?>><?php echo $this->t('attribute_cn')?></option>
-   <option value="sn"<?php echo ($used_attr == 'sn' ? ' selected="selected"' : '')?>><?php echo $this->t('attribute_sn')?></option>
+<?php
+foreach($this->data['searchable_attributes'] as $attr => $name) {
+  echo '<option value="'.$attr.'"';
+  if ($used_attr == $attr) {
+      echo ' selected="selected"';
+  }
+  echo '>'.$name.'</option>';
+}
+?>
   </select>
   <input placeholder="<?php echo $this->t('search_string')?>" name="pattern" class="input-normal" type="text" value="<?php echo $used_pattern?>" />
   <input class="btn" type="submit" id="search_button" name="search" value="<?php echo $this->t('search')?>" />
@@ -36,7 +42,7 @@ if ($results !== null):
 ?>
 <h3><?php echo $this->t('search_results')?></h3>
 
-<p class="pull-right"><?php echo $this->t('filter')?> <span class="label label-info"><?php echo $this->t('{attributes:attribute_' . $used_attr . '}') ?></span> <?php echo $this->t('starts_with')?> <span class="label"><?php echo $used_pattern ?></span></p>
+<p class="pull-right"><?php echo $this->t('filter')?> <span class="label label-info"><?php echo $this->data['searchable_attributes'][$used_attr] ?></span>: <span class="label"><?php echo $used_pattern ?></span></p>
 <?php
 
     if (count($results) > 0):
@@ -45,8 +51,8 @@ if ($results !== null):
  <thead>
   <tr>
   <th><?php echo $this->t('{attributes:attribute_mail}')?></th>
-  <th><?php echo $this->t('attribute_cn')?></th>
-  <th><?php echo $this->t('attribute_sn')?></th>
+  <th><?php echo $this->t('{attributes:attribute_cn}')?></th>
+  <th><?php echo $this->t('{attributes:attribute_sn}')?></th>
   <th></th>
   </tr>
  </thead>
