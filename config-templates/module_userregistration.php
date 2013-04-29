@@ -133,6 +133,8 @@ $config = array (
             'sn',
             'mail',
         ),
+        'pagination' => true,
+        'elems_per_page' => 20,
     ),
 
     // Configuration for the field in the web frontend

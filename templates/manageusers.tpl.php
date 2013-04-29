@@ -99,6 +99,10 @@ if ($results !== null):
 <?php
     endif;
 endif;
+
+if (isset($this->data['pagination'])) {
+    echo $this->data['pagination'];
+}
 ?>
 
 <?php $this->includeAtTemplateBase('includes/footer.php'); ?>

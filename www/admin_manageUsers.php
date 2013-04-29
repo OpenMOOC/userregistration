@@ -51,6 +51,20 @@ if ($search === true) {
     } else {
         $search_filter = preg_replace('/%STRING%/', $pattern, $searchOptions['filter']);
         $search_results = $store->searchUsers($attr, $search_filter);
+
+        // Pagination
+        if ($searchOptions['pagination'] === true) {
+            $elems = $searchOptions['elems_per_page'];
+            // Parameters
+            $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+            $paginate = new sspmod_userregistration_Paginate($search_results, $elems);
+            $base_url = SimpleSAML_Utilities::selfURL();
+            $paginate->setBaseURL($base_url);
+            $paginate->setPage($page);
+            $search_results = $paginate->getPageElements();
+            $html->data['pagination'] = $paginate->getButtons();
+        }
     }
 }
 
