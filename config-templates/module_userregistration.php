@@ -96,15 +96,6 @@ $config = array (
 
     /*
      * Mapping from the Storage backend field names to web frontend field names
-     *
-     * Valid values for show, read_only and optional settings
-     *
-     * 'new_user': user tries to register by himself
-     * 'edit_user': user tries to update his account details
-     * 'admin_new_user': admin user creation form
-     * 'admin_edit_user': admin account modification form
-     * 'first_password': user is setting his own password after registering
-     * 'change_password': user is changing his password
      */
 
     'attributes'  => array(
@@ -137,8 +128,19 @@ $config = array (
         'elems_per_page' => 20,
     ),
 
-    // Configuration for the field in the web frontend
-    // This controlls the order of the fields
+    /*
+     * Configuration for the field in the web frontend
+     * This controlls the order of the fields
+     *
+     * Valid values for 'show', 'read_only' and 'optional' settings
+     *
+     * 'new_user': user tries to register by himself
+     * 'edit_user': user tries to update his account details
+     * 'admin_new_user': admin user creation form
+     * 'admin_edit_user': admin account modification form
+     * 'first_password': user is setting his own password after registering
+     * 'change_password': user is changing his password
+     */
     'formFields' => array(
         // UID
         'uid' => array(
