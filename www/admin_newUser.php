@@ -4,6 +4,7 @@ $config = SimpleSAML_Configuration::getInstance();
 $uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
 $attributes = $uregconf->getArray('attributes');
 $formFields = $uregconf->getArray('formFields');
+$mailoptions = $uregconf->getArray('mail');
 $eppnRealm = $uregconf->getString('user.realm');
 $customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
 
@@ -43,7 +44,7 @@ if (array_key_exists('sender', $_POST)) {
 		// Send user details to his/her email address
 		if (isset($_POST['sendemail'])) {
 			$email = $userInfo[$store->userRegisterEmailAttr];
-			$subject = $uregconf->getString('mail.admin_create_subject');
+			$subject = $mailoptions['admin_create_subject'];
 
 			// Additional translations. Use dummy template
 			$trans = new SimpleSAML_XHTML_Template(

@@ -3,6 +3,7 @@
 $config = SimpleSAML_Configuration::getInstance();
 $uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
 $eppnRealm = $uregconf->getString('user.realm');
+$mailoptions = $uregconf->getArray('mail');
 $customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
 $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 
@@ -111,7 +112,7 @@ if(array_key_exists('sender', $_POST)) {
 
 		if (isset($_POST['sendemail'])) {
 			$email = $currentAttributes[$store->userRegisterEmailAttr];
-			$subject = $uregconf->getString('mail.admin_modify_subject');
+			$subject = $mailoptions['admin_modify_subject'];
 
 			// Additional translations. Use dummy template
 			$trans = new SimpleSAML_XHTML_Template(

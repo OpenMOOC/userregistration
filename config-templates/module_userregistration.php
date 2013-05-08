@@ -17,14 +17,15 @@ $config = array (
     // Usen in mail and on pages
     'system.name' => 'User registration module',
 
-    // Mailtoken valid for 5 days
-    'mailtoken.lifetime' => (3600*24*5),
-    'mail.from'     => 'Example <na@example.org>',
-    'mail.replyto'  => 'Example <na@example.org>',
-    'mail.subject'  => 'Example - email verification',
-    'mail.subject'  => 'Example - email verification',
-    'mail.admin_create_subject'  => 'Example - user account created',
-    'mail.admin_modify_subject'  => 'Example - user account modified',
+    // Mail options
+    'mail' => array(
+        'token.lifetime' => (3600*24*5),
+        'from'     => 'Example <na@example.org>',
+        'replyto'  => 'Example <na@example.org>',
+        'subject'  => 'Example - email verification',
+        'admin_create_subject'  => 'Example - user account created',
+        'admin_modify_subject'  => 'Example - user account modified',
+    ),
 
     // URL of the Terms of Service
     'tos' => '',

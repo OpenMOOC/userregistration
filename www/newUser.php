@@ -2,7 +2,7 @@
 
 $config = SimpleSAML_Configuration::getInstance();
 $uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
-$tokenLifetime = $uregconf->getInteger('mailtoken.lifetime');
+$mailoptions = $uregconf->getArray('mail');
 $attributes = $uregconf->getArray('attributes');
 $formFields = $uregconf->getArray('formFields');
 $eppnRealm = $uregconf->getString('user.realm');
@@ -91,7 +91,7 @@ if (array_key_exists('savepw', $_REQUEST)) {
 
 	$email = $_POST['email'];
 
-	$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
+	$tg = new SimpleSAML_Auth_TimeLimitedToken($mailoptions['token.lifetime']);
 	$tg->addVerificationData($email);
 	$newToken = $tg->generate_token();
 
@@ -111,16 +111,16 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		'userregistration:userregistration');
 	$mailt->data['email'] = $email;
 	$tokenExpiration = 
-	$mailt->data['tokenLifetime'] = $tokenLifetime;
+	$mailt->data['tokenLifetime'] = $mailoptions['token.lifetime'];
 	$mailt->data['registerurl'] = $registerurl;
 	$mailt->data['systemName'] = $systemName;
 
 	$mailer = new sspmod_userregistration_XHTML_Mailer(
 		$email,
-		$uregconf->getString('mail.subject'),
-		$uregconf->getString('mail.from'),
+        $mailoptions['subject'],
+        $mailoptions['from'],
 		NULL,
-		$uregconf->getString('mail.replyto'));
+        $mailoptions['replyto']);
 	$mailer->setTemplate($mailt);
 	$mailer->send();
 
@@ -146,7 +146,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 			throw new SimpleSAML_Error_Exception(
 				'E-mail parameter in request is lost');
 
-		$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
+		$tg = new SimpleSAML_Auth_TimeLimitedToken($mailoptions['token.lifetime']);
 		$tg->addVerificationData($email);
 		if (!$tg->validate_token($token)) {
 			throw new sspmod_userregistration_Error_UserException('invalid_token');
@@ -241,7 +241,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 
 		$email = $userInfo[$store->userRegisterEmailAttr];
 
-		$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
+		$tg = new SimpleSAML_Auth_TimeLimitedToken($mailoptions['token.lifetime']);
 		$tg->addVerificationData($email);
 		$newToken = $tg->generate_token();
 
@@ -261,16 +261,16 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 			'userregistration:userregistration');
 		$mailt->data['email'] = $email;
 		$tokenExpiration = 
-		$mailt->data['tokenLifetime'] = $tokenLifetime;
+		$mailt->data['tokenLifetime'] = $mailoptions['token.lifetime'];
 		$mailt->data['registerurl'] = $registerurl;
 		$mailt->data['systemName'] = $systemName;
 
 		$mailer = new sspmod_userregistration_XHTML_Mailer(
 			$email,
-			$uregconf->getString('mail.subject'),
-			$uregconf->getString('mail.from'),
+			$mailoptions['subject'],
+			$mailoptions['from'],
 			NULL,
-			$uregconf->getString('mail.replyto'));
+			$mailoptions['replyto']);
 		$mailer->setTemplate($mailt);
 		$mailer->send();
 

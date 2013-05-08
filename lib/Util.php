@@ -84,6 +84,7 @@ class sspmod_userregistration_Util {
 	{
 		$uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
 		$config = SimpleSAML_Configuration::getInstance();
+		$mailoptions = $uregconf->getArray('mail');
 
 		$mailt = new SimpleSAML_XHTML_Template(
 			$config,
@@ -102,9 +103,9 @@ class sspmod_userregistration_Util {
 		$mailer = new sspmod_userregistration_XHTML_Mailer(
 			$email,
 			$subject,
-			$uregconf->getString('mail.from'),
+			$mailoptions['from'],
 			NULL,
-			$uregconf->getString('mail.replyto'));
+			$mailoptions['replyto']);
 		$mailer->setTemplate($mailt);
 		$mailer->send();
 	}
