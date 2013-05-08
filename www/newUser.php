@@ -105,24 +105,21 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		)
 	);
 
-	$mailt = new SimpleSAML_XHTML_Template(
-		$config,
-		'userregistration:mail1_token.tpl.php',
-		'userregistration:userregistration');
-	$mailt->data['email'] = $email;
-	$tokenExpiration = 
-	$mailt->data['tokenLifetime'] = $mailoptions['token.lifetime'];
-	$mailt->data['registerurl'] = $registerurl;
-	$mailt->data['systemName'] = $systemName;
+	$tokenExpiration = $mailoptions['token.lifetime'];
+	$mail_data = array(
+		'email' => $email,
+		'tokenLifetime' => $tokenExpiration,
+		'registerurl' => $registerurl,
+		'systemName' => $systemName,
+	);
 
-	$mailer = new sspmod_userregistration_XHTML_Mailer(
+	sspmod_userregistration_Util::sendEmail(
 		$email,
-        $mailoptions['subject'],
-        $mailoptions['from'],
-		NULL,
-        $mailoptions['replyto']);
-	$mailer->setTemplate($mailt);
-	$mailer->send();
+		$mailoptions['subject'],
+		'userregistration:mail1_token.tpl.php',
+		$mail_data
+	);
+
 
 	$html = new SimpleSAML_XHTML_Template(
 		$config,
@@ -255,24 +252,20 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 			)
 		);
 
-		$mailt = new SimpleSAML_XHTML_Template(
-			$config,
-			'userregistration:mail1_token.tpl.php',
-			'userregistration:userregistration');
-		$mailt->data['email'] = $email;
-		$tokenExpiration = 
-		$mailt->data['tokenLifetime'] = $mailoptions['token.lifetime'];
-		$mailt->data['registerurl'] = $registerurl;
-		$mailt->data['systemName'] = $systemName;
+		$tokenExpiration = $mailoptions['token.lifetime'];
+		$mail_data = array(
+			'email' => $email,
+			'tokenLifetime' => $tokenExpiration,
+			'registerurl' => $registerurl,
+			'systemName' => $systemName,
+		);
 
-		$mailer = new sspmod_userregistration_XHTML_Mailer(
+		sspmod_userregistration_Util::sendEmail(
 			$email,
 			$mailoptions['subject'],
-			$mailoptions['from'],
-			NULL,
-			$mailoptions['replyto']);
-		$mailer->setTemplate($mailt);
-		$mailer->send();
+			'userregistration:mail1_token.tpl.php',
+			$mail_data
+		);
 
 		$html = new SimpleSAML_XHTML_Template(
 			$config,

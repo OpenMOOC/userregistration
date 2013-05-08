@@ -80,7 +80,7 @@ class sspmod_userregistration_Util {
 		}
 	}
 
-	public static function sendEmail($email, $subject, $template, $data)
+	public static function sendEmail($to, $subject, $template, $data)
 	{
 		$uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
 		$config = SimpleSAML_Configuration::getInstance();
@@ -101,7 +101,7 @@ class sspmod_userregistration_Util {
 		$mailt->data = $data;
 
 		$mailer = new sspmod_userregistration_XHTML_Mailer(
-			$email,
+			$to,
 			$subject,
 			$mailoptions['from'],
 			NULL,
