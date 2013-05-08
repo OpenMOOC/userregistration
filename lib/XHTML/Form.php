@@ -137,7 +137,9 @@ class sspmod_userregistration_XHTML_Form {
 
 	private function writeInputControl($elementId){
 		$value = isset($this->values[$elementId])?$this->values[$elementId]:'';
-		$value = htmlspecialchars($value);
+		$value = is_array($value) ?
+			array_map('htmlentities', $value) :
+			htmlspecialchars($value);
 		if($this->actionEndpoint != 'delUser.php') {
 			$type = $this->layout[$elementId]['control_type'];
 
@@ -159,8 +161,8 @@ class sspmod_userregistration_XHTML_Form {
 				return $this->writeCountrySelect($value, $attr);
 			}
 
-			if ($type=='affiliation') {
-				return $this->writeAffiliationSelect($elementId, $value, $attr);
+			if ($type=='multivalued') {
+				return $this->writeMultivaluedField($elementId, $value, $attr);
 			}
 
             $size = $this->size;
@@ -513,22 +515,23 @@ class sspmod_userregistration_XHTML_Form {
 		return $html;
 	}
 
-	private function writeAffiliationSelect($elementId, $value, $attr){
-		if(empty($value)) {
-			$value = 'student';
+	private function writeMultivaluedField($elementId, $value, $attr){
+		$html = '<div class="multivalued-attribute">';
+		$size = $this->size;
+		if(isset($this->layout[$elementId]['size']) && is_numeric((int)$this->layout[$elementId]['size'])) {
+			$size = $this->layout[$elementId]['size'];
 		}
+		$format = '<input class="inputelement" type="text" name="%s[]" value="%s" size="%s" %s '.(isset($this->layout[$elementId]['size'])? 'maxlength="'.$size.'"':''). ' />';
 
-		$affiliations = array(
-			'student' => 'student',
-			'teacher' => 'teacher',
-		);
-		$html = '<select name="'.$elementId.'" '.$attr.'>';
-		foreach ($affiliations as $affvalue => $label) {
-			$html .= '<option value="' . $affvalue . '" ' . ($affvalue == $value ? 'selected="selected"' : '') . '>' 
-				. $this->transDesc->t($label) . '</option>';
+		foreach ($value as $v) {
+
+			$html .= '<div class="multivalued-attribute-value">';
+			$html .= sprintf($format, $elementId, $v, $size, $attr);
+			$html .= '<a href="#" class="remove"><i class="icon-remove"></i></a>';
+			$html .= '</div>';
 		}
 	
-		$html .= '</select>';
+		$html .= '</div>';
 		return $html;
 	}
 

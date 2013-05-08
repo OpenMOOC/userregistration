@@ -83,6 +83,11 @@ $config = array (
             'eduPerson',
             'norEduPerson'
         ),
+
+        // Multivalued attributes we want to retrieve as arrays
+        'multivalued.attributes' => array(
+            'eduPersonAffiliation',
+        ),
     ), // end Ldap config
 
     // AWS SimpleDB configuration
@@ -242,7 +247,7 @@ $config = array (
         'eduPersonAffiliation' => array(
             'validate' => FILTER_DEFAULT,
             'layout' => array(
-                'control_type' => 'affiliation',
+                'control_type' => 'multivalued',
                 'show' => array(
                     'admin_new_user',
                     'admin_edit_user',

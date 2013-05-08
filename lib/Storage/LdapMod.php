@@ -16,6 +16,7 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 	private $attributes = NULL;
 	private $objectClass = NULL;
 	private $pswEncrypt = NULL;
+	private $multivaluedAttributes = NULL;
 
 
 	/**
@@ -49,6 +50,7 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 		$this->passwordPolicy = $lwc->getArray('password.policy');
 		$this->userRegisterEmailAttr = $lwc->getString('user.register.email.param', 'mail');
 		$this->recoverPwEmailAttrs = $lwc->getArray('recover.pw.email.params');
+		$this->multivaluedAttributes = $lwc->getArray('multivalued.attributes');
 
 		$this->attributes = $attributes;
 	}
@@ -177,14 +179,8 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 		$user = array();
 		foreach ($userObject as $attrName => $values) {
 			if ($attrName == 'objectClass') {
-			} elseif ($attrName == 'eduPersonAffiliation') {
-				if (in_array('teacher', $values)) {
-					$user['eduPersonAffiliation'] = 'teacher';
-				} else {
-					$user['eduPersonAffiliation'] = 'student';
-				}
 			} else {
-				if(!$multivalued) {
+				if(!in_array($attrName, $this->multivaluedAttributes) && !$multivalued) {
 					$user[$attrName] = $values[0];
 				}
 				else {
