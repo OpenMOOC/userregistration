@@ -136,13 +136,13 @@ class sspmod_userregistration_XHTML_Form {
 
 
 	private function writeInputControl($elementId){
-		$value = isset($this->values[$elementId])?$this->values[$elementId]:'';
+		$type = $this->layout[$elementId]['control_type'];
+		$value = isset($this->values[$elementId])?$this->values[$elementId]: 
+			($type == 'multivalued' ? array() : '');
 		$value = is_array($value) ?
 			array_map('htmlentities', $value) :
 			htmlspecialchars($value);
 		if($this->actionEndpoint != 'delUser.php') {
-			$type = $this->layout[$elementId]['control_type'];
-
 			$attr = '';
 			if(in_array($elementId, $this->readonly)){
 				$attr .= 'readonly="readonly"';
