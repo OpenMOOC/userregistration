@@ -88,4 +88,17 @@ $(document).ready(function() {
             $('#sendemail').attr('checked', 'checked');
             $('#pw1').trigger('keyup');
         });
+
+        $('div.add-value a').click(function(e) {
+            var new_input;
+            e.preventDefault();
+            new_input = $(this).next().clone();
+            $(this).parent().before(new_input.html());
+
+        });
+
+        $('div.multivalued-attribute-value a.remove').click(function(e) {
+            e.preventDefault();
+            $(this).parent().remove();
+        });
 });

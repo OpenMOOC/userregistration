@@ -516,21 +516,32 @@ class sspmod_userregistration_XHTML_Form {
 	}
 
 	private function writeMultivaluedField($elementId, $value, $attr){
-		$html = '<div class="multivalued-attribute">';
+		$html = '<div class="multivalued-attribute" id="attribute-'.$elementId.'">';
 		$size = $this->size;
 		if(isset($this->layout[$elementId]['size']) && is_numeric((int)$this->layout[$elementId]['size'])) {
 			$size = $this->layout[$elementId]['size'];
 		}
-		$format = '<input class="inputelement" type="text" name="%s[]" value="%s" size="%s" %s '.(isset($this->layout[$elementId]['size'])? 'maxlength="'.$size.'"':''). ' />';
+		$format = '<input class="inputelement" type="text" name="%s[]" value="%s" size="%s" %s '.(isset($this->layout[$elementId]['size'])? 'maxlength="'.$size.'"':''). ' /> <a tabindex="-1" href="#" class="remove"><i class="icon-remove"></i></a>';
 
 		foreach ($value as $v) {
 
 			$html .= '<div class="multivalued-attribute-value">';
 			$html .= sprintf($format, $elementId, $v, $size, $attr);
-			$html .= '<a href="#" class="remove"><i class="icon-remove"></i></a>';
 			$html .= '</div>';
 		}
-	
+
+        $new_value = <<<EONEWVALUE
+<div class="add-value">
+ <a href="#">%s</a>
+ <div>
+ <div class="multivalued-attribute-value">
+ $format
+ </div>
+ </div>
+</div>
+EONEWVALUE;
+        $new_value_label = htmlspecialchars($this->transDesc->t('attribute_add_value'));
+        $html .= sprintf($new_value, $new_value_label, $elementId, '', $size, $attr);
 		$html .= '</div>';
 		return $html;
 	}

@@ -367,5 +367,8 @@
 	},
 	"attribute_not_searchable": {
 		"en": "Specified attribute is not searchable"
+	},
+	"attribute_add_value": {
+		"en": "add new value"
 	}
 }

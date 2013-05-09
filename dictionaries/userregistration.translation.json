@@ -467,5 +467,8 @@
 	},
 	"attribute_not_searchable": {
 		"es": "El atributo no se puede usar para búsquedas"
+	},
+	"attribute_add_value": {
+		"es": "añadir valor"
 	}
 }
