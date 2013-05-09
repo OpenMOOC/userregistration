@@ -245,7 +245,10 @@ $config = array (
             ),
         ), // end eduPersonPrincipalName
         'eduPersonAffiliation' => array(
-            'validate' => FILTER_DEFAULT,
+            'validate' => array(
+                'filter' => FILTER_DEFAULT,
+                'flags' => FILTER_REQUIRE_ARRAY,
+            ),
             'layout' => array(
                 'control_type' => 'multivalued',
                 'show' => array(
