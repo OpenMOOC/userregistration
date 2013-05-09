@@ -9,7 +9,7 @@ $this->includeAtTemplateBase('includes/header.php');
 ?>
 <script type="text/javascript" src="resources/jquery-simplePassMeter/jquery.js"></script>
 <script type="text/javascript" src="resources/jquery-simplePassMeter/jquery.simplePassMeter-0.2b.js"></script>
-<script type="text/javascript" src="resources/genpw.js"></script>
+<script type="text/javascript" src="resources/userregistration.js"></script>
 <?php
 
 if(isset($this->data['error'])): ?>
