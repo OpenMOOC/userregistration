@@ -93,6 +93,15 @@ class sspmod_userregistration_Registration_Validation {
 
 					// Last value comes from the 'add new value' input. Remove it
 					array_pop($filtered[$field]);
+
+					// Get unique values
+					$filtered[$field] = array_unique($filtered[$field]);
+
+					// Remove empty values
+					$filtered[$field] = array_diff($filtered[$field], array(''));
+
+					// Redo indexes
+					$filtered[$field] = array_values($filtered[$field]);
 				}
 			}
 		}
