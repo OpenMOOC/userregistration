@@ -299,6 +299,9 @@
     "remove": {
 		"en": "Remove"
     },
+    "remove_selected": {
+		"en": "Remove selected"
+    },
     "filter": {
 		"en": "Filter:"
     },
@@ -309,13 +312,13 @@
         "en": "Confirm remove"
     },
     "confirm_remove_par": {
-		"en": "Are you sure you want to permantently remove user %USER%?"
+		"en": "Are you sure you want to permanently remove the accounts below?"
     },
     "cancel": {
 		"en": "Cancel"
     },
-    "user_removed": {
-		"en": "User %USER% was removed"
+    "users_removed": {
+		"en": "The following users were removed"
     },
     "back_to_search": {
 		"en": "Return to search"

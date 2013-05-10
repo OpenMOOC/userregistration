@@ -399,6 +399,9 @@
 	"remove": {
 		"es": "Eliminar"
     },
+    "remove_selected": {
+		"es": "Borrar seleccionados"
+    },
     "filter": {
 		"es": "Filtro:"
     },
@@ -409,13 +412,13 @@
         "es": "Confirmar el borrado"
     },
     "confirm_remove_par": {
-		"es": "¿Está seguro de querer eliminar la cuenta del usuario %USER%?"
+		"es": "¿Está seguro de querer eliminar las siguientes cuentas?"
     },
     "cancel": {
 		"es": "Cancelar"
     },
-    "user_removed": {
-		"es": "El usuario %USER% fue eliminado"
+    "users_removed": {
+		"es": "Los siguientes usuarios fueron eliminados:"
     },
     "back_to_search": {
 		"es": "Volver a la búsqueda"

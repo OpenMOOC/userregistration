@@ -5,6 +5,8 @@ $this->data['head'] = '<link rel="stylesheet" href="resources/userregistration.c
 
 $this->includeAtTemplateBase('includes/header.php'); ?>
 
+<script type="text/javascript" src="resources/userregistration.js"></script>
+
 <?php if(isset($this->data['error'])){ ?>
 	  <div class="alert alert-error"><?php echo $this->data['error']; ?></div>
 <?php }?>
@@ -46,10 +48,16 @@ if ($results !== null):
 <?php
 
     if (count($results) > 0):
+
+		$url_delete = SimpleSAML_Module::getModuleURL('userregistration/admin_removeUser.php');
 ?>
+<form id="massive_form" action="<?php echo $url_delete?>" method="post">
+<input type="hidden" name="attr" value="<?php echo $used_attr ?>" />
+<input type="hidden" name="pattern" value="<?php echo $used_pattern?>" />
 <table id="search_results" class="table table-striped table-hover">
  <thead>
   <tr>
+  <th></th>
   <th><?php echo $this->t('{attributes:attribute_mail}')?></th>
   <th><?php echo $this->t('{attributes:attribute_cn}')?></th>
   <th><?php echo $this->t('{attributes:attribute_sn}')?></th>
@@ -68,23 +76,15 @@ if ($results !== null):
                     'pattern' => $used_pattern,
                 )
             );
-            $url_remove = SimpleSAML_Utilities::addURLparameter(
-                SimpleSAML_Module::getModuleURL('userregistration/admin_removeUser.php'),
-                array(
-                    'user' => $userid,
-                    'attr' => $used_attr,
-                    'pattern' => $used_pattern,
-                )
-            );
 
 ?>
   <tr>
+  <td><input type="checkbox" name="user[]" value="<?php echo $userid?>" /></td>
   <td><?php echo $u['mail']?></td>
   <td><?php echo $u['cn']?></td>
   <td><?php echo $u['sn']?></td>
    <td>
    <a href="<?php echo $url_modify?>" class="btn btn-small"><?php echo $this->t('edit')?></a>
-   <a href="<?php echo $url_remove?>" class="btn btn-small btn-danger"><?php echo $this->t('remove') ?></a>
    </td>
   </tr>
 <?php
@@ -92,6 +92,8 @@ if ($results !== null):
 ?>
  </tbody>
 </table>
+<button class="btn btn-danger" name="operation" value="remove"><?php echo $this->t('remove_selected')?></button>
+</form>
 <?php
     else:
 ?>

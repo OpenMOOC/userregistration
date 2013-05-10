@@ -89,6 +89,20 @@ $(document).ready(function() {
             $('#pw1').trigger('keyup');
         });
 
+        $('#search_results :checkbox').change(function(e) {
+            e.stopPropagation();
+            $(this).closest('tr').toggleClass('info');
+        });
+
+        $('#search_results tr').click(function(e) {
+            e.stopPropagation();
+            var tgt = $(e.target);
+
+            if (!tgt.is(':checkbox') && !tgt.is('a')) {
+                $(this).find(':checkbox').trigger('click');
+            }
+        });
+
         $('div.add-value a').click(function(e) {
             var new_input;
             e.preventDefault();

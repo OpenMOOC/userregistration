@@ -15,33 +15,39 @@ $as->requireAuth();
 $systemName = array('%SNAME%' => $uregconf->getString('system.name') );
 $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 
-$user = isset($_GET['user']) ? $_GET['user'] : '';
-$attr = isset($_GET['attr']) ? $_GET['attr'] : '';
-$pattern = isset($_GET['pattern']) ? $_GET['pattern'] : '';
+$user = isset($_POST['user']) ? $_POST['user'] : '';
+$attr = isset($_POST['attr']) ? $_POST['attr'] : '';
+$pattern = isset($_POST['pattern']) ? $_POST['pattern'] : '';
 
-if (empty($user)) {
+if (!is_array($user) || empty($user)) {
     throw new sspmod_userregistration_Error_UserException(
         'void_value',
         'user',
         '',
         'Missing parameter user'
     );
-} elseif (!$store->isRegistered($store->userIdAttr, $user)) {
-    throw new sspmod_userregistration_Error_UserException(
-        'email_not_found',
-        $user,
-        '',
-        'User ' . $user . ' is not registered!'
-    );
 } else {
-    $confirm = isset($_GET['confirm']);
+    foreach ($user as $u) {
+        if (!$store->isRegistered($store->userIdAttr, $u)) {
+            throw new sspmod_userregistration_Error_UserException(
+                'email_not_found',
+                $user,
+                '',
+                'User ' . $user . ' is not registered!'
+            );
+        }
+    }
+
+    $confirm = isset($_POST['confirm']);
     if ($confirm === false) {
         $html = new SimpleSAML_XHTML_Template(
             $config,
             'userregistration:confirm_remove.tpl.php',
             'userregistration:userregistration');
     } else {
-        $store->delUser($user);
+        foreach ($user as $u) {
+            $store->delUser($u);
+        }
         $html = new SimpleSAML_XHTML_Template(
             $config,
             'userregistration:user_removed.tpl.php',
