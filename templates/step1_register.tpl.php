@@ -19,6 +19,11 @@ if (isset($this->data['stepsHtml'])) {
 	echo $this->data['stepsHtml'];
 }
 
+?>
+
+<h1><?php echo $this->t('s1_head', $this->data['systemName']); ?></h1>
+
+<?php
 if(isset($this->data['error'])): ?>
 <div class="alert alert-error">
 <?php echo $this->data['error']; ?>
@@ -46,11 +51,9 @@ if (isset($this->data['url_lostpassword'])):
 </div>
 <?php
 endif;
-?>
 
-<h1><?php echo $this->t('s1_head', $this->data['systemName']); ?></h1>
 
-<?php if (!isset($this->data['admin']) || $this->data['admin'] !== true): ?>
+if (!isset($this->data['admin']) || $this->data['admin'] !== true): ?>
 <p><?php echo $this->t('s1_para1'); ?></p>
 <?php endif; ?>
 

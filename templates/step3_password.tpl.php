@@ -14,6 +14,9 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 if (isset($this->data['stepsHtml'])) {
 	echo $this->data['stepsHtml'];
 }
+?>
+<h1><?php echo $this->t('s3_head'); ?></h1>
+<?php
 
 if(isset($this->data['error'])){ ?>
 	  <div class="alert alert-error">
@@ -29,6 +32,9 @@ if(isset($this->data['error'])){ ?>
 if(isset($this->data['passwordPolicy'])) {
         include_once($this->data['passwordPolicytpl']);
 }
+?>
+<p><?php echo $this->t('s3_intro'); ?></p>
+<?php
 
 if(isset($this->data['formHtml'])) {
         print $this->data['formHtml'];

@@ -53,6 +53,9 @@
 	"s1_head": {
 		"en": "Create new account at %SNAME%"
 	},
+	"s1_sent_head": {
+		"en": "Verification email sent"
+	},
 	"s1_para1": {
 		"en": "The first step is to register and verify your e-mail address. Make sure that you fill in an e-mail address where you can receive e-mail. Notice that some servers could mark this email as SPAM."
 	},
@@ -72,10 +75,10 @@
 		"en": "Create"
 	},
 	"s3_head": {
-		"en": "New user information"
+		"en": "Set your account password"
 	},
 	"s3_intro": {
-		"en": "Type in your user account information."
+		"en": "This will be your account password. Please, choose a secure one."
 	},
 	"review_head": {
 		"en": "User information"

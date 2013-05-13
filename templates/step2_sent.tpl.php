@@ -12,7 +12,7 @@ if (isset($this->data['stepsHtml'])) {
 ?>
 
 <div style="margin: 1em">
-	  <h1><?php echo $this->t('s1_head', $this->data['systemName']); ?></h1>
+	  <h1><?php echo $this->t('s1_sent_head', $this->data['systemName']); ?></h1>
 	  <p><?php echo htmlspecialchars($this->t('s1_para2', array('%MAIL%' => $this->data['email'])), ENT_QUOTES); ?></p>
 </div>
 

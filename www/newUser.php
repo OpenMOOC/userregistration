@@ -159,7 +159,8 @@ if (array_key_exists('savepw', $_REQUEST)) {
 	}catch (sspmod_userregistration_Error_UserException $e){
 
 		// Invalid token
-
+		// Go back one step
+		$steps->setCurrent(2);
 		$terr = new SimpleSAML_XHTML_Template(
 			$config,
 			'userregistration:step3_password.tpl.php',

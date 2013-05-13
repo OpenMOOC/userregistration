@@ -73,14 +73,17 @@
 		"es": "Registrar una cuenta nueva en %SNAME%",
 		"de": "Neues Benutzerkonto bei %SNAME% anlegen"
 	},
+	"s1_sent_head": {
+		"es": "Correo de confirmación enviado"
+	},
 	"s3_head": {
 		"no": "Data for ny bruker",
-		"es": "Nueva informaci\u00f3n de usuario",
+		"es": "Escoja una contraseña para su cuenta",
 		"de": "Daten f\u00fcr ein neues Benutzerkonto"
 	},
 	"s3_intro": {
 		"no": "Fyll inn passende brukerdata.",
-		"es": "Escribe la informaci\u00f3n de tu cuenta de usuario.",
+		"es": "Ésta será la contraseña de su cuenta. Por favor, escoja una contraseña segura.",
 		"de": "Geben Sie die Daten Ihres Benutzerkontos an."
 	},
 	"review_head": {
