@@ -373,5 +373,17 @@
 	},
 	"attribute_add_value": {
 		"en": "add new value"
+	},
+	"step_1": {
+		"en": "Personal data"
+	},
+	"step_2": {
+		"en": "Email verification"
+	},
+	"step_3": {
+		"en": "Account password"
+	},
+	"step_4": {
+		"en": "Registration completed"
 	}
 }

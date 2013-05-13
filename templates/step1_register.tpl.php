@@ -15,13 +15,17 @@ if (isset($this->data['admin']) && $this->data['admin'] === true):
 <?php
 endif;
 
+if (isset($this->data['stepsHtml'])) {
+	echo $this->data['stepsHtml'];
+}
+
 if(isset($this->data['error'])): ?>
 <div class="alert alert-error">
 <?php echo $this->data['error']; ?>
 </div>
-<?php endif; ?>
-
 <?php
+endif;
+
 if (isset($this->data['refreshtoken'])):
 ?>
 <div class="alert alert-info">

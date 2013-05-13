@@ -473,5 +473,17 @@
 	},
 	"attribute_add_value": {
 		"es": "añadir valor"
+	},
+	"step_1": {
+		"es": "Datos personales"
+	},
+	"step_2": {
+		"es": "Confirmación por email"
+	},
+	"step_3": {
+		"es": "Contraseña de la cuenta"
+	},
+	"step_4": {
+		"es": "Registro completado"
 	}
 }

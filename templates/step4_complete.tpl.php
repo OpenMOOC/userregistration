@@ -3,7 +3,13 @@
 $this->data['header'] = $this->t('{userregistration:userregistration:link_newuser}');
 $this->data['head'] = '<link rel="stylesheet" href="resources/userregistration.css" type="text/css">';
 
-$this->includeAtTemplateBase('includes/header.php'); ?>
+$this->includeAtTemplateBase('includes/header.php');
+
+if (isset($this->data['stepsHtml'])) {
+	echo $this->data['stepsHtml'];
+}
+
+?>
 
 <div style="margin: 1em">
   <h1><?php echo $this->t('new_complete_head'); ?></h1>

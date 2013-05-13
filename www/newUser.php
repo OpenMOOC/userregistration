@@ -18,6 +18,7 @@ $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 if (array_key_exists('savepw', $_REQUEST)) {
 	// Stage 4: Registration completed
 	try{
+		$steps->setCurrent(4);
 		$listValidate = sspmod_userregistration_Util::getFieldsFor('first_password');
 		$validator = new sspmod_userregistration_Registration_Validation(
 		 $formFields,
@@ -45,8 +46,12 @@ if (array_key_exists('savepw', $_REQUEST)) {
 
 			$html->data['systemName'] = $systemName;
 			$html->data['customNavigation'] = $customNavigation;
+			$html->data['stepsHtml'] = $steps->generate();
 			$html->show();
 	}catch(sspmod_userregistration_Error_UserException $e){
+		// Go back one step
+		$steps->setCurrent(3);
+
 		$email = $_REQUEST['email'];
 		$token = $_REQUEST['token'];
 
@@ -92,10 +97,12 @@ if (array_key_exists('savepw', $_REQUEST)) {
 
 		$terr->data['systemName'] = $systemName;
 		$terr->data['customNavigation'] = $customNavigation;
+		$terr->data['stepsHtml'] = $steps->generate();
 		$terr->show();
 	}
-} elseif(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQUEST)){
+} elseif(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_REQUEST)){
 	// Stage 3: User access page from url in e-mail
+	$steps->setCurrent(3);
 	try{
 		$token = $_REQUEST['token'];
 		$email = filter_input(
@@ -138,6 +145,7 @@ if (array_key_exists('savepw', $_REQUEST)) {
 			$config,
 			'userregistration:step3_password.tpl.php',
 			'userregistration:userregistration');
+		$html->data['stepsHtml'] = $steps->generate();
 		$html->data['formHtml'] = $formHtml;
 
 		if(!empty($store->passwordPolicy)) {
@@ -177,10 +185,12 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		
 		$terr->data['systemName'] = $systemName;
 		$terr->data['customNavigation'] = $customNavigation;
+		$terr->data['stepsHtml'] = $steps->generate();
 		$terr->show();
 	}
 } elseif(array_key_exists('refreshtoken', $_POST)){
 	// Stage 2 (b): Resend email token
+	$steps->setCurrent(2);
 
 	$email = $_POST['email'];
 
@@ -220,6 +230,7 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		'userregistration:userregistration');
 	$html->data['email'] = $email;
 	$html->data['systemName'] = $systemName;
+	$html->data['stepsHtml'] = $steps->generate();
 	$html->data['customNavigation'] = $customNavigation;
 	$html->show();
 
@@ -309,6 +320,7 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		 $config,
 		 'userregistration:step1_register.tpl.php',
 		 'userregistration:userregistration');
+		$terr->data['stepsHtml'] = $steps->generate();
 		$terr->data['formHtml'] = $formHtml;
 
         if ($e->getMesgId() == 'uid_taken_but_not_verified') {
