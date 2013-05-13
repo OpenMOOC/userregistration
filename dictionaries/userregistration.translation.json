@@ -133,6 +133,9 @@
 		"es": "Restablecer contrase\u00f1a perdida",
 		"de": "Vergessenes Pa\u00dfwort zur\u00fccksetzen"
 	},
+	"lost_my_password_para": {
+		"es": "¿No recuerda su contraseña?"
+	},
 	"link_changepw": {
 		"no": "Bytt passord",
 		"es": "Cambiar contrase\u00f1a",

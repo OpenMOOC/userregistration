@@ -37,6 +37,15 @@ if (isset($this->data['refreshtoken'])):
 </div>
 <?php
 endif;
+
+if (isset($this->data['url_lostpassword'])):
+?>
+<div class="alert alert-info">
+<p><?php echo $this->t('lost_my_password_para') ?></p>
+<a class="btn btn-info" href="<?php echo $this->data['url_lostpassword']?>"><?php echo $this->t('link_lostpw') ?></a>
+</div>
+<?php
+endif;
 ?>
 
 <h1><?php echo $this->t('s1_head', $this->data['systemName']); ?></h1>

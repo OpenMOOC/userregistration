@@ -119,6 +119,9 @@
 	"link_lostpw": {
 		"en": "Reset lost password"
 	},
+	"lost_my_password_para": {
+		"en": "Did you forget your account password?"
+	},
 	"link_changepw": {
 		"en": "Change password"
 	},

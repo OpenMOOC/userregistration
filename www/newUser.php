@@ -300,6 +300,8 @@ if (array_key_exists('savepw', $_REQUEST)) {
 
 	}catch(sspmod_userregistration_Error_UserException $e){
 		// Some user error detected
+		// One step back
+		$steps->setCurrent(1);
 		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'newUser.php');
 
 		$showFields = sspmod_userregistration_Util::getFieldsFor('new_user');
@@ -327,7 +329,9 @@ if (array_key_exists('savepw', $_REQUEST)) {
             $email = $userInfo[$store->userRegisterEmailAttr];
 			$terr->data['refreshtoken'] = true;
 			$terr->data['email'] = $email;
-        }
+		} elseif ($e->getMesgId() == 'uid_taken') {
+			$terr->data['url_lostpassword'] = SimpleSAML_Module::getModuleURL('userregistration/lostPassword.php');
+		}
 
 		$error = $terr->t(
 			 $e->getMesgId(),
