@@ -391,5 +391,11 @@
 	},
 	"step_4": {
 		"en": "Registration completed"
+	},
+	"known_provider_detected": {
+		"en": "Your email provider seems to be %PROVIDER%. Use the following button to go to your inbox"
+	},
+	"go_to_inbox": {
+		"en": "Go to inbox"
 	}
 }

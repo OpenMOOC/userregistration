@@ -224,7 +224,6 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		$mail_data
 	);
 
-
 	$html = new SimpleSAML_XHTML_Template(
 		$config,
 		'userregistration:step2_sent.tpl.php',
@@ -233,6 +232,13 @@ if (array_key_exists('savepw', $_REQUEST)) {
 	$html->data['systemName'] = $systemName;
 	$html->data['stepsHtml'] = $steps->generate();
 	$html->data['customNavigation'] = $customNavigation;
+
+	// Email service provider helper
+	$provider = new sspmod_userregistration_MailGuesser($email);
+	if ($provider->isAKnownEmailProvider()) {
+		$html->data['emailProvider'] = $provider->getProvider();
+	}
+
 	$html->show();
 
 } elseif(array_key_exists('sender', $_POST)){
@@ -296,6 +302,12 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		$html->data['email'] = $email;
 		$html->data['systemName'] = $systemName;
 		$html->data['customNavigation'] = $customNavigation;
+
+		// Email service provider helper
+		$provider = new sspmod_userregistration_MailGuesser($email);
+		if ($provider->isAKnownEmailProvider()) {
+			$html->data['emailProvider'] = $provider->getProvider();
+		}
 		$html->show();
 
 

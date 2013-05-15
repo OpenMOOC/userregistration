@@ -162,3 +162,6 @@ div.steps .passed:after {
     border-left-color: #fff;
 }
 
+div.gotoinbox {
+	margin-top: 10px;
+}

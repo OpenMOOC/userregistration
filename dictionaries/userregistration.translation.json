@@ -491,5 +491,11 @@
 	},
 	"step_4": {
 		"es": "Registro completado"
+	},
+	"known_provider_detected": {
+		"es": "Tu proveedor de correo parece ser %PROVIDER%. Usa el siguiente botón para ir a la bandeja de entrada"
+	},
+	"go_to_inbox": {
+		"es": "Ir a la bandeja de entrada"
 	}
 }

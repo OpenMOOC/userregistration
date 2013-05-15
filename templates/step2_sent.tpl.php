@@ -16,8 +16,23 @@ if (isset($this->data['stepsHtml'])) {
 	  <p><?php echo htmlspecialchars($this->t('s1_para2', array('%MAIL%' => $this->data['email'])), ENT_QUOTES); ?></p>
 </div>
 
+<?php
 
-<?php 
+if (isset($this->data['emailProvider'])) {
+	$provider = $this->data['emailProvider'];
+?>
+	<div class="alert alert-info">
+	<p><?php echo $this->t('known_provider_detected', array('%PROVIDER%' => $provider['name']))?></p>
+
+<div class="gotoinbox">
+	<a href="<?php echo $provider['url'] ?>" class="btn">
+	<img style="display: inline" src="resources/emailproviders/<?php echo $provider['image'] ?>" /> <?php echo $this->t('go_to_inbox') ?>
+    </a>
+</div>
+	</div>
+<?php
+}
+
 	if (!$this->data['customNavigation']) {
 ?>
 
