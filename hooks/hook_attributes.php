@@ -5,9 +5,9 @@
 	*
 	*  Used in lib/Storage/UserCatalogue.php
 	*
-	* @param  	object	$localconfig	Local ldap source configuration params (from config/authsources.php)
-	* @param  	object	$userinfo		User values.
-	* @return 	string  $dn				ldap unique name
+	* @param	object	$localconfig	Local ldap source configuration params (from config/authsources.php)
+	* @param	object	$userinfo		User values.
+	* @return	string	$dn				ldap unique name
 	*/
 	function get_dn_hook($localconfig, $registerconfig, $userinfo) {
 		$base = $localconfig->getString('search.base');
@@ -26,8 +26,8 @@
 	*
 	*  Used in lib/Util.php
 	*
-	* @param  	object	$userinfo		User values
-	* @return 	string  $cn				ldap common name
+	* @param	object	$userinfo		User values
+	* @return	string	$cn				ldap common name
 	*/
 
 	function get_cn_hook($userinfo) {
@@ -42,43 +42,29 @@
 		return $cn;
 	}
 
-
-	// Generate user edition form fields
-	function genFieldView($viewAttr){
-		$fields = array();
-		foreach($viewAttr as $attrName => $fieldName){
-			switch($attrName){
-			case "userPassword":
-				$fields[] = 'pw1';
-				$fields[] = 'pw2';
-				break;
-			default:
-				$fields[] = $fieldName;
-			}
-		}
-		return $fields;
-	}
-
-
 	// For new registration, should also work for updated information
-	function processInput($fieldValues, $expectedValues){
+	function processInput($fieldValues, $wanted, $attributeDefinitions){
 
 		$skv = array();
 
-		foreach($expectedValues as $db => $field){
+		foreach($wanted as $field){
+			if ($field == 'pw1' || $field == 'pw2') {
+				$db = 'userPassword';
+			} else {
+				$db = isset($attributeDefinitions[$field]) ?
+					$attributeDefinitions[$field] : $field;
+			}
 			switch($db){
-			case "cn":
-				$hookfile = SimpleSAML_Module::getModuleDir('userregistration') . '/hooks/hook_attributes.php';
-				include_once($hookfile);
-				$skv[$db] = get_cn_hook($fieldValues);
-				break;
-			case "userPassword":
-				$skv[$db] = sspmod_userregistration_Util::validatePassword($fieldValues);
-				break;
-			default:
-				if (isset($fieldValues[$field])) {
-					$skv[$db] = $fieldValues[$field];
-				}
+				case "cn":
+					$skv[$db] = get_cn_hook($fieldValues);
+					break;
+				case "userPassword":
+					$skv[$db] = sspmod_userregistration_Util::validatePassword($fieldValues);
+					break;
+				default:
+					if (isset($fieldValues[$field])) {
+						$skv[$db] = $fieldValues[$field];
+					}
 			}
 		}
 		return $skv;
@@ -86,10 +72,11 @@
 
 
 	// Filter attributes 
-	function filterAsAttributes($asAttributes, $reviewAttr){
+	function filterAsAttributes($asAttributes, $reviewAttr, $attributeDefinitions){
 		$attr = array();
 
-		foreach($reviewAttr as $attrName => $fieldName){
+		foreach($reviewAttr as $fieldName){
+			$attrName = $attributeDefinitions[$fieldName];
 			switch($attrName){
 			case "userPassword":
 				break;

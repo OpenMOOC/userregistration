@@ -14,7 +14,12 @@ class sspmod_userregistration_XHTML_Form {
 	private $transDesc = NULL;
 	private $submitName = 'sender';
 	private $submitValue = 'Submit';
+	private $cancelButton = false;
+	private $cancelURL = NULL;
+	private $cancelText = NULL;
 	private $tos = false;
+	private $sendemail = false;
+	private $autogeneratepassword = false;
 
 
 	public function __construct($fieldsDef = array(), $actionEndpoint = NULL){
@@ -60,6 +65,20 @@ class sspmod_userregistration_XHTML_Form {
 
 	public function addTOS($tos){
 		$this->tos = $tos;
+	}
+
+	public function addSendEmail($sendemail){
+		$this->sendemail = $sendemail;
+	}
+
+	public function addGeneratePassword(){
+		$this->autogeneratepassword = true;
+	}
+
+	public function addCancelButton($text, $url){
+		$this->cancelButton = true;
+		$this->cancelText = $text;
+		$this->cancelURL = $url;
 	}
 
 	/*
@@ -117,11 +136,13 @@ class sspmod_userregistration_XHTML_Form {
 
 
 	private function writeInputControl($elementId){
-		$value = isset($this->values[$elementId])?$this->values[$elementId]:'';
-		$value = htmlspecialchars($value);
+		$type = $this->layout[$elementId]['control_type'];
+		$value = isset($this->values[$elementId])?$this->values[$elementId]: 
+			($type == 'multivalued' ? array() : '');
+		$value = is_array($value) ?
+			array_map('htmlentities', $value) :
+			htmlspecialchars($value);
 		if($this->actionEndpoint != 'delUser.php') {
-			$type = $this->layout[$elementId]['control_type'];
-
 			$attr = '';
 			if(in_array($elementId, $this->readonly)){
 				$attr .= 'readonly="readonly"';
@@ -138,6 +159,10 @@ class sspmod_userregistration_XHTML_Form {
 			}
 			if($type=='country') {
 				return $this->writeCountrySelect($value, $attr);
+			}
+
+			if ($type=='multivalued') {
+				return $this->writeMultivaluedField($elementId, $value, $attr);
 			}
 
             $size = $this->size;
@@ -183,11 +208,16 @@ class sspmod_userregistration_XHTML_Form {
 	}
 
 
-	private function writeFormSubmit(){
+	private function writeFormButtons(){
 		$html = '';
-		$format = '<tr><td></td><td><input class="btn" type="submit" name="%s" value="%s" /></td></tr>';
+		$format = '<tr><td></td><td>'
+			.'<button type="submit" class="btn btn-primary" type="submit" name="%s">%s</button>';
 		$trValue = htmlspecialchars($this->transDesc->t($this->submitValue));
 		$html = sprintf($format, $this->submitName, $trValue);
+		if ($this->cancelButton === true) {
+			$html .= $this->writeCancel();
+		}
+		$html .= '</td></tr>';
 		return $html;
 	}
 
@@ -200,6 +230,35 @@ class sspmod_userregistration_XHTML_Form {
 		$html = '<tr><td></td><td><input type="checkbox" name="tos" id="tos" value="tos"><label for="tos"> '.$template->t('tos').' (<a href="'.$tos.'" target="_new">'.$template->t('see_tos').'</a>)</label></td></tr>';
 		return $html;
 	}
+
+	private function writeSendEmail()
+	{
+		$template = new SimpleSAML_XHTML_Template(
+		SimpleSAML_Configuration::getInstance(),
+		'userregistration:step1_register.tpl.php',
+		'userregistration:userregistration');
+
+		$html = '<tr><td></td><td><input type="checkbox" name="sendemail" id="sendemail" value="sendemail"><label for="sendemail"> '.$template->t('sendemail').'</label></td></tr>';
+		return $html;
+	}
+
+	private function writeGeneratePassword()
+	{
+		$template = new SimpleSAML_XHTML_Template(
+		SimpleSAML_Configuration::getInstance(),
+		'userregistration:step1_register.tpl.php',
+		'userregistration:userregistration');
+
+		$html = '<tr><td></td><td><a id="generate-password" class="btn btn-small">'.$template->t('generate_password').'</a></td></tr>';
+		return $html;
+	}
+	private function writeCancel(){
+		$html = '<button class="btn" type="cancel" onclick="javascript:window.location=\'' 
+			. $this->cancelURL.'\'; return false">'
+			.$this->cancelText.'</button>';
+		return $html;
+	}
+
 
 	private function writeCountrySelect($value, $attr){
 		if(empty($value)) {
@@ -456,6 +515,37 @@ class sspmod_userregistration_XHTML_Form {
 		return $html;
 	}
 
+	private function writeMultivaluedField($elementId, $value, $attr){
+		$html = '<div class="multivalued-attribute" id="attribute-'.$elementId.'">';
+		$size = $this->size;
+		if(isset($this->layout[$elementId]['size']) && is_numeric((int)$this->layout[$elementId]['size'])) {
+			$size = $this->layout[$elementId]['size'];
+		}
+		$format = '<input class="inputelement" type="text" name="%s[]" value="%s" size="%s" %s '.(isset($this->layout[$elementId]['size'])? 'maxlength="'.$size.'"':''). ' /> <a tabindex="-1" href="#" class="remove"><i class="icon-remove"></i></a>';
+
+		foreach ($value as $v) {
+
+			$html .= '<div class="multivalued-attribute-value">';
+			$html .= sprintf($format, $elementId, $v, $size, $attr);
+			$html .= '</div>';
+		}
+
+        $new_value = <<<EONEWVALUE
+<div class="add-value">
+ <a href="#">%s</a>
+ <div>
+ <div class="multivalued-attribute-value">
+ $format
+ </div>
+ </div>
+</div>
+EONEWVALUE;
+        $new_value_label = htmlspecialchars($this->transDesc->t('attribute_add_value'));
+        $html .= sprintf($new_value, $new_value_label, $elementId, '', $size, $attr);
+		$html .= '</div>';
+		return $html;
+	}
+
 	public function genFormHtml(){
 		$html = '';
 
@@ -474,7 +564,13 @@ class sspmod_userregistration_XHTML_Form {
 		if ($this->tos) {
 			$html .= $this->writeTOS($this->tos);
 		}
-		$html .= $this->writeFormSubmit();
+		if ($this->autogeneratepassword) {
+			$html .= $this->writeGeneratePassword();
+		}
+		if ($this->sendemail) {
+			$html .= $this->writeSendEmail();
+		}
+		$html .= $this->writeFormButtons();
 
 		$html .= $this->writeFormEnd();
 

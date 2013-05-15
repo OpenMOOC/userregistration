@@ -13,22 +13,13 @@ $as = new SimpleSAML_Auth_Simple($asId);
 $as->requireAuth();
 
 /* Retrieve attributes of the user. */
-$attributes = $as->getAttributes();
+$currentAttributes = $as->getAttributes();
 
 $formFields = $uregconf->getArray('formFields');
-$reviewAttr = $uregconf->getArray('attributes');
+$attributes = $uregconf->getArray('attributes');
 
-$showFields = array();
-$readOnlyFields = array();
-
-foreach ($formFields as $name => $field) {
-	if(array_key_exists('show',$field['layout']) && $field['layout']['show']) {
-		$showFields[] = $name;
-	}
-	if(array_key_exists('read_only',$field['layout']) && $field['layout']['read_only']) {
-		$readOnlyFields[] = $name;
-	}
-}
+$showFields = sspmod_userregistration_Util::getFieldsFor('edit_user');
+$readOnlyFields = sspmod_userregistration_Util::getReadOnlyFieldsFor('edit_user');
 
 $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 
@@ -52,22 +43,19 @@ if(array_key_exists('sender', $_POST)) {
 		);
 		$validValues = $validator->validateInput();
 
-		// FIXME: Filter password
-		$remove = array('userPassword' => NULL);
-		$reviewAttr = array_diff_key($reviewAttr, $remove);
-
 		$eppnRealm = $uregconf->getString('user.realm');
 
 		$userInfo = sspmod_userregistration_Util::processInput(
 			$validValues,
-			$reviewAttr
+			$showFields,
+			$attributes
 		);
 
 		// Always prevent changes on User identification param in DataSource and Session.
 		unset($userInfo[$store->userIdAttr]);
 
 
-		$store->updateUser($attributes[$store->userIdAttr][0], $userInfo);
+		$store->updateUser($currentAttributes[$store->userIdAttr][0], $userInfo);
 
 		// I must override the values with the userInfo values due in processInput i can change the values.
 		// But now atributes from the logged user is obsolete, So I can actualize it and get values from session
@@ -77,12 +65,12 @@ if(array_key_exists('sender', $_POST)) {
 //		$session->setAttribute('givenName', array(0 => 'migivenname'));
 
 		foreach($userInfo as $name => $value) {
-			$attributes[$name][0] = $value;
-			$session->setAttribute($name, $attributes[$name]);
+			$currentAttributes[$name][0] = $value;
+			$session->setAttribute($name, $currentAttributes[$name]);
 		}
 
-		$attributes = $as->getAttributes();
-		$values = sspmod_userregistration_Util::filterAsAttributes($attributes, $reviewAttr);
+		$currentAttributes = $as->getAttributes();
+		$values = sspmod_userregistration_Util::filterAsAttributes($currentAttributes, $showFields, $attributes);
 
 		header('Location: '.SimpleSAML_Module::getModuleURL('userregistration/reviewUser.php?success'));
 		exit();
@@ -121,13 +109,11 @@ if(array_key_exists('sender', $_POST)) {
 	
 } else {
 	// The GET access this endpoint
-	$values = sspmod_userregistration_Util::filterAsAttributes($attributes, $reviewAttr);
+	$values = sspmod_userregistration_Util::filterAsAttributes($currentAttributes, $showFields, $attributes);
 }
 $formGen->setValues($values);
 $formGen->setSubmitter('submit_change');
 $formHtml = $formGen->genFormHtml();
 $html->data['formHtml'] = $formHtml;
-$html->data['uid'] = $attributes[$store->userIdAttr][0];
+$html->data['uid'] = $currentAttributes[$store->userIdAttr][0];
 $html->show();
-
-?>

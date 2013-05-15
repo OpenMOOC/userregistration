@@ -73,14 +73,17 @@
 		"es": "Registrar una cuenta nueva en %SNAME%",
 		"de": "Neues Benutzerkonto bei %SNAME% anlegen"
 	},
+	"s1_sent_head": {
+		"es": "Correo de confirmación enviado"
+	},
 	"s3_head": {
 		"no": "Data for ny bruker",
-		"es": "Nueva informaci\u00f3n de usuario",
+		"es": "Escoja una contraseña para su cuenta",
 		"de": "Daten f\u00fcr ein neues Benutzerkonto"
 	},
 	"s3_intro": {
 		"no": "Fyll inn passende brukerdata.",
-		"es": "Escribe la informaci\u00f3n de tu cuenta de usuario.",
+		"es": "Ésta será la contraseña de su cuenta. Por favor, escoja una contraseña segura.",
 		"de": "Geben Sie die Daten Ihres Benutzerkontos an."
 	},
 	"review_head": {
@@ -133,6 +136,9 @@
 		"es": "Restablecer contrase\u00f1a perdida",
 		"de": "Vergessenes Pa\u00dfwort zur\u00fccksetzen"
 	},
+	"lost_my_password_para": {
+		"es": "¿No recuerda su contraseña?"
+	},
 	"link_changepw": {
 		"no": "Bytt passord",
 		"es": "Cambiar contrase\u00f1a",
@@ -147,6 +153,9 @@
 		"no": "Du er n\u00e5 registrert p\u00e5 %SNAME%.",
 		"es": "Te registraste correctamente en %SNAME%.",
 		"de": "Sie k\u00f6nnen nun \u00fcber Ihr %SNAME% Benutzerkonto verf\u00fcgen."
+	},
+	"new_complete_para1_admin": {
+		"es": "Usuario %USERID% creado correctamente en %SNAME%."
 	},
 	"new_mailUsed_head": {
 		"no": "Registrer ny bruker",
@@ -286,7 +295,7 @@
 		"no": "Ugyldig billett. Den mest vanlige \u00e5rsaken til at en billett blir ugyldig er at den har utl\u00f8pt p\u00e5 tid siden den ble sendt til deg. Fors\u00f8k \u00e5 registrer deg p\u00e5 nytt for \u00e5 f\u00e5 en ny billett."
 	},
 	"get_token": {
-		"es": "Consigue otro token",
+		"es": "Reenviar correo de verificación",
 		"de": "Dann erhalten Sie auch einen neuen Code"
 	},
 	"submit_mail": {
@@ -371,5 +380,116 @@
 	},
 	"log_out": {
                 "es": "Terminar sesión"
-        }
+    },
+    "admin": {
+		"es": "Administración"
+    },
+    "link_manageusers": {
+		"es": "Gestionar usuarios existentes"
+    },
+    "search_string": {
+		"es": "Cadena de búsqueda"
+    },
+    "search": {
+		"es": "Buscar"
+    },
+	"search_results": {
+		"es": "Resultado de la búsqueda"
+	},
+    "no_results": {
+		"es": "La búsqueda no devolvió ningún resultado"
+    },
+    "edit": {
+		"es": "Modificar"
+    },
+	"remove": {
+		"es": "Eliminar"
+    },
+    "remove_selected": {
+		"es": "Borrar seleccionados"
+    },
+    "filter": {
+		"es": "Filtro:"
+    },
+    "manage1_search_instructions": {
+		"es": "Gestione los usuarios registrados desde esta sección. Elija un atributo y escriba algunos caracteres para buscar usuarios que tengan un valor para ese atributo que comience con la cadena escogida."
+    },
+    "confirm_remove_head": {
+        "es": "Confirmar el borrado"
+    },
+    "confirm_remove_par": {
+		"es": "¿Está seguro de querer eliminar las siguientes cuentas?"
+    },
+    "cancel": {
+		"es": "Cancelar"
+    },
+    "users_removed": {
+		"es": "Los siguientes usuarios fueron eliminados:"
+    },
+    "back_to_search": {
+		"es": "Volver a la búsqueda"
+    },
+    "modifying_user": {
+        "es": "Modificación de un usuario"
+    },
+	"admin_review_intro": {
+		"es": "Está modificando el usuario cuyo identificador es %UID%. "
+	},
+	"admin_review_intro2": {
+		"es": "En esta página puede modificar su información. Si no desea cambiar la contraseña, deje en blanco los campos"
+	},
+	"didnt_receive_verification_email": {
+		"es": "¿No recibió el email de verificación?"
+	},
+	"sendemail": {
+		"es": "Enviar datos de la cuenta al correo del usuario"
+	},
+	"mailNew_admin_header": {
+		"es": "Cuenta creada en %SNAME%"
+	},
+	"mailModified_admin_header": {
+		"es": "Cuenta modificada en %SNAME%"
+	},
+	"mailNew_admin_intro": {
+		"es": "Ha sido creada una cuenta para usted en %SNAME%. Encontrará sus credenciales a continuación:"
+	},
+	"mailModified_admin_intro": {
+		"es": "Su cuenta en %SNAME% ha sido modificada por un administrador. Encontrará los nuevos detalles de su cuenta a continuación:"
+	},
+	"password_not_modified": {
+		"es": "No modificada"
+	},
+	"account_details_sent": {
+		"es": "Los datos de acceso a la cuenta fueron enviados a %EMAIL%"
+	},
+	"generate_password": {
+		"es": "Generar contraseña aleatoria"
+	},
+	"student": {
+		"es": "Estudiante"
+	},
+	"teacher": {
+		"es": "Profesor"
+	},
+	"min_search_length": {
+		"es": "La cadena de búsqueda debe ser de al menos %MIN% caracteres"
+	},
+	"attribute_not_searchable": {
+		"es": "El atributo no se puede usar para búsquedas"
+	},
+	"attribute_add_value": {
+		"es": "añadir valor"
+	},
+	"step_1": {
+		"es": "Datos personales"
+	},
+	"step_2": {
+		"es": "Confirmación por email"
+	},
+	"step_3": {
+		"es": "Contraseña de la cuenta"
+	},
+	"step_4": {
+		"es": "Registro completado"
+	}
 }

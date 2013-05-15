@@ -53,6 +53,9 @@
 	"s1_head": {
 		"en": "Create new account at %SNAME%"
 	},
+	"s1_sent_head": {
+		"en": "Verification email sent"
+	},
 	"s1_para1": {
 		"en": "The first step is to register and verify your e-mail address. Make sure that you fill in an e-mail address where you can receive e-mail. Notice that some servers could mark this email as SPAM."
 	},
@@ -72,10 +75,10 @@
 		"en": "Create"
 	},
 	"s3_head": {
-		"en": "New user information"
+		"en": "Set your account password"
 	},
 	"s3_intro": {
-		"en": "Type in your user account information."
+		"en": "This will be your account password. Please, choose a secure one."
 	},
 	"review_head": {
 		"en": "User information"
@@ -119,6 +122,9 @@
 	"link_lostpw": {
 		"en": "Reset lost password"
 	},
+	"lost_my_password_para": {
+		"en": "Did you forget your account password?"
+	},
 	"link_changepw": {
 		"en": "Change password"
 	},
@@ -127,6 +133,9 @@
 	},
 	"new_complete_para1": {
 		"en": "You are now successfully registered at %SNAME%."
+	},
+	"new_complete_para1_admin": {
+		"en": "User %USERID% was succesfully created at %SNAME%."
 	},
 	"new_mailUsed_head": {
 		"en": "Create new user"
@@ -144,7 +153,7 @@
 		"en": "Invalid token provided. The most common reason why a token becomes invalid is that the token you received has timed out."
 	},
 	"get_token": {
-		"en": "Receive a new fresh token"
+		"en": "Resend verification email"
 	},
 	"err_retype_pw": {
 		"en": "The two typed password did not match."
@@ -271,5 +280,116 @@
 	},
 	"log_out": {
 		"en": "Log out"
+	},
+    "admin": {
+		"en": "Administration"
+    },
+    "link_manageusers": {
+		"en": "Manage current users"
+    },
+    "search_string": {
+		"en": "Search string"
+    },
+    "search": {
+		"en": "Search"
+    },
+	"search_results": {
+		"en": "Search results"
+	},
+    "no_results": {
+		"en": "Search yielded no results"
+    },
+    "edit": {
+		"en": "Edit"
+    },
+    "remove": {
+		"en": "Remove"
+    },
+    "remove_selected": {
+		"en": "Remove selected"
+    },
+    "filter": {
+		"en": "Filter:"
+    },
+    "manage1_search_instructions": {
+		"en": "Manage currently registered users here. Choose an attribute and type some characters to search for users that have that attribute starting with the string you used."
+    },
+    "confirm_remove_head": {
+        "en": "Confirm remove"
+    },
+    "confirm_remove_par": {
+		"en": "Are you sure you want to permanently remove the accounts below?"
+    },
+    "cancel": {
+		"en": "Cancel"
+    },
+    "users_removed": {
+		"en": "The following users were removed"
+    },
+    "back_to_search": {
+		"en": "Return to search"
+    },
+    "modifying_user": {
+        "en": "Modifying an user"
+    },
+	"admin_review_intro": {
+		"en": "You are modifying the user whose id is %UID%. "
+	},
+	"admin_review_intro2": {
+		"en": "On this page you can alter the registered user information. If you want to keep unchanged the password, just leave the fields blank"
+	},
+	"didnt_receive_verification_email": {
+		"en": "Didn't receive the verification email?"
+	},
+	"sendemail": {
+		"en": "Send account details to user specified email"
+	},
+	"mailNew_admin_header": {
+		"en": "Account created at %SNAME%"
+	},
+	"mailModified_admin_header": {
+		"en": "Account modified at %SNAME%"
+	},
+	"mailNew_admin_intro": {
+		"en": "An account for you has been created at %SNAME%. Your account credentials follow:"
+	},
+	"mailModified_admin_intro": {
+		"en": "Your account on %SNAME% has been modified by an administrator. Your new account details follow:"
+	},
+	"password_not_modified": {
+		"en": "Not modified"
+	},
+	"account_details_sent": {
+		"en": "User account details were sent to %EMAIL%"
+	},
+	"generate_password": {
+		"en": "Generate random password"
+	},
+	"student": {
+		"en": "Student"
+	},
+	"teacher": {
+		"en": "Teacher"
+	},
+	"min_search_length": {
+		"en": "The search string has to be at least %MIN% characters long"
+	},
+	"attribute_not_searchable": {
+		"en": "Specified attribute is not searchable"
+	},
+	"attribute_add_value": {
+		"en": "add new value"
+	},
+	"step_1": {
+		"en": "Personal data"
+	},
+	"step_2": {
+		"en": "Email verification"
+	},
+	"step_3": {
+		"en": "Account password"
+	},
+	"step_4": {
+		"en": "Registration completed"
 	}
 }

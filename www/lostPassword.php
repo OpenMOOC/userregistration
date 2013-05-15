@@ -2,7 +2,7 @@
 
 $config = SimpleSAML_Configuration::getInstance();
 $uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
-$tokenLifetime = $uregconf->getInteger('mailtoken.lifetime');
+$mailoptions = $uregconf->getArray('mail');
 $viewAttr = $uregconf->getArray('attributes');
 $formFields = $uregconf->getArray('formFields');
 $eppnRealm = $uregconf->getString('user.realm');
@@ -44,7 +44,7 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 			);
 		}
 
-		$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
+		$tg = new SimpleSAML_Auth_TimeLimitedToken($mailoptions['token.lifetime']);
 		$tg->addVerificationData($email);
 		$newToken = $tg->generate_token();
 
@@ -56,43 +56,21 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 				'email' => $email,
 				'token' => $newToken));
 
-		$mailt = new SimpleSAML_XHTML_Template(
-			$config,
-			'userregistration:lostPasswordMail_token.tpl.php',
-			'userregistration:userregistration');
-
-		$mailt->data['registerurl'] = $registerurl;
 		$systemName = array('%SNAME%' => $uregconf->getString('system.name') );
-		$mailt->data['systemName'] = $systemName;
-		$mailt->data['tokenLifetime'] = $tokenLifetime;
+		$mail_data = array(
+			'registerurl' => $registerurl,
+			'systemName' => $systemName,
+			'tokenLifetime' => $mailoptions['token.lifetime'],
+		);
 
-/*
-		TODO: Check $email in $store->userRegisterEmailAttr or in $store->recoverPwEmailAttrs
-
-		$emailto_list = array();
-		foreach($store->recoverPwEmailAttrs as $email_source) {
-			if($store->isRegistered($email_source, $email)) {
-				$emailto_list[] = $email;
-			}
-		}
-		$emailto_list = array_unique($emailto_list);
-		if(!empty($emailto_list)) {
-			$emailto = implode(",", $emailto_list);
-		}
-		else {
-			$emailto = $email;
-		}
-*/
 		$emailto = $email;
 
-		$mailer = new sspmod_userregistration_XHTML_Mailer(
+		sspmod_userregistration_Util::sendEmail(
 			$emailto,
-			$uregconf->getString('mail.subject'),
-			$uregconf->getString('mail.from'),
-			NULL,
-			$uregconf->getString('mail.replyto'));
-		$mailer->setTemplate($mailt);
-		$mailer->send();
+			$mailoptions['subject'],
+			'userregistration:lostPasswordMail_token.tpl.php',
+			$mail_data
+		);
 
 		$html = new SimpleSAML_XHTML_Template(
 			$config,
@@ -128,7 +106,7 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 			throw new SimpleSAML_Error_Exception(
 				'E-mail parameter in request is lost');
 
-		$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
+		$tg = new SimpleSAML_Auth_TimeLimitedToken($mailoptions['token.lifetime']);
 		$tg->addVerificationData($email);
 		$token = $_REQUEST['token'];
 		if (!$tg->validate_token($token))
@@ -193,7 +171,7 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		  throw new SimpleSAML_Error_Exception(
 			  'E-mail parameter in request is lost');
 
-		$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
+		$tg = new SimpleSAML_Auth_TimeLimitedToken($tmailoptions['token.lifetime']);
 		$tg->addVerificationData($email);
 		$token = $_REQUEST['token'];
 		if (!$tg->validate_token($token))

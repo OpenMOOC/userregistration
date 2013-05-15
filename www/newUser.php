@@ -2,27 +2,30 @@
 
 $config = SimpleSAML_Configuration::getInstance();
 $uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
-$tokenLifetime = $uregconf->getInteger('mailtoken.lifetime');
-$viewAttr = $uregconf->getArray('attributes');
+$mailoptions = $uregconf->getArray('mail');
+$attributes = $uregconf->getArray('attributes');
 $formFields = $uregconf->getArray('formFields');
 $eppnRealm = $uregconf->getString('user.realm');
 $tos = $uregconf->getString('tos', '');
 $customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
+
+$steps = new sspmod_userregistration_XHTML_Steps();
 
 
 $systemName = array('%SNAME%' => $uregconf->getString('system.name') );
 $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 
 if (array_key_exists('savepw', $_REQUEST)) {
+	// Stage 4: Registration completed
 	try{
-		$viewAttrPW = array ('userPassword' => 'userPassword');
-		$listValidate = sspmod_userregistration_Util::genFieldView($viewAttrPW);
+		$steps->setCurrent(4);
+		$listValidate = sspmod_userregistration_Util::getFieldsFor('first_password');
 		$validator = new sspmod_userregistration_Registration_Validation(
 		 $formFields,
 		 $listValidate);
 		$validValues = $validator->validateInput();
 
-		$userInfo = sspmod_userregistration_Util::processInput($validValues, $viewAttrPW);
+		$userInfo = sspmod_userregistration_Util::processInput($validValues, $listValidate, $attributes);
 
 		// Adding affiliation (student) when a user is registered
 		$userInfo['eduPersonAffiliation'] = 'student';
@@ -36,17 +39,26 @@ if (array_key_exists('savepw', $_REQUEST)) {
 
 		$store->updateUser($_POST['email'], $userInfo);
 
-		header('Location: '.SimpleSAML_Module::getModuleURL('userregistration/newUser.php?success'));
-		exit();
+		$html = new SimpleSAML_XHTML_Template(
+			$config,
+			'userregistration:step4_complete.tpl.php',
+			'userregistration:userregistration');
 
+			$html->data['systemName'] = $systemName;
+			$html->data['customNavigation'] = $customNavigation;
+			$html->data['stepsHtml'] = $steps->generate();
+			$html->show();
 	}catch(sspmod_userregistration_Error_UserException $e){
+		// Go back one step
+		$steps->setCurrent(3);
+
 		$email = $_REQUEST['email'];
 		$token = $_REQUEST['token'];
 
 		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'newUser.php');
 
 		$viewAttrPW = array ('userPassword' => 'userPassword');
-		$showFields = sspmod_userregistration_Util::genFieldView($viewAttrPW);
+		$showFields = sspmod_userregistration_Util::getFieldsFor('first_password');
 
 		$formGen->fieldsToShow($showFields);
 
@@ -85,58 +97,12 @@ if (array_key_exists('savepw', $_REQUEST)) {
 
 		$terr->data['systemName'] = $systemName;
 		$terr->data['customNavigation'] = $customNavigation;
+		$terr->data['stepsHtml'] = $steps->generate();
 		$terr->show();
 	}
-} elseif(array_key_exists('refreshtoken', $_POST)){
-	// Resend token
-
-	$email = $_POST['email'];
-
-	$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
-	$tg->addVerificationData($email);
-	$newToken = $tg->generate_token();
-
-	$url = SimpleSAML_Utilities::selfURL();
-
-	$registerurl = SimpleSAML_Utilities::addURLparameter(
-		$url,
-		array(
-			'email' => $email,
-			'token' => $newToken
-		)
-	);
-
-	$mailt = new SimpleSAML_XHTML_Template(
-		$config,
-		'userregistration:mail1_token.tpl.php',
-		'userregistration:userregistration');
-	$mailt->data['email'] = $email;
-	$tokenExpiration = 
-	$mailt->data['tokenLifetime'] = $tokenLifetime;
-	$mailt->data['registerurl'] = $registerurl;
-	$mailt->data['systemName'] = $systemName;
-
-	$mailer = new sspmod_userregistration_XHTML_Mailer(
-		$email,
-		$uregconf->getString('mail.subject'),
-		$uregconf->getString('mail.from'),
-		NULL,
-		$uregconf->getString('mail.replyto'));
-	$mailer->setTemplate($mailt);
-	$mailer->send();
-
-	$html = new SimpleSAML_XHTML_Template(
-		$config,
-		'userregistration:step2_sent.tpl.php',
-		'userregistration:userregistration');
-	$html->data['email'] = $email;
-	$html->data['systemName'] = $systemName;
-	$html->data['customNavigation'] = $customNavigation;
-	$html->show();
-
-}
-else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQUEST)){
+} elseif(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_REQUEST)){
 	// Stage 3: User access page from url in e-mail
+	$steps->setCurrent(3);
 	try{
 		$token = $_REQUEST['token'];
 		$email = filter_input(
@@ -147,7 +113,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 			throw new SimpleSAML_Error_Exception(
 				'E-mail parameter in request is lost');
 
-		$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
+		$tg = new SimpleSAML_Auth_TimeLimitedToken($mailoptions['token.lifetime']);
 		$tg->addVerificationData($email);
 		if (!$tg->validate_token($token)) {
 			throw new sspmod_userregistration_Error_UserException('invalid_token');
@@ -156,7 +122,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'newUser.php');
 
 		$viewAttrPW = array ('userPassword' => 'userPassword');
-		$showFields = sspmod_userregistration_Util::genFieldView($viewAttrPW);
+		$showFields = sspmod_userregistration_Util::getFieldsFor('first_password');
 
 		$formGen->fieldsToShow($showFields);
 
@@ -179,6 +145,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 			$config,
 			'userregistration:step3_password.tpl.php',
 			'userregistration:userregistration');
+		$html->data['stepsHtml'] = $steps->generate();
 		$html->data['formHtml'] = $formHtml;
 
 		if(!empty($store->passwordPolicy)) {
@@ -192,7 +159,8 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 	}catch (sspmod_userregistration_Error_UserException $e){
 
 		// Invalid token
-
+		// Go back one step
+		$steps->setCurrent(2);
 		$terr = new SimpleSAML_XHTML_Template(
 			$config,
 			'userregistration:step3_password.tpl.php',
@@ -218,20 +186,69 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 		
 		$terr->data['systemName'] = $systemName;
 		$terr->data['customNavigation'] = $customNavigation;
+		$terr->data['stepsHtml'] = $steps->generate();
 		$terr->show();
 	}
+} elseif(array_key_exists('refreshtoken', $_POST)){
+	// Stage 2 (b): Resend email token
+	$steps->setCurrent(2);
+
+	$email = $_POST['email'];
+
+	$tg = new SimpleSAML_Auth_TimeLimitedToken($mailoptions['token.lifetime']);
+	$tg->addVerificationData($email);
+	$newToken = $tg->generate_token();
+
+	$url = SimpleSAML_Utilities::selfURL();
+
+	$registerurl = SimpleSAML_Utilities::addURLparameter(
+		$url,
+		array(
+			'email' => $email,
+			'token' => $newToken
+		)
+	);
+
+	$tokenExpiration = $mailoptions['token.lifetime'];
+	$mail_data = array(
+		'email' => $email,
+		'tokenLifetime' => $tokenExpiration,
+		'registerurl' => $registerurl,
+		'systemName' => $systemName,
+	);
+
+	sspmod_userregistration_Util::sendEmail(
+		$email,
+		$mailoptions['subject'],
+		'userregistration:mail1_token.tpl.php',
+		$mail_data
+	);
+
+
+	$html = new SimpleSAML_XHTML_Template(
+		$config,
+		'userregistration:step2_sent.tpl.php',
+		'userregistration:userregistration');
+	$html->data['email'] = $email;
+	$html->data['systemName'] = $systemName;
+	$html->data['stepsHtml'] = $steps->generate();
+	$html->data['customNavigation'] = $customNavigation;
+	$html->show();
+
 } elseif(array_key_exists('sender', $_POST)){
 	try{
+		// Stage 2: send email token
+		$steps->setCurrent(2);
+
 		// Add user object
-	
-		$listValidate = sspmod_userregistration_Util::genFieldView($viewAttr);
+		$listValidate = sspmod_userregistration_Util::getFieldsFor('new_user');
 
 		$validator = new sspmod_userregistration_Registration_Validation(
 		 $formFields,
 		 $listValidate);
 		$validValues = $validator->validateInput();
 
-		$userInfo = sspmod_userregistration_Util::processInput($validValues, $viewAttr);
+		$userInfo = sspmod_userregistration_Util::processInput($validValues, $listValidate, $attributes);
 
 		if(!empty($tos) && !array_key_exists('tos', $_POST)) {
 			$e = new sspmod_userregistration_Error_UserException('tos_failed');
@@ -242,7 +259,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 
 		$email = $userInfo[$store->userRegisterEmailAttr];
 
-		$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
+		$tg = new SimpleSAML_Auth_TimeLimitedToken($mailoptions['token.lifetime']);
 		$tg->addVerificationData($email);
 		$newToken = $tg->generate_token();
 
@@ -256,29 +273,26 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 			)
 		);
 
-		$mailt = new SimpleSAML_XHTML_Template(
-			$config,
-			'userregistration:mail1_token.tpl.php',
-			'userregistration:userregistration');
-		$mailt->data['email'] = $email;
-		$tokenExpiration = 
-		$mailt->data['tokenLifetime'] = $tokenLifetime;
-		$mailt->data['registerurl'] = $registerurl;
-		$mailt->data['systemName'] = $systemName;
+		$tokenExpiration = $mailoptions['token.lifetime'];
+		$mail_data = array(
+			'email' => $email,
+			'tokenLifetime' => $tokenExpiration,
+			'registerurl' => $registerurl,
+			'systemName' => $systemName,
+		);
 
-		$mailer = new sspmod_userregistration_XHTML_Mailer(
+		sspmod_userregistration_Util::sendEmail(
 			$email,
-			$uregconf->getString('mail.subject'),
-			$uregconf->getString('mail.from'),
-			NULL,
-			$uregconf->getString('mail.replyto'));
-		$mailer->setTemplate($mailt);
-		$mailer->send();
+			$mailoptions['subject'],
+			'userregistration:mail1_token.tpl.php',
+			$mail_data
+		);
 
 		$html = new SimpleSAML_XHTML_Template(
 			$config,
 			'userregistration:step2_sent.tpl.php',
 			'userregistration:userregistration');
+		$html->data['stepsHtml'] = $steps->generate();
 		$html->data['email'] = $email;
 		$html->data['systemName'] = $systemName;
 		$html->data['customNavigation'] = $customNavigation;
@@ -287,9 +301,11 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 
 	}catch(sspmod_userregistration_Error_UserException $e){
 		// Some user error detected
+		// One step back
+		$steps->setCurrent(1);
 		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'newUser.php');
 
-		$showFields = sspmod_userregistration_Util::genFieldView($viewAttr);
+		$showFields = sspmod_userregistration_Util::getFieldsFor('new_user');
 		$formGen->fieldsToShow($showFields);
 
 		$values = $validator->getRawInput();
@@ -307,7 +323,16 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 		 $config,
 		 'userregistration:step1_register.tpl.php',
 		 'userregistration:userregistration');
+		$terr->data['stepsHtml'] = $steps->generate();
 		$terr->data['formHtml'] = $formHtml;
+
+        if ($e->getMesgId() == 'uid_taken_but_not_verified') {
+            $email = $userInfo[$store->userRegisterEmailAttr];
+			$terr->data['refreshtoken'] = true;
+			$terr->data['email'] = $email;
+		} elseif ($e->getMesgId() == 'uid_taken') {
+			$terr->data['url_lostpassword'] = SimpleSAML_Module::getModuleURL('userregistration/lostPassword.php');
+		}
 
 		$error = $terr->t(
 			 $e->getMesgId(),
@@ -320,21 +345,14 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 		$terr->data['customNavigation'] = $customNavigation;
 		$terr->show();
 	}
-} elseif (array_key_exists('success', $_GET)) {
-	$html = new SimpleSAML_XHTML_Template(
-		$config,
-		'userregistration:step4_complete.tpl.php',
-		'userregistration:userregistration');
-
-		$html->data['systemName'] = $systemName;
-		$html->data['customNavigation'] = $customNavigation;
-		$html->show();
 } else {
 	// Stage 1: New user clean access
 
+	$steps->setCurrent(1);
+
 	$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'newUser.php');
 
-	$showFields = sspmod_userregistration_Util::genFieldView($viewAttr);
+	$showFields = sspmod_userregistration_Util::getFieldsFor('new_user');
 
 	$formGen->fieldsToShow($showFields);
 
@@ -349,6 +367,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 		'userregistration:step1_register.tpl.php',
 		'userregistration:userregistration');
 
+	$html->data['stepsHtml'] = $steps->generate();
 	$html->data['formHtml'] = $formHtml;
 
 	$html->data['systemName'] = $systemName;

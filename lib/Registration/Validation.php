@@ -4,16 +4,36 @@ class sspmod_userregistration_Registration_Validation {
 	private $validators = array();
 	private $optionals = array();
 	private $size = array();
+	private $multivalued = array();
 
-	public function __construct($fieldsDef, $usedFields) {
+	public function __construct($fieldsDef, $usedFields, $form_name = '') {
 		foreach ($usedFields as $field) {
 			$this->validators[$field] = array();
 			$this->validators[$field] = $fieldsDef[$field]['validate'];
-			if (isset($fieldsDef[$field]['layout']) && isset($fieldsDef[$field]['layout']['optional']) && $fieldsDef[$field]['layout']['optional']) {
-				$this->optionals[] = $field;
-			}
-			if (isset($fieldsDef[$field]['layout']) && isset($fieldsDef[$field]['layout']['size']) && is_numeric((int)$fieldsDef[$field]['layout']['size'])) {
-				$this->size[$field] = (int)$fieldsDef[$field]['layout']['size'];
+
+			if (isset($fieldsDef[$field]['layout'])) {
+				if (isset($fieldsDef[$field]['layout']['optional'])) {
+					$opt = $fieldsDef[$field]['layout']['optional'];
+					$is_optional = false;
+					if (is_array($opt)) {
+						$is_optional = in_array($form_name, $opt);
+					} else {
+						$is_optional = $opt;
+					}
+					if ($is_optional === true) {
+						$this->optionals[] = $field;
+					}
+				}
+
+				if (isset($fieldsDef[$field]['layout']['size'])
+				&& is_numeric((int)$fieldsDef[$field]['layout']['size'])) {
+					$this->size[$field] = (int)$fieldsDef[$field]['layout']['size'];
+				}
+
+				if (isset($fieldsDef[$field]['layout']['control_type']) &&
+				$fieldsDef[$field]['layout']['control_type'] == 'multivalued') {
+					$this->multivalued[] = $field;
+				}
 			}
 		}
 	}
@@ -66,7 +86,23 @@ class sspmod_userregistration_Registration_Validation {
 			}
 			else {
 				# sanitize data
-				$filtered[$field] = strip_tags($value);
+				if (!in_array($field, $this->multivalued)) {
+					$filtered[$field] = strip_tags($value);
+				} else {
+					$filtered[$field] = array_map('strip_tags', $value);
+
+					// Last value comes from the 'add new value' input. Remove it
+					array_pop($filtered[$field]);
+
+					// Get unique values
+					$filtered[$field] = array_unique($filtered[$field]);
+
+					// Remove empty values
+					$filtered[$field] = array_diff($filtered[$field], array(''));
+
+					// Redo indexes
+					$filtered[$field] = array_values($filtered[$field]);
+				}
 			}
 		}
 		foreach($this->size as $field => $size){
