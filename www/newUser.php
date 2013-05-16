@@ -110,7 +110,6 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		'userregistration:mail1_token.tpl.php',
 		'userregistration:userregistration');
 	$mailt->data['email'] = $email;
-	$tokenExpiration = 
 	$mailt->data['tokenLifetime'] = $tokenLifetime;
 	$mailt->data['registerurl'] = $registerurl;
 	$mailt->data['systemName'] = $systemName;
@@ -260,7 +259,6 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 			'userregistration:mail1_token.tpl.php',
 			'userregistration:userregistration');
 		$mailt->data['email'] = $email;
-		$tokenExpiration = 
 		$mailt->data['tokenLifetime'] = $tokenLifetime;
 		$mailt->data['registerurl'] = $registerurl;
 		$mailt->data['systemName'] = $systemName;

@@ -18,6 +18,9 @@
 	"attribute_oldpw": {
 		"es": "Contrase\u00f1a actual"
 	},
+	"attribute_newmail": {
+		"es": "Nuevo correo electrónico"
+	},
 	"attribute_city": {
 		"es": "Ciudad"
 	},
@@ -53,6 +56,9 @@
 		"es": "Para continuar tu registro de nuevo usuario en %SNAME%, visita la URL:",
 		"de": "Um die Registerierung eines neuen Benutzerkontos f\u00fcr %SNAME% fortzusetzen, rufen Sie folgenden URL auf:"
 	},
+    "mailChange_urlintro": {
+        "es": "Para continuar con el cambio de correo en %SNAME%, visita la URL:"
+    },
 	"mailLost_urlintro": {
 		"no": "For \u00e5 nullstille ditt passord p\u00e5 %SNAME%, bruk f\u00f8lgende URL:",
 		"es": "Para restablecer tu contrase\u00f1a en %SNAME%, visita la URL:",
@@ -138,6 +144,9 @@
 		"es": "Cambiar contrase\u00f1a",
 		"de": "Pa\u00dfwort \u00e4ndern"
 	},
+	"link_changemail": {
+		"es": "Cambiar correo electrónico"
+	},
 	"new_complete_head": {
 		"no": "Registreringen er fullf\u00f8rt",
 		"es": "Proceso de registro completo.",
@@ -186,6 +195,15 @@
 	},
 	"message_invalid_oldpw": {
 		"es": "Introdujo una contraseña actual inválida, pruebe de nuevo"
+	},
+	"cm_head": {
+		"es": "Cambiar correo electrónico"
+	},
+	"cm_para1": {
+		"es": "El identificador de tu usuario es %UID%. Escribe tu nuevo correo electrónico y Guarda."
+	},
+	"message_chmail": {
+		"es": "Correo electrónico enviado con éxito"
 	},
 	"message_chuinfo": {
 		"no": "Brukerdata ble endret",
@@ -273,6 +291,15 @@
 		"de": "An diese Adresse wird eine automatisierte E-Mail gesendet, die einen URL enth\u00e4lt. Diesen URL rufen Sie dann in einem Webbrowser auf, um zu best\u00e4tigen, da\u00df Sie die Email erhalten haben.",
 		"no": "Du vil motta en e-post som inkluderer en URL (lenke) som du m\u00e5 trykke p\u00e5 for \u00e5 fortsette registreringen."
 	},
+	"s1_ch_head": {
+		"es": "Cambiar correo registrado en %SNAME%"
+	},
+    "s1_ch_para1": {
+        "es": "Para cambiar el correo, primero debes verificarlo. Revisa tu servicio de correo. Ten en cuenta que algunos servidores podrían marcar el correo como SPAM."
+    },
+    "s1_ch_para2": {
+        "es": "Recibirás un correo en %MAIL% con instrucciones que deber\u00e1s seguir para establecer un nuevo correo. Ten en cuenta que algunos servidores pueden clasificar el correo como SPAM."
+    },
 	"lpw_para1": {
 		"es": "Para restablecer la contrase\u00f1a escribe la direcci\u00f3n de e-mail que usaste cuando registrarte la cuenta.",
 		"de": "Geben Sie jene E-Mail-Adresse an, die Sie zur Registrierung Ihres %SNAME% Benutzerkontos verwendet haben.",

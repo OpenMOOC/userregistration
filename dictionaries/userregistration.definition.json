@@ -14,6 +14,9 @@
 	"attribute_oldpw": {
 		"en": "Current password"
 	},
+	"attribute_newmail": {
+		"en": "New mail"
+	},
 	"attribute_city": {
 		"en": "City"
 	},
@@ -41,6 +44,9 @@
 	"mailNew_urlintro": {
 		"en": "In order to continue registration of a new user on %SNAME%, visit the following URL:"
 	},
+    "mailChange_urlintro": {
+        "en": "In order to change the mail on %SNAME%, visit the following URL:"
+    },
 	"mailLost_urlintro": {
 		"en": "To reset your password at %SNAME%, use the following URL:"
 	},
@@ -59,6 +65,15 @@
 	"s1_para2": {
 		"en": "You will receive an e-mail (%MAIL% account) including an url that you have to follow to continue the registration process."
 	},
+	"s1_ch_head": {
+		"en": "Change registered mail at %SNAME%"
+	},
+    "s1_ch_para1": {
+        "en": "In order to change your mail, you first may verify it. Check your mail service. Notice that some servers could mark this email as SPAM."
+    },
+    "s1_ch_para2": {
+        "en": "You will receive an e-mail (%MAIL% account) including an url that you have to follow to change your mail."
+    },
 	"submit_mail": {
 		"en": "Send e-mail"
 	},
@@ -121,6 +136,9 @@
 	},
 	"link_changepw": {
 		"en": "Change password"
+	},
+	"link_changemail": {
+		"en": "Change mail"
 	},
 	"new_complete_head": {
 		"en": "Registration complete"
@@ -193,6 +211,15 @@
 	},
 	"message_invalid_oldpw": {
 		"en": "Invalid current password, try again"
+	},
+	"cm_head": {
+		"en": "Change mail"
+	},
+	"cm_para1": {
+		"en": "Your user id is %UID%. Type the new mail and Submit."
+	},
+	"message_chmail": {
+		"en": "Mail successfully changed"
 	},
 	"message_chuinfo": {
 		"en": "User info successfully changed at the registry component, if you want that the changes take effect on the other components of the platform you should"
