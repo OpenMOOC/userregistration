@@ -100,7 +100,54 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		$terr->data['stepsHtml'] = $steps->generate();
 		$terr->show();
 	}
-} elseif(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_REQUEST)){
+} elseif(array_key_exists('refreshtoken', $_POST)){
+	// Resend token
+
+	$email = $_POST['email'];
+
+	$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
+	$tg->addVerificationData($email);
+	$newToken = $tg->generate_token();
+
+	$url = SimpleSAML_Utilities::selfURL();
+
+	$registerurl = SimpleSAML_Utilities::addURLparameter(
+		$url,
+		array(
+			'email' => $email,
+			'token' => $newToken
+		)
+	);
+
+	$mailt = new SimpleSAML_XHTML_Template(
+		$config,
+		'userregistration:mail1_token.tpl.php',
+		'userregistration:userregistration');
+	$mailt->data['email'] = $email;
+	$mailt->data['tokenLifetime'] = $tokenLifetime;
+	$mailt->data['registerurl'] = $registerurl;
+	$mailt->data['systemName'] = $systemName;
+
+	$mailer = new sspmod_userregistration_XHTML_Mailer(
+		$email,
+		$uregconf->getString('mail.subject'),
+		$uregconf->getString('mail.from'),
+		NULL,
+		$uregconf->getString('mail.replyto'));
+	$mailer->setTemplate($mailt);
+	$mailer->send();
+
+	$html = new SimpleSAML_XHTML_Template(
+		$config,
+		'userregistration:step2_sent.tpl.php',
+		'userregistration:userregistration');
+	$html->data['email'] = $email;
+	$html->data['systemName'] = $systemName;
+	$html->data['customNavigation'] = $customNavigation;
+	$html->show();
+
+}
+else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQUEST)){
 	// Stage 3: User access page from url in e-mail
 	$steps->setCurrent(3);
 	try{
@@ -279,13 +326,14 @@ if (array_key_exists('savepw', $_REQUEST)) {
 			)
 		);
 
-		$tokenExpiration = $mailoptions['token.lifetime'];
-		$mail_data = array(
-			'email' => $email,
-			'tokenLifetime' => $tokenExpiration,
-			'registerurl' => $registerurl,
-			'systemName' => $systemName,
-		);
+		$mailt = new SimpleSAML_XHTML_Template(
+			$config,
+			'userregistration:mail1_token.tpl.php',
+			'userregistration:userregistration');
+		$mailt->data['email'] = $email;
+		$mailt->data['tokenLifetime'] = $tokenLifetime;
+		$mailt->data['registerurl'] = $registerurl;
+		$mailt->data['systemName'] = $systemName;
 
 		sspmod_userregistration_Util::sendEmail(
 			$email,

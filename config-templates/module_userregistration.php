@@ -111,6 +111,7 @@ $config = array (
         // Will be a combination for givenName and sn.
         'cn' => 'cn',
         'mail' => 'mail',
+        'oldmail' => 'irisMailAlternateAddress',
         // uid and appended realm
         'eduPersonPrincipalName' => 'eduPersonPrincipalName',
         // Set from password walidataion and encryption
@@ -146,6 +147,7 @@ $config = array (
      * 'admin_edit_user': admin account modification form
      * 'first_password': user is setting his own password after registering
      * 'change_password': user is changing his password
+     * 'change_mail': user is changing his mail
      */
     'formFields' => array(
         // UID
@@ -322,5 +324,16 @@ $config = array (
                 ),
             ),
         ),
+        'newmail' => array(
+            'validate' => FILTER_VALIDATE_EMAIL,
+            'layout' => array(
+                'control_type' => 'text',
+                'show' => array(
+                    'change_mail',
+                ),
+                'read_only' => array(
+                ),
+            ),
+        ), 
     ),
 );

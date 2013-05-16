@@ -46,6 +46,10 @@ $admin_links = array();
 				'href' => SimpleSAML_Module::getModuleURL('userregistration/changePassword.php'),
 				'text' => '{userregistration:userregistration:link_changepw}',
 			);
+			$links[] = array(
+				'href' => SimpleSAML_Module::getModuleURL('userregistration/changeMail.php'),
+				'text' => '{userregistration:userregistration:link_changemail}',
+			);
 /*
 			$links[] = array(
 				'href' => SimpleSAML_Module::getModuleURL('userregistration/delUser.php'),
