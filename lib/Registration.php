@@ -292,7 +292,14 @@ class sspmod_userregistration_Registration {
 			
 			$this->steps->setCurrent(4);
 			
-			// TODO: Validate token
+			//  Validate token
+			$token = $_REQUEST['token'];
+			$email = $_REQUEST['email'];
+			$tg = new SimpleSAML_Auth_TimeLimitedToken($this->mailoptions['token.lifetime']);
+			$tg->addVerificationData($email);
+			if (!$tg->validate_token($token)) {
+				throw new sspmod_userregistration_Error_UserException('invalid_token');
+			}
 
 			$listValidate = sspmod_userregistration_Util::getFieldsFor('first_password');
 			$this->validator = new sspmod_userregistration_Registration_Validation(
