@@ -234,7 +234,8 @@ if (array_key_exists('savepw', $_REQUEST)) {
 	$html->data['customNavigation'] = $customNavigation;
 
 	// Email service provider helper
-	$provider = new sspmod_userregistration_MailGuesser($email);
+	$known_email_providers = $uregconf->getArray('known.email.providers');
+	$provider = new sspmod_userregistration_EmailProviderGuess($email, $known_email_providers);
 	if ($provider->isAKnownEmailProvider()) {
 		$html->data['emailProvider'] = $provider->getProvider();
 	}
@@ -304,7 +305,8 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		$html->data['customNavigation'] = $customNavigation;
 
 		// Email service provider helper
-		$provider = new sspmod_userregistration_MailGuesser($email);
+		$known_email_providers = $uregconf->getArray('known.email.providers');
+		$provider = new sspmod_userregistration_EmailProviderGuess($email, $known_email_providers);
 		if ($provider->isAKnownEmailProvider()) {
 			$html->data['emailProvider'] = $provider->getProvider();
 		}
