@@ -336,4 +336,22 @@ $config = array (
             ),
         ), 
     ),
+
+	// Known mail services
+	// Used to show a direct link to the inbox after registering a new account
+	'known.email.providers' => array(
+		array(
+			'name' => 'GMail',
+			'regexp' => '/g(oogle)?mail.com/',
+			'url' => 'http://www.gmail.com',
+			'image' => 'gmail.png',
+		),
+
+		array(
+			'name' => 'Outlook',
+			'regexp' => '/(hotmail|outlook).com/',
+			'url' => 'http://www.outlook.com',
+			'image' => 'outlook.png',
+		),
+	),
 );
