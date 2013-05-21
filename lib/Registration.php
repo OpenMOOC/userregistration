@@ -359,6 +359,8 @@ class sspmod_userregistration_Registration {
 			$html->data['customNavigation'] = $this->customNavigation;
 			$html->data['stepsHtml'] = $this->steps->generate();
 			$html->show();
+
+			$this->tokenManager->delete($token);
 		} catch (sspmod_userregistration_Error_UserException $e) {
 			return $e;
 		}

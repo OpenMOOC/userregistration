@@ -49,6 +49,11 @@ class sspmod_userregistration_TokenManagement {
 		}
 	}
 
+	public function delete($key)
+	{
+		$this->redis->del($key);
+	}
+
 	protected function buildKey($email, $token)
 	{
 		return sha1($email . ':' . $token);
