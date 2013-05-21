@@ -23,7 +23,7 @@ if(isset($this->data['error'])){ ?>
 
 	  <?php echo $this->data['error'];
 		if (isset($this->data['refreshtoken'])) {
-			echo '<form method="POST"><input type="hidden" name="email" value="'.htmlspecialchars($this->data['email'], ENT_QUOTES).'"><input type="submit" name="refreshtoken" value="'.$this->t('get_token').'"></form>';
+			echo '<form class="form-inline" method="POST"><input placeholder="Email" type="text" name="email" class="input-small" value="" /><input type="submit" name="refreshtoken" value="'.$this->t('get_token').'" /></form>';
 		}
 	  ?>
 	  </div>
@@ -34,7 +34,6 @@ if(isset($this->data['passwordPolicy'])) {
 }
 
 if(!isset($this->data['error'])){ ?>
-?>
 <p><?php echo $this->t('s3_intro'); ?></p>
 <?php
 }

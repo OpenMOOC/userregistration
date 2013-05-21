@@ -23,6 +23,8 @@ class sspmod_userregistration_Registration {
 
 	private $store;
 
+	private $tokenManager;
+
 
 	public function __construct($config)
 	{
@@ -60,6 +62,9 @@ class sspmod_userregistration_Registration {
 	public function setMailOptions($mailoptions)
 	{
 		$this->mailoptions = $mailoptions;
+
+		// Initialize token manager
+		$this->tokenManager = new sspmod_userregistration_TokenManagement($this->mailoptions['token.lifetime']);
 	}
 
 	public function setKnownEmailProviders($known_email_providers)
@@ -146,20 +151,27 @@ class sspmod_userregistration_Registration {
 
 				$email = $this->userInfo[$this->store->userRegisterEmailAttr];
 			} else {
-				$email = $_POST['email'];
+				$email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+				if ($email === null || $email === false) {
+					// Dirty hack
+					$url = SimpleSAML_Utilities::selfURL();
+					header("Location: " . $url);
+					die();
+				}
 			}
 
 			$tg = new SimpleSAML_Auth_TimeLimitedToken($this->mailoptions['token.lifetime']);
 			$tg->addVerificationData($email);
 			$newToken = $tg->generate_token();
 
+			$sha1token = $this->tokenManager->store($email, $newToken);
+
 			$url = SimpleSAML_Utilities::selfURL();
 
 			$registerurl = SimpleSAML_Utilities::addURLparameter(
 				$url,
 				array(
-					'email' => $email,
-					'token' => $newToken
+					'token' => $sha1token
 				)
 			);
 
@@ -203,22 +215,11 @@ class sspmod_userregistration_Registration {
 
 
 	// Stage 3: User clicked on verification URL in email
-	public function step3($error = null, $force_email = null)
+	public function step3($error = null)
 	{
 		$this->steps->setCurrent(3);
 		try {
 			$token = $_REQUEST['token'];
-			if ($force_email === null) {
-				$email = filter_input(
-					INPUT_GET,
-					'email',
-					FILTER_VALIDATE_EMAIL);
-			} else {
-				$email = $force_email;
-			}
-			if(!$email)
-				throw new SimpleSAML_Error_Exception(
-					'E-mail parameter in request is lost');
 
 			$html = new SimpleSAML_XHTML_Template(
 				$this->config,
@@ -227,9 +228,18 @@ class sspmod_userregistration_Registration {
 			$html->data['stepsHtml'] = $this->steps->generate();
 
 			if ($error === null || $error->getMesgId() != 'invalid_token') {
+				// Get token
+				$token_data = $this->tokenManager->getDetails($token);
+
+				if ($token_data === false) {
+					throw new sspmod_userregistration_Error_UserException('invalid_token');
+				}
+
+				$email = $token_data['email'];
+
 				$tg = new SimpleSAML_Auth_TimeLimitedToken($this->mailoptions['token.lifetime']);
 				$tg->addVerificationData($email);
-				if (!$tg->validate_token($token)) {
+				if (!$tg->validate_token($token_data['token'])) {
 					throw new sspmod_userregistration_Error_UserException('invalid_token');
 				}
 
@@ -255,7 +265,7 @@ class sspmod_userregistration_Registration {
 				$formGen->setSubmitter('register');
 				$formHtml = $formGen->genFormHtml();
 				$html->data['formHtml'] = $formHtml;
-			} 
+			}
 
 			// Error message
 			if ($error !== null) {
@@ -268,7 +278,6 @@ class sspmod_userregistration_Registration {
 
 				if ($error->getMesgId() == 'invalid_token') {
 					$html->data['refreshtoken'] = true;
-					$html->data['email'] = $email;
 				}
 			}
 
@@ -293,11 +302,21 @@ class sspmod_userregistration_Registration {
 			$this->steps->setCurrent(4);
 			
 			//  Validate token
-			$token = $_REQUEST['token'];
-			$email = $_REQUEST['email'];
+			$token = isset($_REQUEST['token']) ? $_REQUEST['token'] : null;
+			$email = isset($_REQUEST['email']) ? $_REQUEST['email'] : null;
+
+			if ($token === null || $email === null) {
+				throw new sspmod_userregistration_Error_UserException('invalid_token');
+			}
+
+			$token_data = $this->tokenManager->getDetails($token);
+			if ($token_data === false) {
+				throw new sspmod_userregistration_Error_UserException('invalid_token');
+			}
+
 			$tg = new SimpleSAML_Auth_TimeLimitedToken($this->mailoptions['token.lifetime']);
 			$tg->addVerificationData($email);
-			if (!$tg->validate_token($token)) {
+			if (!$tg->validate_token($token_data['token'])) {
 				throw new sspmod_userregistration_Error_UserException('invalid_token');
 			}
 

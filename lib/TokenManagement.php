@@ -19,36 +19,38 @@ class sspmod_userregistration_TokenManagement {
 	// Stores a token on redis
 	public function store($email, $token)
 	{
-		$key = $this->buildKeyFromParams($email, $token);
+		$key = $this->buildKey($email, $token);
 		$data = array(
+			'type' => 'token',
 			'email' => $email,
 			'token' => $token,
 		);
 		$this->redis->set($key, json_encode($data));
 		$this->redis->expire($key, $this->lifetime);
 
-		return $sha1token;
+		return $key;
 	}
 
-	public function getDetails($sha1)
+	public function getDetails($key)
 	{
-		$key = $this->buildKeyFromSHA1($sha1);
 		$data = $this->redis->get($key);
 
-		if ($email === null) {
+		if ($data === null) {
 			return false;
 		} else {
-			return json_decode($data);
+			$decoded_data = @json_decode($data, true);
+			if (!is_array($decoded_data)
+				|| !isset($decoded_data['type'])
+				|| $decoded_data['type'] != 'token') {
+				return false;
+			} else {
+				return $decoded_data;
+			}
 		}
 	}
 
 	protected function buildKey($email, $token)
 	{
-		return 'key:' . sha1($email . ':' . $token);
-	}
-
-	protected function buildKeyFromSHA1($sha1, $param)
-	{
-		return 'key:' . $sha1 . ':' . $param;
+		return sha1($email . ':' . $token);
 	}
 }
