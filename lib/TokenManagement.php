@@ -5,6 +5,9 @@ Predis\Autoloader::register();
 
 class sspmod_userregistration_TokenManagement {
 
+	// 28 bytes long
+	const tokenLength = 28;
+
 	protected $lifetime;
 
 	protected $redis;
@@ -17,23 +20,22 @@ class sspmod_userregistration_TokenManagement {
 	}
 
 	// Stores a token on redis
-	public function store($email, $token)
+	public function generate($email)
 	{
-		$key = $this->buildKey($email, $token);
+		$token = $this->buildKey();
 		$data = array(
 			'type' => 'token',
 			'email' => $email,
-			'token' => $token,
 		);
-		$this->redis->set($key, json_encode($data));
-		$this->redis->expire($key, $this->lifetime);
+		$this->redis->set($token, json_encode($data));
+		$this->redis->expire($token, $this->lifetime);
 
-		return $key;
+		return $token;
 	}
 
-	public function getDetails($key)
+	public function getDetails($token)
 	{
-		$data = $this->redis->get($key);
+		$data = $this->redis->get($token);
 
 		if ($data === null) {
 			return false;
@@ -54,8 +56,8 @@ class sspmod_userregistration_TokenManagement {
 		$this->redis->del($key);
 	}
 
-	protected function buildKey($email, $token)
+	protected function buildKey()
 	{
-		return sha1($email . ':' . $token);
+		return bin2hex(openssl_random_pseudo_bytes(self::tokenLength));
 	}
 }

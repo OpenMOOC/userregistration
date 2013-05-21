@@ -46,18 +46,14 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 			);
 		}
 
-		$tg = new SimpleSAML_Auth_TimeLimitedToken($mailoptions['token.lifetime']);
-		$tg->addVerificationData($email);
-		$newToken = $tg->generate_token();
-
-		$sha1token = $tokenManager->store($email, $newToken);
+		$token = $tokenManager->generate($email);
 
 		$url = SimpleSAML_Utilities::selfURL();
 
 		$registerurl = SimpleSAML_Utilities::addURLparameter(
 			$url,
 			array(
-				'token' => $sha1token));
+				'token' => $token));
 
 		$systemName = array('%SNAME%' => $uregconf->getString('system.name') );
 		$mail_data = array(
@@ -109,11 +105,6 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		}
 
 		$email = $token_data['email'];
-
-		$tg = new SimpleSAML_Auth_TimeLimitedToken($mailoptions['token.lifetime']);
-		$tg->addVerificationData($email);
-		if (!$tg->validate_token($token_data['token']))
-			throw new sspmod_userregistration_Error_UserException('invalid_token');
 
 		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'lostPassword.php');
 
@@ -175,11 +166,6 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		}
 
 		$email = $token_data['email'];
-
-		$tg = new SimpleSAML_Auth_TimeLimitedToken($mailoptions['token.lifetime']);
-		$tg->addVerificationData($email);
-		if (!$tg->validate_token($token_data['token']))
-		  throw new sspmod_userregistration_Error_UserException('invalid_token');
 
 		$userValues = $store->findAndGetUser($store->userRegisterEmailAttr, $email);
 		$validValues = $validator->validateInput();

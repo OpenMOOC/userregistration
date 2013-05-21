@@ -160,18 +160,14 @@ class sspmod_userregistration_Registration {
 				}
 			}
 
-			$tg = new SimpleSAML_Auth_TimeLimitedToken($this->mailoptions['token.lifetime']);
-			$tg->addVerificationData($email);
-			$newToken = $tg->generate_token();
-
-			$sha1token = $this->tokenManager->store($email, $newToken);
+			$token = $this->tokenManager->generate($email);
 
 			$url = SimpleSAML_Utilities::selfURL();
 
 			$registerurl = SimpleSAML_Utilities::addURLparameter(
 				$url,
 				array(
-					'token' => $sha1token
+					'token' => $token
 				)
 			);
 
@@ -236,12 +232,6 @@ class sspmod_userregistration_Registration {
 				}
 
 				$email = $token_data['email'];
-
-				$tg = new SimpleSAML_Auth_TimeLimitedToken($this->mailoptions['token.lifetime']);
-				$tg->addVerificationData($email);
-				if (!$tg->validate_token($token_data['token'])) {
-					throw new sspmod_userregistration_Error_UserException('invalid_token');
-				}
 
 				$formGen = new sspmod_userregistration_XHTML_Form($this->formFields, 'newUser.php');
 
@@ -311,12 +301,6 @@ class sspmod_userregistration_Registration {
 
 			$token_data = $this->tokenManager->getDetails($token);
 			if ($token_data === false) {
-				throw new sspmod_userregistration_Error_UserException('invalid_token');
-			}
-
-			$tg = new SimpleSAML_Auth_TimeLimitedToken($this->mailoptions['token.lifetime']);
-			$tg->addVerificationData($email);
-			if (!$tg->validate_token($token_data['token'])) {
 				throw new sspmod_userregistration_Error_UserException('invalid_token');
 			}
 
