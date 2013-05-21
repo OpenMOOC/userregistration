@@ -32,9 +32,12 @@ if(isset($this->data['error'])){ ?>
 if(isset($this->data['passwordPolicy'])) {
         include_once($this->data['passwordPolicytpl']);
 }
+
+if(!isset($this->data['error'])){ ?>
 ?>
 <p><?php echo $this->t('s3_intro'); ?></p>
 <?php
+}
 
 if(isset($this->data['formHtml'])) {
         print $this->data['formHtml'];
