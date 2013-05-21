@@ -9,6 +9,8 @@ $eppnRealm = $uregconf->getString('user.realm');
 $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 $customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
 
+$tokenManager = new sspmod_userregistration_TokenManagement($mailoptions['token.lifetime']);
+
 
 if (array_key_exists('emailreg', $_REQUEST)) {
 	// Stage 2: User have submitted e-mail adress for password recovery
@@ -48,13 +50,14 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		$tg->addVerificationData($email);
 		$newToken = $tg->generate_token();
 
+		$sha1token = $tokenManager->store($email, $newToken);
+
 		$url = SimpleSAML_Utilities::selfURL();
 
 		$registerurl = SimpleSAML_Utilities::addURLparameter(
 			$url,
 			array(
-				'email' => $email,
-				'token' => $newToken));
+				'token' => $sha1token));
 
 		$systemName = array('%SNAME%' => $uregconf->getString('system.name') );
 		$mail_data = array(
@@ -98,18 +101,18 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 } elseif(array_key_exists('token', $_GET)) {
 	// Stage 3: User access page from url in e-mail
 	try{
-		$email = filter_input(
-			INPUT_GET,
-			'email',
-			FILTER_VALIDATE_EMAIL);
-		if (!$email)
-			throw new SimpleSAML_Error_Exception(
-				'E-mail parameter in request is lost');
+
+		$token = $_GET['token'];
+		$token_data = $tokenManager->getDetails($token);
+		if ($token_data === false) {
+			throw new sspmod_userregistration_Error_UserException('invalid_token');
+		}
+
+		$email = $token_data['email'];
 
 		$tg = new SimpleSAML_Auth_TimeLimitedToken($mailoptions['token.lifetime']);
 		$tg->addVerificationData($email);
-		$token = $_REQUEST['token'];
-		if (!$tg->validate_token($token))
+		if (!$tg->validate_token($token_data['token']))
 			throw new sspmod_userregistration_Error_UserException('invalid_token');
 
 		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'lostPassword.php');
@@ -151,7 +154,7 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 			$e->getMesgId(),
 			$e->getTrVars()
 		);
-		$terr->data['error'] = htmlspecialchar($error);
+		$terr->data['error'] = htmlspecialchars($error);
 		$terr->data['customNavigation'] = $customNavigation;
 		$terr->show();
 	}
@@ -163,18 +166,19 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		  $formFields,
 		  $listValidate);
 
-		$email = filter_input(
-		  INPUT_POST,
-		  'emailconfirmed',
-		  FILTER_VALIDATE_EMAIL);
-		if(!$email)
-		  throw new SimpleSAML_Error_Exception(
-			  'E-mail parameter in request is lost');
 
-		$tg = new SimpleSAML_Auth_TimeLimitedToken($tmailoptions['token.lifetime']);
+		$token = isset($_REQUEST['token']) ? $_REQUEST['token'] : null;
+		$token_data = $tokenManager->getDetails($token);
+
+		if ($token_data === false) {
+		  throw new sspmod_userregistration_Error_UserException('invalid_token');
+		}
+
+		$email = $token_data['email'];
+
+		$tg = new SimpleSAML_Auth_TimeLimitedToken($mailoptions['token.lifetime']);
 		$tg->addVerificationData($email);
-		$token = $_REQUEST['token'];
-		if (!$tg->validate_token($token))
+		if (!$tg->validate_token($token_data['token']))
 		  throw new sspmod_userregistration_Error_UserException('invalid_token');
 
 		$userValues = $store->findAndGetUser($store->userRegisterEmailAttr, $email);
@@ -186,6 +190,7 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		}
 
 		$store->changeUserPassword($userValues[$store->userIdAttr], $newPw);
+		$tokenManager->delete($token);
 		header('Location: '.SimpleSAML_Module::getModuleURL('userregistration/lostPassword.php?success'));
 		exit();
 
@@ -201,7 +206,7 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		$hidden['token'] = $_REQUEST['token'];
 		$formGen->addHiddenData($hidden);
 
-		$formGen->setValues(array($store->userIdAttr => $_REQUEST[$store->userIdAttr]));
+		$formGen->setValues(array($store->userIdAttr => $_REQUEST['emailconfirmed']));
 		$formGen->setSubmitter('submit_change');
 		$formHtml = $formGen->genFormHtml();
 
