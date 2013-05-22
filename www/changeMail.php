@@ -2,10 +2,13 @@
 
 $config = SimpleSAML_Configuration::getInstance();
 $uregconf = SimpleSAML_Configuration::getConfig('module_userregistration.php');
-$tokenLifetime = $uregconf->getInteger('mailtoken.lifetime');
+$mailoptions = $uregconf->getArray('mail');
 $formFields = $uregconf->getArray('formFields');
 $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 $customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
+$redis_config = $uregconf->getArray('redis');
+
+$tokenManager = new sspmod_userregistration_TokenManagement($redis_config, $mailoptions['token.lifetime']);
 
 $systemName = array('%SNAME%' => $uregconf->getString('system.name') );
 
@@ -40,40 +43,25 @@ if (array_key_exists('success', $_GET)) {
 $as->requireAuth();
 $attributes = $as->getAttributes();
 
-if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUEST) && array_key_exists('token1', $_REQUEST) && array_key_exists('token2', $_REQUEST)){
+if (array_key_exists('token1', $_REQUEST) && array_key_exists('token2', $_REQUEST)){
 	// Stage 3: User access page from url in e-mail
 	try{
-		$token1 = $_REQUEST['token1'];
-        $token2 = $_REQUEST['token2'];
-		$newmail = filter_input(
-			INPUT_GET,
-			'newmail',
-			FILTER_VALIDATE_EMAIL);
-		$oldmail = filter_input(
-			INPUT_GET,
-			'oldmail',
-			FILTER_VALIDATE_EMAIL);
-		if(!$newmail) {
-			throw new SimpleSAML_Error_Exception('E-mail parameter in request is lost');
-        }
-		if(!$oldmail) {
-			throw new SimpleSAML_Error_Exception('Old E-mail parameter in request is lost');
-        }
+		$token1 = isset($_REQUEST['token1']) ? $_REQUEST['token1'] : null;
+		$token2 = isset($_REQUEST['token2']) ? $_REQUEST['token2'] : null;
+
+		$token1_data = $tokenManager->getDetails($token1);
+		$token2_data = $tokenManager->getDetails($token2);
+
+		if ($token1_data === false || $token2_data === false) {
+			throw new sspmod_userregistration_Error_UserException('invalid_token');
+		}
+
+		$newmail = $token1_data['email'];
+		$oldmail = $token2_data['email'];
+
         if ($attributes[$mail_param][0] != $oldmail) {
    			throw new SimpleSAML_Error_Exception('The old e-mail parameter did not match the mail of the actual logged user');
         }
-
-		$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
-		$tg->addVerificationData($newmail);
-		if (!$tg->validate_token($token1)) {
-			throw new sspmod_userregistration_Error_UserException('invalid_token');
-		}
-
-		$tg2 = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
-		$tg2->addVerificationData($oldmail);
-		if (!$tg->validate_token($token2)) {
-			throw new sspmod_userregistration_Error_UserException('invalid_token');
-		}
 
 		$userInfo = array();
 		$userInfo['irisMailAlternateAddress'] = $oldmail;
@@ -142,43 +130,32 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 
         $oldmail = $attributes[$mail_param][0];
 
-	    $tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
-	    $tg->addVerificationData($newmail);
-	    $newToken = $tg->generate_token();
-
-	    $tg2 = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
-	    $tg2->addVerificationData($oldmail);
-	    $oldToken = $tg->generate_token();
+	    $newToken = $tokenManager->generate($newmail);
+	    $oldToken = $tokenManager->generate($oldmail);
 
 	    $url = SimpleSAML_Utilities::selfURL();
 
 	    $changemailurl = SimpleSAML_Utilities::addURLparameter(
 		    $url,
 		    array(
-			    'newmail' => $newmail,
-			    'oldmail' => $oldmail,
 			    'token1' => $newToken,
 			    'token2' => $oldToken
 		    )
 	    );
 
-	    $mailt = new SimpleSAML_XHTML_Template(
-		    $config,
-		    'userregistration:mail1_ch_token.tpl.php',
-		    'userregistration:userregistration');
-	    $mailt->data['newmail'] = $newmail;
-	    $mailt->data['tokenLifetime'] = $tokenLifetime;
-	    $mailt->data['changemailurl'] = $changemailurl;
-	    $mailt->data['systemName'] = $systemName;
+		$mail_data = array(
+			'newmail' => $newmail,
+			'tokenLifetime' => $mailoptions['token.lifetime'],
+			'changemailurl' => $changemailurl,
+			'systemName' => $systemName,
+		);
 
-	    $mailer = new sspmod_userregistration_XHTML_Mailer(
-		    $newmail,
-		    $uregconf->getString('mail.subject'),
-		    $uregconf->getString('mail.from'),
-		    NULL,
-		    $uregconf->getString('mail.replyto'));
-	    $mailer->setTemplate($mailt);
-	    $mailer->send();
+		sspmod_userregistration_Util::sendEmail(
+			$newmail,
+			$mailoptions['subject'],
+			'userregistration:mail1_ch_token.tpl.php',
+			$mail_data
+		);
 
 	    $html = new SimpleSAML_XHTML_Template(
 		    $config,
@@ -239,46 +216,35 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 		$userInfo = sspmod_userregistration_Util::processInput($validValues, $showFields, $attributes);
 
 		$newmail = $userInfo['newmail'];
-        
+
         $oldmail = $attributes[$mail_param][0];
 
-		$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
-		$tg->addVerificationData($newmail);
-		$newToken = $tg->generate_token();
-
-		$tg2 = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
-		$tg2->addVerificationData($oldmail);
-		$oldToken = $tg->generate_token();
+		$newToken = $tokenManager->generate($newmail);
+		$oldToken = $tokenManager->generate($oldmail);
 
 		$url = SimpleSAML_Utilities::selfURL();
 
 		$changemailurl = SimpleSAML_Utilities::addURLparameter(
 			$url,
 			array(
-				'newmail' => $newmail,
-                'oldmail' => $oldmail,
 				'token1' => $newToken,
 				'token2' => $oldToken
 			)
 		);
 
-		$mailt = new SimpleSAML_XHTML_Template(
-			$config,
-			'userregistration:mail1_ch_token.tpl.php',
-			'userregistration:userregistration');
-		$mailt->data['newmail'] = $newmail;
-		$mailt->data['tokenLifetime'] = $tokenLifetime;
-		$mailt->data['changemailurl'] = $changemailurl;
-		$mailt->data['systemName'] = $systemName;
+		$mail_data = array(
+			'newmail' => $newmail,
+			'tokenLifetime' => $mailoptions['token.lifetime'],
+			'changemailurl' => $changemailurl,
+			'systemName' => $systemName,
+		);
 
-		$mailer = new sspmod_userregistration_XHTML_Mailer(
+		sspmod_userregistration_Util::sendEmail(
 			$newmail,
-			$uregconf->getString('mail.subject'),
-			$uregconf->getString('mail.from'),
-			NULL,
-			$uregconf->getString('mail.replyto'));
-		$mailer->setTemplate($mailt);
-		$mailer->send();
+			$mailoptions['subject'],
+			'userregistration:mail1_ch_token.tpl.php',
+			$mail_data
+		);
 
 		$html = new SimpleSAML_XHTML_Template(
 			$config,
