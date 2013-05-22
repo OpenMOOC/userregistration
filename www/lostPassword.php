@@ -8,8 +8,9 @@ $formFields = $uregconf->getArray('formFields');
 $eppnRealm = $uregconf->getString('user.realm');
 $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 $customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
+$redis_config = $uregconf->getArray('redis');
 
-$tokenManager = new sspmod_userregistration_TokenManagement($mailoptions['token.lifetime']);
+$tokenManager = new sspmod_userregistration_TokenManagement($redis_config, $mailoptions['token.lifetime']);
 
 
 if (array_key_exists('emailreg', $_REQUEST)) {

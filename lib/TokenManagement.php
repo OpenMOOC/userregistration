@@ -12,11 +12,10 @@ class sspmod_userregistration_TokenManagement {
 
 	protected $redis;
 
-	public function __construct($lifetime)
+	public function __construct($config, $lifetime)
 	{
 		$this->lifetime = $lifetime;
-		// TODO make this configurable
-		$this->redis = new \Predis\Client();
+		$this->redis = new \Predis\Client($config);
 	}
 
 	// Stores a token on redis

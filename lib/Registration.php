@@ -65,8 +65,6 @@ class sspmod_userregistration_Registration {
 	{
 		$this->mailoptions = $mailoptions;
 
-		// Initialize token manager
-		$this->tokenManager = new sspmod_userregistration_TokenManagement($this->mailoptions['token.lifetime']);
 	}
 
 	public function setKnownEmailProviders($known_email_providers)
@@ -77,6 +75,15 @@ class sspmod_userregistration_Registration {
 	public function setAs($as)
 	{
 		$this->as = $as;
+	}
+
+	public function setRedisConfig($redis_config)
+	{
+		// Initialize token manager
+		$this->tokenManager = new sspmod_userregistration_TokenManagement(
+			$redis_config,
+			$this->mailoptions['token.lifetime']
+		);
 	}
 
 	public function step1($error = null)
