@@ -15,7 +15,14 @@ if (isset($this->data['stepsHtml'])) {
   <h1><?php echo $this->t('new_complete_head'); ?></h1>
   <p><?php echo $this->t('new_complete_para1', $this->data['systemName']); ?></p>
 
-<?php 
+<?php
+if (isset($this->data['goto'])):
+?>
+<a class="btn btn-success" href="<?php echo $this->data['goto']?>">
+<?php echo $this->t('first_login_with_goto') ?>
+</a>
+<?php
+endif;
 	if (!$this->data['customNavigation']) {
 ?>
 

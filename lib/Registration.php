@@ -25,6 +25,8 @@ class sspmod_userregistration_Registration {
 
 	private $tokenManager;
 
+	private $as;
+
 
 	public function __construct($config)
 	{
@@ -72,9 +74,17 @@ class sspmod_userregistration_Registration {
 		$this->knownEmailProviders = $known_email_providers;
 	}
 
+	public function setAs($as)
+	{
+		$this->as = $as;
+	}
+
 	public function step1($error = null)
 	{
 		$this->steps->setCurrent(1);
+
+		// URL where the user wants to be redirected after registering
+		$gotoURL = isset($_REQUEST['goto']) ? $_REQUEST['goto'] : null;
 
 		$formGen = new sspmod_userregistration_XHTML_Form($this->formFields, 'newUser.php');
 
@@ -84,6 +94,10 @@ class sspmod_userregistration_Registration {
 
 		if (!empty($this->tos)) {
 			$formGen->addTOS($this->tos);
+		}
+
+		if ($gotoURL !== null) {
+			$formGen->addHiddenData(array('goto' => $gotoURL));
 		}
 
 		$html = new SimpleSAML_XHTML_Template(
@@ -160,7 +174,14 @@ class sspmod_userregistration_Registration {
 				}
 			}
 
+			// URL where the user wants to be redirected after registering
+			$gotoURL = isset($_REQUEST['goto']) ? $_REQUEST['goto'] : null;
+
 			$token = $this->tokenManager->generate($email);
+
+			if ($gotoURL !== null && $gotoURL != '') {
+				$this->tokenManager->addGotoURL($email, $gotoURL);
+			}
 
 			$url = SimpleSAML_Utilities::selfURL();
 
@@ -300,7 +321,7 @@ class sspmod_userregistration_Registration {
 			}
 
 			$token_data = $this->tokenManager->getDetails($token);
-			if ($token_data === false) {
+			if ($token_data === false || $token_data['email'] != $email) {
 				throw new sspmod_userregistration_Error_UserException('invalid_token');
 			}
 
@@ -342,6 +363,14 @@ class sspmod_userregistration_Registration {
 			$html->data['systemName'] = $this->systemName;
 			$html->data['customNavigation'] = $this->customNavigation;
 			$html->data['stepsHtml'] = $this->steps->generate();
+
+			// Retrieve goto URL
+			$gotoURL = $this->tokenManager->getGotoURL($email);
+			if ($gotoURL !== false) {
+				$this->tokenManager->delete($email . ':goto');
+				$html->data['goto'] = $this->as->getLoginURL($gotoURL);
+			}
+
 			$html->show();
 
 			$this->tokenManager->delete($token);

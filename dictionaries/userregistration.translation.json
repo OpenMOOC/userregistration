@@ -526,5 +526,8 @@
 	},
 	"go_to_inbox": {
 		"es": "Ir a la bandeja de entrada"
+	},
+	"first_login_with_goto": {
+		"en": "Accede a tu cuenta"
 	}
 }

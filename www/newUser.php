@@ -9,6 +9,8 @@ $known_email_providers = $uregconf->getArray('known.email.providers');
 $eppnRealm = $uregconf->getString('user.realm');
 $tos = $uregconf->getString('tos', '');
 $customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
+$asId = $uregconf->getString('auth');
+$as = new SimpleSAML_Auth_Simple($asId);
 
 $steps = new sspmod_userregistration_XHTML_Steps();
 
@@ -25,6 +27,7 @@ $registration->setAttributes($attributes);
 $registration->setMailOptions($mailoptions);
 $registration->setKnownEmailProviders($known_email_providers);
 $registration->setCustomNavigation($customNavigation);
+$registration->setAs($as);
 
 if (array_key_exists('savepw', $_REQUEST)) {
 	// Stage 4: Registration completed
@@ -35,7 +38,7 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		$registration->step3($result_step_4, $email);
 	}
 
-} elseif(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_REQUEST)){
+} elseif(array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_REQUEST)){
 	// Stage 3: User access page from url in e-mail
 	$result_step_3 = $registration->step3();
 

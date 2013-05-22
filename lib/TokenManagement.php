@@ -56,6 +56,23 @@ class sspmod_userregistration_TokenManagement {
 		$this->redis->del($key);
 	}
 
+	public function addGotoURL($email, $url)
+	{
+		$key = $email . ':goto';
+		$this->redis->set($key, $url);
+	}
+
+	public function getGotoURL($email)
+	{
+		$key = $email . ':goto';
+		$data = $this->redis->get($key);
+		if ($data === null) {
+			return false;
+		} else {
+			return $data;
+		}
+	}
+
 	protected function buildKey()
 	{
 		return bin2hex(openssl_random_pseudo_bytes(self::tokenLength));
