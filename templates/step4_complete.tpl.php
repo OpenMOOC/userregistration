@@ -2,6 +2,9 @@
 
 $this->data['header'] = $this->t('{userregistration:userregistration:link_newuser}');
 $this->data['head'] = '<link rel="stylesheet" href="resources/userregistration.css" type="text/css">';
+if (isset($this->data['goto'])) {
+	$this->data['head'] .= '<meta http-equiv="refresh" content="5; url='.$this->data['goto'].'">';
+}
 
 $this->includeAtTemplateBase('includes/header.php');
 
@@ -18,9 +21,9 @@ if (isset($this->data['stepsHtml'])) {
 <?php
 if (isset($this->data['goto'])):
 ?>
-<a class="btn btn-success" href="<?php echo $this->data['goto']?>">
-<?php echo $this->t('first_login_with_goto') ?>
-</a>
+<div class="alert alert-success">
+<?php echo $this->t('redirect_to_course') ?>
+</div>
 <?php
 endif;
 	if (!$this->data['customNavigation']) {

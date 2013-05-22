@@ -428,7 +428,7 @@
 	"go_to_inbox": {
 		"en": "Go to inbox"
 	},
-	"first_login_with_goto": {
-		"en": "Log in to your account"
+	"redirect_to_course": {
+		"en": "You're being redirected to the course you were interested in. Please wait"
 	}
 }
