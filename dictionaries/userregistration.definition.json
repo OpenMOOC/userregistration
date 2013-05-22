@@ -230,9 +230,12 @@
 	"message_chuinfo": {
 		"en": "User info successfully changed at the registry component, if you want that the changes take effect on the other components of the platform you should"
 	},
-        "message_chuinfo2": {
-                "en": "and later login and access to those components"
-        },
+    "message_chuinfo2": {
+            "en": "and later login and access to those components"
+    },
+    "message_relogin_mail": {
+        "en": "You must log out in order to make the change available. Please log out and access again to the platform using your new email"
+    },
 	"uid_desc": {
 		"en": "Allowed chars for the User id is a-z, - and 0-9. It must start with a letter. The length of the User ID must be at least 3 characters and no longer than 16."
 	},
@@ -366,7 +369,7 @@
 		"en": "On this page you can alter the registered user information. If you want to keep unchanged the password, just leave the fields blank"
 	},
 	"didnt_receive_verification_email": {
-		"en": "Didn't receive the verification email?"
+		"en": "Didn't receive the verification email or is the token invalid?"
 	},
 	"sendemail": {
 		"en": "Send account details to user specified email"

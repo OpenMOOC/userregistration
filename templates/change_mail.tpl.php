@@ -15,7 +15,15 @@ $this->includeAtTemplateBase('includes/header.php'); ?>
 	<div class="alert alert-error"><?php echo $this->t($this->data['userError']); ?></div>
 <?php }?>
 <?php if(isset($this->data['userMessage'])){ ?>
-	<div class="alert alert-info"><?php echo $this->t($this->data['userMessage']); ?></div>
+	<div class="alert alert-info">
+<?php 
+    echo $this->t($this->data['userMessage']); 
+    if (isset($this->data['reLoginMessage'])) {
+        echo '<br>'.$this->t($this->data['reLoginMessage']);
+    }
+?>
+
+    </div>
 <?php }
 
 if (isset($this->data['formHtml'])) {

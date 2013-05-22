@@ -209,17 +209,19 @@
 		"es": "El identificador de tu usuario es %UID%. Escribe tu nuevo correo electrónico y Guarda."
 	},
 	"message_chmail": {
-		"es": "Correo electrónico enviado con éxito"
+		"es": "Correo electrónico cambiado con éxito"
 	},
 	"message_chuinfo": {
 		"no": "Brukerdata ble endret",
 		"es": "Informaci\u00f3n de usuario actualizada con \u00e9xito en el componente de registro, para que los cambios tengan efecto en el resto de componentes de la plataforma debes",
 		"de": "Daten des Benutzerkontos erfolgreich ge\u00e4ndert"
 	},
-        "message_chuinfo2": {
-                "es": "y acceder posteriormente a los componentes"
-        },
-
+    "message_chuinfo2": {
+            "es": "y acceder posteriormente a los componentes"
+    },
+    "message_relogin_mail": {
+        "es": "Debes cerrar tu sesión para que el cambio tenga efecto. Por favor cierra la sesión y accede de nuevo a la plataforma utilizando tu nuevo correo electrónico"
+    },
 	"oncepw": {
 		"no": "Gammelt passord",
 		"es": "Antigua contrase\u00f1a",
@@ -466,7 +468,7 @@
 		"es": "En esta página puede modificar su información. Si no desea cambiar la contraseña, deje en blanco los campos"
 	},
 	"didnt_receive_verification_email": {
-		"es": "¿No recibió el email de verificación?"
+		"es": "¿No recibió el email de verificación o ha caducado el token?"
 	},
 	"sendemail": {
 		"es": "Enviar datos de la cuenta al correo del usuario"

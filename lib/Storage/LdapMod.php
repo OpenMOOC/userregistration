@@ -148,8 +148,6 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 	}
 
 
-
-
 	public function updateUser($userId, $userInfo) {
 		SimpleSAML_Logger::debug('Updating  ' . $userId . ' with info: ' . var_export($userInfo, true));
 		$dn = $this->makeDn($userId);
@@ -162,8 +160,6 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 			throw new sspmod_userregistration_Error_UserException('uid_not_found', $userId);
 		}
 	}
-
-
 
 	public function isRegistered($searchKeyName, $value){
 		// FIXME: Bind as search or admin user to make sure we have rights for searching
@@ -203,6 +199,26 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 		$dn = str_replace('%username%', $rdn, $this->dnPattern);
 		return $dn;
 	}
+
+
+    public function renameEntry($keyName, $oldvalue, $newvalue) {
+        if(is_array($oldvalue)) {
+				$oldvalue = $oldvalue[0];
+		}
+        if(is_array($newvalue)) {
+				$newvalue = $newvalue[0];
+		}
+        $dn = $this->makeDn($oldvalue);
+        $parent = $this->searchBase;
+
+        $newrdn = $keyName.'='.str_replace(",", "\\,", $newvalue);
+
+        $result = ldap_rename($this->ldap, $dn, $newrdn, $parent, True);
+        if (!$result) {
+			$error_msg = ldap_error($this->ldap);
+            throw new Exception($error_msg);
+        }
+    }
 
 
 	/*

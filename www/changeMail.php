@@ -9,18 +9,17 @@ $customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
 
 $systemName = array('%SNAME%' => $uregconf->getString('system.name') );
 
-$mail_param = $uregconf->getString('user.register.email.param','mail');
-$uid_param = $uregconf->getString('user.id.param','uid');
+$mail_param = $store->userRegisterEmailAttr;
+$uid_param = $store->userIdAttr;
 
 /* Get a reference to our authentication source. */
 $asId = $uregconf->getString('auth');
 $as = new SimpleSAML_Auth_Simple($asId);
-$as->requireAuth();
-$attributes = $as->getAttributes();
 
 $formGen = new sspmod_userregistration_XHTML_Form($formFields, 'changeMail.php');
-$fields = array('newmail');
-$formGen->fieldsToShow($fields);
+$formFields = $uregconf->getArray('formFields');
+$showFields = sspmod_userregistration_Util::getFieldsFor('ch_mail');
+$formGen->fieldsToShow($showFields);
 
 $html = new SimpleSAML_XHTML_Template(
 	$config,
@@ -28,6 +27,18 @@ $html = new SimpleSAML_XHTML_Template(
 	'userregistration:userregistration');
 
 $html->data['customNavigation'] = $customNavigation;
+
+if (array_key_exists('success', $_GET)) {
+	$html->data['userMessage'] = 'message_chmail';
+
+    $html->data['reLoginMessage'] = 'message_relogin_mail';
+
+	$html->show();
+	exit();	
+}
+
+$as->requireAuth();
+$attributes = $as->getAttributes();
 
 if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUEST) && array_key_exists('token1', $_REQUEST) && array_key_exists('token2', $_REQUEST)){
 	// Stage 3: User access page from url in e-mail
@@ -58,25 +69,38 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 			throw new sspmod_userregistration_Error_UserException('invalid_token');
 		}
 
-
 		$tg2 = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
 		$tg2->addVerificationData($oldmail);
 		if (!$tg->validate_token($token2)) {
 			throw new sspmod_userregistration_Error_UserException('invalid_token');
 		}
 
-        // $store->updateUser($_POST['email'], $userInfo);
-        // Hay que comprobar si para el uid se utiliza el mail y en ese caso actualizarlo tb
-        // hay q ver donde se almacena el oldmail -- irisMailAlternateAddress
+		$userInfo = array();
+		$userInfo['irisMailAlternateAddress'] = $oldmail;
+        $userInfo['objectClass'] = $attributes['objectClass'];
+        if (!in_array('irisPerson', $userInfo['objectClass'])) {
+            array_push($userInfo['objectClass'], 'irisPerson');
+        }
 
+        if ($mail_param == $uid_param) {
+            $store->updateUser($attributes[$uid_param][0], $userInfo);
+            $store->renameEntry($uid_param, $attributes[$uid_param][0], $newmail);            
+        }
+        else {
+        	$userInfo[$mail_param] = $newmail;
+            $store->updateUser($attributes[$uid_param][0], $userInfo);            
+        }
+
+        $as->logout(SimpleSAML_Module::getModuleURL('userregistration/changeMail.php?success'));
+        exit();
 
 	} catch (sspmod_userregistration_Error_UserException $e){
-
-		// Invalid token
+		// Some user error detected, maybe token error
+		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'changeMail.php');
 
 		$terr = new SimpleSAML_XHTML_Template(
 			$config,
-			'userregistration:step1_ch_mail.tpl.php',
+			'userregistration:step1_ch_email.tpl.php',
 			'userregistration:userregistration');
 
 		$error = $terr->t(
@@ -86,10 +110,25 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 
 		$terr->data['error'] = htmlspecialchars($error);
 
-		if ($e->getMesgId() == 'invalid_token') {
+    	if ($e->getMesgId() == 'invalid_token') {
 			$terr->data['refreshtoken'] = true;
 			$terr->data['newmail'] = $newmail;
 		}
+        else {
+            $showFields = sspmod_userregistration_Util::getFieldsFor('ch_mail');
+		    $formGen->fieldsToShow($showFields);
+
+            $validator = new sspmod_userregistration_Registration_Validation(
+		             $formFields,
+		             $showFields);
+
+		    $values = $validator->getRawInput();
+
+		    $formGen->setValues($values);
+		    $formGen->setSubmitter('save');
+    		$formHtml = $formGen->genFormHtml();
+		    $terr->data['formHtml'] = $formHtml;
+        }
 		
 		$terr->data['systemName'] = $systemName;
 		$terr->data['customNavigation'] = $customNavigation;
@@ -113,7 +152,7 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 
 	    $url = SimpleSAML_Utilities::selfURL();
 
-	    $registerurl = SimpleSAML_Utilities::addURLparameter(
+	    $changemailurl = SimpleSAML_Utilities::addURLparameter(
 		    $url,
 		    array(
 			    'newmail' => $newmail,
@@ -129,7 +168,7 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 		    'userregistration:userregistration');
 	    $mailt->data['newmail'] = $newmail;
 	    $mailt->data['tokenLifetime'] = $tokenLifetime;
-	    $mailt->data['changepwurl'] = $changepwurl;
+	    $mailt->data['changemailurl'] = $changemailurl;
 	    $mailt->data['systemName'] = $systemName;
 
 	    $mailer = new sspmod_userregistration_XHTML_Mailer(
@@ -143,7 +182,7 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 
 	    $html = new SimpleSAML_XHTML_Template(
 		    $config,
-		    'userregistration:step2_ch_sent.tpl.php',
+		    'userregistration:step2_ch_mail_sent.tpl.php',
 		    'userregistration:userregistration');
 	    $html->data['newmail'] = $newmail;
 	    $html->data['systemName'] = $systemName;
@@ -155,12 +194,12 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 		// Some user error detected
 		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'changeMail.php');
 
-		$showFields = sspmod_userregistration_Util::getFieldsFor('change_mail');
+		$showFields = sspmod_userregistration_Util::getFieldsFor('ch_mail');
 		$formGen->fieldsToShow($showFields);
 
         $validator = new sspmod_userregistration_Registration_Validation(
 		         $formFields,
-		         $listValidate);
+		         $showFields);
 
 		$values = $validator->getRawInput();
 
@@ -190,14 +229,14 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 } else if (array_key_exists('sender', $_REQUEST) && array_key_exists('newmail', $_REQUEST) && !empty($_REQUEST['newmail'])) {
 
     try {
-		$listValidate = sspmod_userregistration_Util::getFieldsFor('change_mail');
+		$showFields = sspmod_userregistration_Util::getFieldsFor('ch_mail');
 
 		$validator = new sspmod_userregistration_Registration_Validation(
-		 $formFields,
-		 $listValidate);
+		    $formFields,
+		    $showFields);
 		$validValues = $validator->validateInput();
 
-		$userInfo = sspmod_userregistration_Util::processInput($validValues, $listValidate, $attributes);
+		$userInfo = sspmod_userregistration_Util::processInput($validValues, $showFields, $attributes);
 
 		$newmail = $userInfo['newmail'];
         
@@ -213,7 +252,7 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 
 		$url = SimpleSAML_Utilities::selfURL();
 
-		$changepwurl = SimpleSAML_Utilities::addURLparameter(
+		$changemailurl = SimpleSAML_Utilities::addURLparameter(
 			$url,
 			array(
 				'newmail' => $newmail,
@@ -229,7 +268,7 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 			'userregistration:userregistration');
 		$mailt->data['newmail'] = $newmail;
 		$mailt->data['tokenLifetime'] = $tokenLifetime;
-		$mailt->data['changepwurl'] = $changepwurl;
+		$mailt->data['changemailurl'] = $changemailurl;
 		$mailt->data['systemName'] = $systemName;
 
 		$mailer = new sspmod_userregistration_XHTML_Mailer(
@@ -243,7 +282,7 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 
 		$html = new SimpleSAML_XHTML_Template(
 			$config,
-			'userregistration:step2_ch_sent.tpl.php',
+			'userregistration:step2_ch_mail_sent.tpl.php',
 			'userregistration:userregistration');
 		$html->data['newmail'] = $newmail;
 		$html->data['systemName'] = $systemName;
@@ -255,12 +294,12 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 		// Some user error detected
 		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'changeMail.php');
 
-		$showFields = sspmod_userregistration_Util::getFieldsFor('change_mail');
+		$showFields = sspmod_userregistration_Util::getFieldsFor('ch_mail');
 		$formGen->fieldsToShow($showFields);
 
         $validator = new sspmod_userregistration_Registration_Validation(
 		         $formFields,
-		         $listValidate);
+		         $showFields);
 
 		$values = $validator->getRawInput();
 
@@ -287,13 +326,14 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 		$terr->show();
 	}
 
-} elseif (array_key_exists('success', $_GET)) {
-	$html->data['userMessage'] = 'message_chpw';
-        $html->show();
-} elseif(array_key_exists('logout', $_GET)) {
-	$as->logout(SimpleSAML_Module::getModuleURL('userregistration/index.php'));
-}
-else {
+} elseif (array_key_exists('logout', $_GET)) {
+	if ($customNavigation) {
+		$as->logout($as->getLoginURL());
+	}
+	else {
+		$as->logout(SimpleSAML_Module::getModuleURL('userregistration/index.php'));
+	}
+} else {
     $formGen->setSubmitter('save');
     $html->data['formHtml'] = $formGen->genFormHtml();
     $html->data['uid'] = $attributes[$store->userIdAttr][0];
