@@ -130,10 +130,10 @@ if (array_key_exists('savepw', $_REQUEST)) {
 
 	$mailer = new sspmod_userregistration_XHTML_Mailer(
 		$email,
-		$uregconf->getString('mail.subject'),
-		$uregconf->getString('mail.from'),
+		$mailoptions['mail.subject'],
+		$mailoptions['mail.from'],
 		NULL,
-		$uregconf->getString('mail.replyto'));
+		$mailoptions['mail.replyto']);
 	$mailer->setTemplate($mailt);
 	$mailer->send();
 
@@ -351,7 +351,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 		$html->data['customNavigation'] = $customNavigation;
 
 		// Email service provider helper
-		$provider = new sspmod_userregistration_MailGuesser($email);
+		$provider = new sspmod_userregistration_EmailProviderGuess($email);
 		if ($provider->isAKnownEmailProvider()) {
 			$html->data['emailProvider'] = $provider->getProvider();
 		}
