@@ -26,4 +26,14 @@ class sspmod_userregistration_TokenGenerator {
 			$this->lifetime
 		);
 	}
+
+	public function newMailChangeToken($oldmail, $newmail)
+	{
+		return new sspmod_userregistration_ExtraData_MailChangeToken(
+			$this->generate(),
+			$oldmail,
+			$newmail,
+			$this->lifetime
+		);
+	}
 }

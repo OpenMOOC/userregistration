@@ -8,7 +8,8 @@ $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 $customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
 $redis_config = $uregconf->getArray('redis');
 
-$tokenManager = new sspmod_userregistration_TokenManagement($redis_config, $mailoptions['token.lifetime']);
+$tokenGenerator = new sspmod_userregistration_TokenGenerator($mailoptions['token.lifetime']);
+$extraStorage = new sspmod_userregistration_ExtraStorage($redis_config);
 
 $systemName = array('%SNAME%' => $uregconf->getString('system.name') );
 
@@ -43,26 +44,31 @@ if (array_key_exists('success', $_GET)) {
 $as->requireAuth();
 $attributes = $as->getAttributes();
 
-if (array_key_exists('token1', $_REQUEST) && array_key_exists('token2', $_REQUEST)){
+if (array_key_exists('token', $_REQUEST)){
 	// Stage 3: User access page from url in e-mail
 	try{
-		$token1 = isset($_REQUEST['token1']) ? $_REQUEST['token1'] : null;
-		$token2 = isset($_REQUEST['token2']) ? $_REQUEST['token2'] : null;
+		$token_string = isset($_REQUEST['token']) ? $_REQUEST['token'] : null;
+		$helper_token = new sspmod_userregistration_ExtraData_MailChangeToken($token_string);
+		$token_struct = $extraStorage->retrieve($helper_token->getKey());
 
-		$token1_data = $tokenManager->getDetails($token1);
-		$token2_data = $tokenManager->getDetails($token2);
-
-		if ($token1_data === false || $token2_data === false) {
+		if ($token_struct === false) {
 			throw new sspmod_userregistration_Error_UserException('invalid_token');
 		}
 
-		$newmail = $token1_data['email'];
-		$oldmail = $token2_data['email'];
+		$token_data = $token_struct->getData();
+
+		if ($token_data['type'] != 'mail_change') {
+			throw new sspmod_userregistration_Error_UserException('invalid_token');
+		}
+
+		$newmail = $token_data['newmail'];
+		$oldmail = $token_data['oldmail'];
 
         if ($attributes[$mail_param][0] != $oldmail) {
    			throw new sspmod_userregistration_Error_UserException('invalid_mail');
 		}
 
+		// TODO error! Allow zero entries
         $user_with_mail = $store->findAndGetUser('irisMailAlternateAddress', $newmail, true);
 
         if (!empty($user_with_mail)) {
@@ -99,6 +105,7 @@ if (array_key_exists('token1', $_REQUEST) && array_key_exists('token2', $_REQUES
             $store->updateUser($attributes[$uid_param][0], $userInfo);            
         }
 
+		$extraStorage->delete($token_struct->getKey());
         $as->logout(SimpleSAML_Module::getModuleURL('userregistration/changeMail.php?success'));
         exit();
 
@@ -120,6 +127,7 @@ if (array_key_exists('token1', $_REQUEST) && array_key_exists('token2', $_REQUES
 
     	if ($e->getMesgId() == 'invalid_token') {
 			$terr->data['refreshtoken'] = true;
+			// TODO input box (do the same as in newUser.php)
 			$terr->data['newmail'] = $newmail;
 		}
         else {
@@ -150,16 +158,16 @@ if (array_key_exists('token1', $_REQUEST) && array_key_exists('token2', $_REQUES
 
         $oldmail = $attributes[$mail_param][0];
 
-	    $newToken = $tokenManager->generate($newmail);
-	    $oldToken = $tokenManager->generate($oldmail);
+		$token_struct = $tokenGenerator->newMailChangeToken($oldmail, $newmail);
+		$token_string = $token_struct->getToken();
+		$extraStorage->store($token_struct);
 
 	    $url = SimpleSAML_Utilities::selfURL();
 
 	    $changemailurl = SimpleSAML_Utilities::addURLparameter(
 		    $url,
 		    array(
-			    'token1' => $newToken,
-			    'token2' => $oldToken
+			    'token' => $token_string
 		    )
 	    );
 
@@ -239,16 +247,16 @@ if (array_key_exists('token1', $_REQUEST) && array_key_exists('token2', $_REQUES
 
         $oldmail = $attributes[$mail_param][0];
 
-		$newToken = $tokenManager->generate($newmail);
-		$oldToken = $tokenManager->generate($oldmail);
+		$token_struct = $tokenGenerator->newMailChangeToken($oldmail, $newmail);
+		$token_string = $token_struct->getToken();
+		$extraStorage->store($token_struct);
 
 		$url = SimpleSAML_Utilities::selfURL();
 
 		$changemailurl = SimpleSAML_Utilities::addURLparameter(
 			$url,
 			array(
-				'token1' => $newToken,
-				'token2' => $oldToken
+				'token' => $token_string,
 			)
 		);
 
