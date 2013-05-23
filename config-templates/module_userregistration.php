@@ -81,6 +81,7 @@ $config = array (
             'person',
             'top',
             'eduPerson',
+            'irisPerson',
             'norEduPerson'
         ),
 

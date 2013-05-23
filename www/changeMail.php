@@ -18,7 +18,7 @@ $as = new SimpleSAML_Auth_Simple($asId);
 
 $formGen = new sspmod_userregistration_XHTML_Form($formFields, 'changeMail.php');
 $formFields = $uregconf->getArray('formFields');
-$showFields = sspmod_userregistration_Util::getFieldsFor('ch_mail');
+$showFields = sspmod_userregistration_Util::getFieldsFor('change_mail');
 $formGen->fieldsToShow($showFields);
 
 $html = new SimpleSAML_XHTML_Template(
@@ -54,13 +54,13 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 			'oldmail',
 			FILTER_VALIDATE_EMAIL);
 		if(!$newmail) {
-			throw new SimpleSAML_Error_Exception('E-mail parameter in request is lost');
+			throw new sspmod_userregistration_Error_UserException('lost_newmail');
         }
 		if(!$oldmail) {
-			throw new SimpleSAML_Error_Exception('Old E-mail parameter in request is lost');
+			throw new sspmod_userregistration_Error_UserException('lost_oldmail');
         }
         if ($attributes[$mail_param][0] != $oldmail) {
-   			throw new SimpleSAML_Error_Exception('The old e-mail parameter did not match the mail of the actual logged user');
+   			throw new sspmod_userregistration_Error_UserException('invalid_mail');
         }
 
 		$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
@@ -115,7 +115,7 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 			$terr->data['newmail'] = $newmail;
 		}
         else {
-            $showFields = sspmod_userregistration_Util::getFieldsFor('ch_mail');
+            $showFields = sspmod_userregistration_Util::getFieldsFor('change_mail');
 		    $formGen->fieldsToShow($showFields);
 
             $validator = new sspmod_userregistration_Registration_Validation(
@@ -194,7 +194,7 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 		// Some user error detected
 		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'changeMail.php');
 
-		$showFields = sspmod_userregistration_Util::getFieldsFor('ch_mail');
+		$showFields = sspmod_userregistration_Util::getFieldsFor('change_mail');
 		$formGen->fieldsToShow($showFields);
 
         $validator = new sspmod_userregistration_Registration_Validation(
@@ -229,7 +229,7 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 } else if (array_key_exists('sender', $_REQUEST) && array_key_exists('newmail', $_REQUEST) && !empty($_REQUEST['newmail'])) {
 
     try {
-		$showFields = sspmod_userregistration_Util::getFieldsFor('ch_mail');
+		$showFields = sspmod_userregistration_Util::getFieldsFor('change_mail');
 
 		$validator = new sspmod_userregistration_Registration_Validation(
 		    $formFields,
@@ -294,7 +294,7 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 		// Some user error detected
 		$formGen = new sspmod_userregistration_XHTML_Form($formFields, 'changeMail.php');
 
-		$showFields = sspmod_userregistration_Util::getFieldsFor('ch_mail');
+		$showFields = sspmod_userregistration_Util::getFieldsFor('change_mail');
 		$formGen->fieldsToShow($showFields);
 
         $validator = new sspmod_userregistration_Registration_Validation(

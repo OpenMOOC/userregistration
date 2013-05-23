@@ -72,7 +72,7 @@
 		"en": "Change registered mail at %SNAME%"
 	},
     "s1_ch_para1": {
-        "en": "In order to change your mail, you first may verify it. Check your mail service. Notice that some servers could mark this email as SPAM."
+        "en": "In order to change your mail, you first may verify it. Set a new mail and check the mail service associated. Notice that some servers could mark this email as SPAM."
     },
     "s1_ch_para2": {
         "en": "You will receive an e-mail (%MAIL% account) including an url that you have to follow to change your mail."
@@ -170,6 +170,15 @@
 	"invalid_token": {
 		"en": "Invalid token provided. The most common reason why a token becomes invalid is that the token you received has timed out."
 	},
+    "invalid_mail": {
+        "en": "The old e-mail parameter did not match the mail of the actual logged user"
+    },
+    "lost_oldmail": {
+        "en": "Something went wrong when using the link to change the mail, the old mail param has been lost"
+    },
+    "lost_newmail": {
+        "en": "Something went wrong when using the link to change the mail, the new mail param has been lost"
+    },
 	"get_token": {
 		"en": "Resend verification email"
 	},
@@ -234,7 +243,7 @@
             "en": "and later login and access to those components"
     },
     "message_relogin_mail": {
-        "en": "You must log out in order to make the change available. Please log out and access again to the platform using your new email"
+        "en": "The platform forced a log out in order to make the change available. Please access again to the platform using your new email and the password that you already had"
     },
 	"uid_desc": {
 		"en": "Allowed chars for the User id is a-z, - and 0-9. It must start with a letter. The length of the User ID must be at least 3 characters and no longer than 16."
