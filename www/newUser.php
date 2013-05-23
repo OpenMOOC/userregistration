@@ -105,7 +105,7 @@ if (array_key_exists('savepw', $_REQUEST)) {
 
 	$email = $_POST['email'];
 
-	$tg = new SimpleSAML_Auth_TimeLimitedToken($tokenLifetime);
+	$tg = new SimpleSAML_Auth_TimeLimitedToken($mailoptions['token.lifetime']);
 	$tg->addVerificationData($email);
 	$newToken = $tg->generate_token();
 
@@ -124,7 +124,7 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		'userregistration:mail1_token.tpl.php',
 		'userregistration:userregistration');
 	$mailt->data['email'] = $email;
-	$mailt->data['tokenLifetime'] = $tokenLifetime;
+	$mailt->data['tokenLifetime'] = $mailoptions['token.lifetime'];
 	$mailt->data['registerurl'] = $registerurl;
 	$mailt->data['systemName'] = $systemName;
 
@@ -256,10 +256,9 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 		)
 	);
 
-	$tokenExpiration = $mailoptions['token.lifetime'];
 	$mail_data = array(
 		'email' => $email,
-		'tokenLifetime' => $tokenExpiration,
+		'tokenLifetime' => $mailoptions['token.lifetime'],
 		'registerurl' => $registerurl,
 		'systemName' => $systemName,
 	);
@@ -281,7 +280,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 	$html->data['customNavigation'] = $customNavigation;
 
 	// Email service provider helper
-	$provider = new sspmod_userregistration_MailGuesser($email);
+	$provider = new sspmod_userregistration_EmailProviderGuess($email);
 	if ($provider->isAKnownEmailProvider()) {
 		$html->data['emailProvider'] = $provider->getProvider();
 	}
@@ -331,7 +330,7 @@ else if(array_key_exists('email', $_REQUEST) && array_key_exists('token', $_REQU
 			'userregistration:mail1_token.tpl.php',
 			'userregistration:userregistration');
 		$mailt->data['email'] = $email;
-		$mailt->data['tokenLifetime'] = $tokenLifetime;
+		$mailt->data['tokenLifetime'] = $mailoptions['token.lifetime'];
 		$mailt->data['registerurl'] = $registerurl;
 		$mailt->data['systemName'] = $systemName;
 
