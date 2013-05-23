@@ -81,12 +81,14 @@ $config = array (
             'person',
             'top',
             'eduPerson',
+            'irisPerson',
             'norEduPerson'
         ),
 
         // Multivalued attributes we want to retrieve as arrays
         'multivalued.attributes' => array(
             'eduPersonAffiliation',
+            'irisMailAlternateAddress',
         ),
     ), // end Ldap config
 
