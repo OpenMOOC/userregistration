@@ -130,10 +130,10 @@ if (array_key_exists('savepw', $_REQUEST)) {
 
 	$mailer = new sspmod_userregistration_XHTML_Mailer(
 		$email,
-		$mailoptions['mail.subject'],
-		$mailoptions['mail.from'],
+		$mailoptions['subject'],
+		$mailoptions['from'],
 		NULL,
-		$mailoptions['mail.replyto']);
+		$mailoptions['replyto']);
 	$mailer->setTemplate($mailt);
 	$mailer->send();
 

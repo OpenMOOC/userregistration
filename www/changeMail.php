@@ -194,10 +194,10 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 
 	    $mailer = new sspmod_userregistration_XHTML_Mailer(
 		    $newmail,
-		    $mailoptions['mail.subject'],
-		    $mailoptions['mail.from'],
+		    $mailoptions['subject'],
+		    $mailoptions['from'],
 		    NULL,
-		    $mailoptions['mail.replyto']);
+		    $mailoptions['replyto']);
 	    $mailer->setTemplate($mailt);
 	    $mailer->send();
 
@@ -294,10 +294,10 @@ if(array_key_exists('newmail', $_REQUEST) && array_key_exists('oldmail', $_REQUE
 
 		$mailer = new sspmod_userregistration_XHTML_Mailer(
 			$newmail,
-			$mailoptions['mail.subject'],
-			$mailoptions['mail.from'],
+			$mailoptions['subject'],
+			$mailoptions['from'],
 			NULL,
-			$mailoptions['mail.replyto']);
+			$mailoptions['replyto']);
 		$mailer->setTemplate($mailt);
 		$mailer->send();
 
