@@ -23,7 +23,9 @@ class sspmod_userregistration_Registration {
 
 	private $store;
 
-	private $tokenManager;
+	private $tokenGenerator;
+
+	private $extraStorage;
 
 	private $as;
 
@@ -65,6 +67,11 @@ class sspmod_userregistration_Registration {
 	{
 		$this->mailoptions = $mailoptions;
 
+		// Initialize token generator
+		$this->tokenGenerator = new sspmod_userregistration_TokenGenerator(
+			$this->mailoptions['token.lifetime']
+		);
+
 	}
 
 	public function setKnownEmailProviders($known_email_providers)
@@ -80,9 +87,8 @@ class sspmod_userregistration_Registration {
 	public function setRedisConfig($redis_config)
 	{
 		// Initialize token manager
-		$this->tokenManager = new sspmod_userregistration_TokenManagement(
-			$redis_config,
-			$this->mailoptions['token.lifetime']
+		$this->extraStorage = new sspmod_userregistration_ExtraStorage(
+			$redis_config
 		);
 	}
 
@@ -184,10 +190,13 @@ class sspmod_userregistration_Registration {
 			// URL where the user wants to be redirected after registering
 			$gotoURL = isset($_REQUEST['goto']) ? $_REQUEST['goto'] : null;
 
-			$token = $this->tokenManager->generate($email);
+			$token_struct = $this->tokenGenerator->newAccountCreationToken($email);
+			$this->extraStorage->store($token_struct);
 
 			if ($gotoURL !== null && $gotoURL != '') {
-				$this->tokenManager->addGotoURL($email, $gotoURL);
+				$this->extraStorage->store(
+					new sspmod_userregistration_ExtraData_GotoURL($email, $gotoURL)
+				);
 			}
 
 			$url = SimpleSAML_Utilities::selfURL();
@@ -195,7 +204,7 @@ class sspmod_userregistration_Registration {
 			$registerurl = SimpleSAML_Utilities::addURLparameter(
 				$url,
 				array(
-					'token' => $token
+					'token' => $token_struct->getToken()
 				)
 			);
 
@@ -243,7 +252,7 @@ class sspmod_userregistration_Registration {
 	{
 		$this->steps->setCurrent(3);
 		try {
-			$token = $_REQUEST['token'];
+			$token_string = $_REQUEST['token'];
 
 			$html = new SimpleSAML_XHTML_Template(
 				$this->config,
@@ -253,9 +262,15 @@ class sspmod_userregistration_Registration {
 
 			if ($error === null || $error->getMesgId() != 'invalid_token') {
 				// Get token
-				$token_data = $this->tokenManager->getDetails($token);
+				$token_helper = new sspmod_userregistration_ExtraData_AccountCreationToken($token_string);
+				$token_struct = $this->extraStorage->retrieve($token_helper->getKey());
 
-				if ($token_data === false) {
+				if ($token_struct === false) {
+					throw new sspmod_userregistration_Error_UserException('invalid_token');
+				}
+				$token_data = $token_struct->getData();
+				
+				if ($token_data['type'] != 'account_creation') {
 					throw new sspmod_userregistration_Error_UserException('invalid_token');
 				}
 
@@ -270,7 +285,7 @@ class sspmod_userregistration_Registration {
 
 				$hidden = array(
 					'email' => $email,
-					'token' => $token,
+					'token' => $token_string,
 					'savepw' => true);
 				$formGen->addHiddenData($hidden);
 
@@ -320,15 +335,23 @@ class sspmod_userregistration_Registration {
 			$this->steps->setCurrent(4);
 			
 			//  Validate token
-			$token = isset($_REQUEST['token']) ? $_REQUEST['token'] : null;
+			$token_string = isset($_REQUEST['token']) ? $_REQUEST['token'] : null;
 			$email = isset($_REQUEST['email']) ? $_REQUEST['email'] : null;
 
-			if ($token === null || $email === null) {
+			if ($token_string === null || $email === null) {
 				throw new sspmod_userregistration_Error_UserException('invalid_token');
 			}
 
-			$token_data = $this->tokenManager->getDetails($token);
-			if ($token_data === false || $token_data['email'] != $email) {
+			// Get token
+			$token_helper = new sspmod_userregistration_ExtraData_AccountCreationToken($token_string);
+			$token_struct = $this->extraStorage->retrieve($token_helper->getKey());
+
+			if ($token_struct === false) {
+				throw new sspmod_userregistration_Error_UserException('invalid_token');
+			}
+			$token_data = $token_struct->getData();
+			
+			if ($token_data['type'] != 'account_creation') {
 				throw new sspmod_userregistration_Error_UserException('invalid_token');
 			}
 
@@ -372,15 +395,17 @@ class sspmod_userregistration_Registration {
 			$html->data['stepsHtml'] = $this->steps->generate();
 
 			// Retrieve goto URL
-			$gotoURL = $this->tokenManager->getGotoURL($email);
-			if ($gotoURL !== false) {
-				$this->tokenManager->delete($email . ':goto');
-				$html->data['goto'] = $this->as->getLoginURL($gotoURL);
+			$helper_gotourl = new sspmod_userregistration_ExtraData_GotoURL($email);
+			$gotoURL_struct = $this->extraStorage->retrieve($helper_gotourl->getKey());
+			if ($gotoURL_struct !== false) {
+				$gotoURL_data = $gotoURL_struct->getData();
+				$html->data['goto'] = $this->as->getLoginURL($gotoURL_data['url']);
+				$this->extraStorage->delete($gotoURL_struct->getKey());
 			}
 
 			$html->show();
 
-			$this->tokenManager->delete($token);
+			$this->extraStorage->delete($token_struct->getKey());
 		} catch (sspmod_userregistration_Error_UserException $e) {
 			return $e;
 		}
