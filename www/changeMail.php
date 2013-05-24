@@ -68,7 +68,6 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
    			throw new sspmod_userregistration_Error_UserException('invalid_mail');
 		}
 
-		// TODO error! Allow zero entries
 	    if ($store->isRegistered('irisMailAlternateAddress', $newmail)) {
 			$user_with_mail = $store->findAndGetUser('irisMailAlternateAddress', $newmail, true);
 

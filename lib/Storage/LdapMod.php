@@ -213,6 +213,7 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 
         $newrdn = $keyName.'='.str_replace(",", "\\,", $newvalue);
 
+        $this->adminBindLdap();
         $result = ldap_rename($this->ldap, $dn, $newrdn, $parent, True);
         if (!$result) {
 			$error_msg = ldap_error($this->ldap);
