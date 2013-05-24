@@ -69,13 +69,15 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
 		}
 
 		// TODO error! Allow zero entries
-        $user_with_mail = $store->findAndGetUser('irisMailAlternateAddress', $newmail, true);
+	    if ($store->isRegistered('irisMailAlternateAddress', $newmail)) {
+			$user_with_mail = $store->findAndGetUser('irisMailAlternateAddress', $newmail, true);
 
-        if (!empty($user_with_mail)) {
-            if ($user_with_mail[$uid_param][0] != $attributes[$uid_param][0]) {
-                throw new sspmod_userregistration_Error_UserException('mail_already_registered');
-            }
-        }
+			if (!empty($user_with_mail)) {
+				if ($user_with_mail[$uid_param][0] != $attributes[$uid_param][0]) {
+					throw new sspmod_userregistration_Error_UserException('mail_already_registered');
+				}
+			}
+		}
 
 		$userInfo = array();
         if (isset($attributes['irisMailAlternateAddress'])) {
