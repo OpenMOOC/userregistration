@@ -44,7 +44,7 @@ if (array_key_exists('success', $_GET)) {
 $as->requireAuth();
 $attributes = $as->getAttributes();
 
-if (array_key_exists('token', $_REQUEST)){
+if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_POST)){
 	// Stage 3: User access page from url in e-mail
 	try{
 		$token_string = isset($_REQUEST['token']) ? $_REQUEST['token'] : null;
@@ -127,8 +127,6 @@ if (array_key_exists('token', $_REQUEST)){
 
     	if ($e->getMesgId() == 'invalid_token') {
 			$terr->data['refreshtoken'] = true;
-			// TODO input box (do the same as in newUser.php)
-			$terr->data['newmail'] = $newmail;
 		}
         else {
             $showFields = sspmod_userregistration_Util::getFieldsFor('change_mail');
@@ -154,7 +152,11 @@ if (array_key_exists('token', $_REQUEST)){
 	// Resend token
 
     try {
-	    $newmail = $_POST['newmail'];
+	    $newmail = isset($_POST['newmail']) ? $_POST['newmail'] : '';
+
+		if (empty($newmail)) {
+			throw new sspmod_userregistration_Error_UserException('invalid_token');
+		}
 
         $oldmail = $attributes[$mail_param][0];
 

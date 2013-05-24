@@ -23,11 +23,10 @@ if(isset($this->data['error'])): ?>
 if (isset($this->data['refreshtoken'])):
 ?>
 <div class="alert alert-info">
-<?php echo $this->t('didnt_receive_verification_email') ?>
-<form action="changeMail.php" method="POST">
- <input type="hidden" name="newmail" value="<?php echo htmlspecialchars($this->data['newmail'], ENT_QUOTES)?>" />
- <input type="submit" name="refreshtoken" value="<?php echo $this->t('get_token')?>" />
-</form>
+<?php
+echo $this->t('didnt_receive_verification_email');
+echo '<form class="form-inline" method="POST"><input placeholder="Email" type="text" name="newmail" class="input-small" value="" /><input type="submit" name="refreshtoken" value="'.$this->t('get_token').'" /></form>';
+?>
 </div>
 <?php
 endif;
