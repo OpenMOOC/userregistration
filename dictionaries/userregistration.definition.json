@@ -439,5 +439,8 @@
 	},
 	"redirect_to_course": {
 		"en": "You're being redirected to the course you were interested in. Please wait"
+	},
+	"mail_already_registered": {
+		"en": "The requested email address is already taken by another user"
 	}
 }
