@@ -122,18 +122,25 @@ class sspmod_userregistration_Registration {
 		if ($error !== null) {
 			$values = $this->validator->getRawInput();
 			$formGen->setValues($values);
-			if ($error->getMesgId() == 'uid_taken_but_not_verified') {
-				$email = $this->userInfo[$this->store->userRegisterEmailAttr];
-				$html->data['refreshtoken'] = true;
-				$html->data['email'] = $email;
-			} elseif ($error->getMesgId() == 'uid_taken') {
-				$html->data['url_lostpassword'] = SimpleSAML_Module::getModuleURL('userregistration/lostPassword.php');
-			}
 
-			$error_msg = $html->t(
-				$error->getMesgId(),
-				$error->getTrVars()
-			);
+            if (get_class($error) == "Predis\Connection\ConnectionException") {
+                $error_msg = "Redis problem: ".$error->getMessage();
+            }
+            else {
+
+			    if ($error->getMesgId() == 'uid_taken_but_not_verified') {
+				    $email = $this->userInfo[$this->store->userRegisterEmailAttr];
+				    $html->data['refreshtoken'] = true;
+				    $html->data['email'] = $email;
+			    } elseif ($error->getMesgId() == 'uid_taken') {
+				    $html->data['url_lostpassword'] = SimpleSAML_Module::getModuleURL('userregistration/lostPassword.php');
+			    }
+
+			    $error_msg = $html->t(
+				    $error->getMesgId(),
+				    $error->getTrVars()
+			    );
+            }
 
 			$html->data['error'] = htmlspecialchars($error_msg);
 		}
