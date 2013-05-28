@@ -357,6 +357,8 @@ $config = array (
 		),
 	),
 
+	'extrastorage.driver' => 'redis',
+
 	// Redis connection
 	'redis' => array(
 		'scheme' => 'tcp',

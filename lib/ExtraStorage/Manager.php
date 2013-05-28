@@ -6,12 +6,12 @@ class sspmod_userregistration_ExtraStorage_Manager {
 	public static function getInstance()
 	{
 		if (self::$instance === null) {
-			$driver = self::getDriver();
 			$config = SimpleSAML_Configuration::getConfig('module_userregistration.php');
+			$driver = $config->getstring('extrastorage.driver');
 			switch($driver) {
 				case 'redis':
 					self::$instance = new sspmod_userregistration_ExtraStorage_Redis(
-						$config['redis']
+						$config->getArray('redis')
 					);
 					break;
 				default:

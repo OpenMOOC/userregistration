@@ -11,9 +11,10 @@ class sspmod_userregistration_ExtraStorage_Redis implements sspmod_userregistrat
 
 	public function store(sspmod_userregistration_ExtraData_Base $data)
 	{
-		$this->redis->set($data->getKey(), json_encode($data->getData()));
+		$key = $this->getPrefixedKey($data);
+		$this->redis->set($key, json_encode($data->getData()));
 		if ($data->getExpire() !== false) {
-			$this->redis->expire($data->getKey(), $data->getExpire());
+			$this->redis->expire($key, $data->getExpire());
 		}
 	}
 

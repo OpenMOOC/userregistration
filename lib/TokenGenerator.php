@@ -20,20 +20,30 @@ class sspmod_userregistration_TokenGenerator {
 
 	public function newAccountCreationToken($email)
 	{
-		return new sspmod_userregistration_ExtraData_AccountCreationToken(
+		$result = new sspmod_userregistration_ExtraData_AccountCreationToken(
 			$this->generate(),
-			$email,
+			array(),
 			$this->lifetime
 		);
+
+		$result->setEmail($email);
+		$result->rebuild();
+
+		return $result;
 	}
 
 	public function newMailChangeToken($oldmail, $newmail)
 	{
-		return new sspmod_userregistration_ExtraData_MailChangeToken(
+		$result = new sspmod_userregistration_ExtraData_MailChangeToken(
 			$this->generate(),
-			$oldmail,
-			$newmail,
+			array(),
 			$this->lifetime
 		);
+
+		$result->setOldMail($oldmail);
+		$result->setNewMail($newmail);
+		$result->rebuild();
+
+		return $result;
 	}
 }
