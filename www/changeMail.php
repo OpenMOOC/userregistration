@@ -245,7 +245,13 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
 
         $oldmail = $attributes[$mail_param][0];
 
-		checkAlreadyUsedMail($newmail);
+		sspmod_userregistration_Util::checkIfAvailableMail(
+			$newmail,
+			$store,
+			$attributes,
+			$mail_param,
+			$uid_param
+		);
 
 		$token_struct = $tokenGenerator->newMailChangeToken($oldmail, $newmail);
 		$token_string = $token_struct->getToken();
@@ -334,19 +340,3 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
     $html->show();
 }
 
-
-function checkAlreadyUsedMail($newmail) {
-	global $store, $mail_param, $uid_param, $attributes;
-
-	foreach (array('irisMailAlternateAddress', $mail_param) as $check) {
-		if ($store->isRegistered($check, $newmail)) {
-			$user_with_mail = $store->findAndGetUser($check, $newmail, true);
-
-			if (!empty($user_with_mail)) {
-				if ($user_with_mail[$uid_param][0] != $attributes[$uid_param][0]) {
-					throw new sspmod_userregistration_Error_UserException('mail_already_registered');
-				}
-			}
-		}
-	}
-}

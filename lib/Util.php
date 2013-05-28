@@ -110,6 +110,20 @@ class sspmod_userregistration_Util {
 		$mailer->send();
 	}
 
+	public static function checkIfAvailableMail($newmail, $store, $attributes, $mail_param, $uid_param) {
+		foreach (array('irisMailAlternateAddress', $mail_param) as $check) {
+			if ($store->isRegistered($check, $newmail)) {
+				$user_with_mail = $store->findAndGetUser($check, $newmail, true);
+
+				if (!empty($user_with_mail)) {
+					if ($user_with_mail[$uid_param][0] != $attributes[$uid_param][0]) {
+						throw new sspmod_userregistration_Error_UserException('mail_already_registered');
+					}
+				}
+			}
+		}
+	}
+
 }
 
 ?>
