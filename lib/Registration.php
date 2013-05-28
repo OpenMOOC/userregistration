@@ -132,7 +132,7 @@ class sspmod_userregistration_Registration {
 				    $email = $this->userInfo[$this->store->userRegisterEmailAttr];
 				    $html->data['refreshtoken'] = true;
 				    $html->data['email'] = $email;
-			    } elseif ($error->getMesgId() == 'uid_taken') {
+			    } elseif ($error->getMesgId() == 'uid_taken' || $error->getMesgId() == 'mail_already_registered') {
 				    $html->data['url_lostpassword'] = SimpleSAML_Module::getModuleURL('userregistration/lostPassword.php');
 			    }
 
@@ -181,9 +181,18 @@ class sspmod_userregistration_Registration {
 					throw new sspmod_userregistration_Error_UserException('tos_failed');
 				}
 
+				$email = $this->userInfo[$this->store->userRegisterEmailAttr];
+
+				sspmod_userregistration_Util::checkIfAvailableMail(
+					$email,
+					$this->store,
+					$this->attributes,
+					$this->store->userRegisterEmailAttr,
+					$this->store->userIdAttr
+				);
+
 				$this->store->addUser($this->userInfo);
 
-				$email = $this->userInfo[$this->store->userRegisterEmailAttr];
 			} else {
 				$email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 				if ($email === null || $email === false) {
