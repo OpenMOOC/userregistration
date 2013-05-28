@@ -6,22 +6,22 @@ class sspmod_userregistration_ExtraData_MailChangeToken extends sspmod_userregis
 
 	protected $newmail;
 
-	public function setOldEmail($oldmail)
+	public function setOldMail($oldmail)
 	{
 		$this->oldmail = $oldmail;
 	}
 
-	public function getOldEmail()
+	public function getOldMail()
 	{
 		return $this->oldmail;
 	}
 
-	public function setNewEmail($newmail)
+	public function setNewMail($newmail)
 	{
 		$this->newmail = $newmail;
 	}
 
-	public function getNewEmail()
+	public function getNewMail()
 	{
 		return $this->newmail;
 	}
