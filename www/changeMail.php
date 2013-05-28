@@ -68,7 +68,13 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
    			throw new sspmod_userregistration_Error_UserException('invalid_mail');
 		}
 
-		checkAlreadyUsedMail($newmail);
+		sspmod_userregistration_Util::checkIfAvailableMail(
+			$newmail,
+			$store,
+			$attributes,
+			$mail_param,
+			$uid_param
+		);
 
 
 		$userInfo = array();
@@ -154,7 +160,13 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
 
         $oldmail = $attributes[$mail_param][0];
 
-		checkAlreadyUsedMail($newmail);
+		sspmod_userregistration_Util::checkIfAvailableMail(
+			$newmail,
+			$store,
+			$attributes,
+			$mail_param,
+			$uid_param
+		);
 
 		$token_struct = $tokenGenerator->newMailChangeToken($oldmail, $newmail);
 		$token_string = $token_struct->getToken();
