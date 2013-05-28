@@ -1,15 +1,12 @@
 <?php
 
-// Load redis library
-require_once __DIR__ . '/../lib/predis-0.8.3/lib/Predis/Autoloader.php';
-Predis\Autoloader::register();
-
 class sspmod_userregistration_ExtraStorage {
 	protected $redis;
 
 	public function __construct($config)
 	{
-		$this->redis = new \Predis\Client($config);
+		$this->redis = new Redis();
+        $this->redis->connect($config['scheme'].'://'.$config['host'], $config['port']);
 	}
 
 	public function store(sspmod_userregistration_ExtraData_Base $data)
