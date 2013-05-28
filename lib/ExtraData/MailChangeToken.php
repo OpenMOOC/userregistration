@@ -2,26 +2,40 @@
 
 class sspmod_userregistration_ExtraData_MailChangeToken extends sspmod_userregistration_ExtraData_Base {
 
-	protected $token;
+	protected $oldmail;
 
-	public function __construct($token, $oldmail = '', $newmail = '', $lifetime = false)
+	protected $newmail;
+
+	public function setOldEmail($oldmail)
 	{
-		$data = array(
-			'type' => 'mail_change',
-			'oldmail' => $oldmail,
-			'newmail' => $newmail,
-		);
-		parent::__construct(
-			'token:' . $token,
-			$data,
-			$lifetime
-		);
-
-		$this->token = $token;
+		$this->oldmail = $oldmail;
 	}
 
-	public function getToken()
+	public function getOldEmail()
 	{
-		return $this->token;
+		return $this->oldmail;
+	}
+
+	public function setNewEmail($newmail)
+	{
+		$this->newmail = $newmail;
+	}
+
+	public function getNewEmail()
+	{
+		return $this->newmail;
+	}
+
+	public function rebuild(Array $data = array())
+	{
+		if (count($data) == 0) {
+			$this->data = array(
+				'type' => 'mail_change',
+				'oldmail' => $this->oldmail,
+				'newmail' => $this->newmail,
+			);
+		} else {
+			parent::rebuild($data);
+		}
 	}
 }

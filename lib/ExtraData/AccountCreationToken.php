@@ -2,25 +2,27 @@
 
 class sspmod_userregistration_ExtraData_AccountCreationToken extends sspmod_userregistration_ExtraData_Base {
 
-	protected $token;
+	protected $email;
 
-	public function __construct($token, $email = '', $lifetime = false)
+	public function setEmail($email)
 	{
-		$data = array(
-			'type' => 'account_creation',
-			'email' => $email,
-		);
-		parent::__construct(
-			'token:' . $token,
-			$data,
-			$lifetime
-		);
-
-		$this->token = $token;
+		$this->email = $email;
 	}
 
-	public function getToken()
+	public function getEmail()
 	{
-		return $this->token;
+		return $this->email;
+	}
+
+	public function rebuild(Array $data = array())
+	{
+		if (count($data) == 0) {
+			$this->data = array(
+				'type' => 'account_creation',
+				'email' => $this->email,
+			);
+		} else {
+			parent::rebuild($data);
+		}
 	}
 }
