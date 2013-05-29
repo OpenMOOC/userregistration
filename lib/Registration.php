@@ -123,10 +123,7 @@ class sspmod_userregistration_Registration {
 			$values = $this->validator->getRawInput();
 			$formGen->setValues($values);
 
-            if (get_class($error) == "Predis\Connection\ConnectionException") {
-                $error_msg = "Redis problem: ".$error->getMessage();
-            }
-            else {
+            if (get_class($error) == "sspmod_userregistration_Error_UserException") {
 
 			    if ($error->getMesgId() == 'uid_taken_but_not_verified') {
 				    $email = $this->userInfo[$this->store->userRegisterEmailAttr];
@@ -140,6 +137,9 @@ class sspmod_userregistration_Registration {
 				    $error->getMesgId(),
 				    $error->getTrVars()
 			    );
+            }
+            else {
+                $error_msg = $error->getMessage();
             }
 
 			$html->data['error'] = htmlspecialchars($error_msg);
