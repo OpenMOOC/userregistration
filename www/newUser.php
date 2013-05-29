@@ -11,7 +11,6 @@ $tos = $uregconf->getString('tos', '');
 $customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
 $asId = $uregconf->getString('auth');
 $as = new SimpleSAML_Auth_Simple($asId);
-$redis_config = $uregconf->getArray('redis');
 
 $steps = new sspmod_userregistration_XHTML_Steps();
 
@@ -29,7 +28,7 @@ $registration->setMailOptions($mailoptions);
 $registration->setKnownEmailProviders($known_email_providers);
 $registration->setCustomNavigation($customNavigation);
 $registration->setAs($as);
-$registration->setRedisConfig($redis_config);
+$registration->setExtraStorageConfig();
 
 if (array_key_exists('savepw', $_REQUEST)) {
 	// Stage 4: Registration completed

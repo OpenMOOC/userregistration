@@ -84,12 +84,9 @@ class sspmod_userregistration_Registration {
 		$this->as = $as;
 	}
 
-	public function setRedisConfig($redis_config)
+	public function setExtraStorageConfig()
 	{
-		// Initialize token manager
-		$this->extraStorage = new sspmod_userregistration_ExtraStorage(
-			$redis_config
-		);
+		$this->extraStorage = sspmod_userregistration_ExtraStorage::instantiateExtraStorage();
 	}
 
 	public function step1($error = null)

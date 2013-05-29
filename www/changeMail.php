@@ -6,10 +6,9 @@ $mailoptions = $uregconf->getArray('mail');
 $formFields = $uregconf->getArray('formFields');
 $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 $customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
-$redis_config = $uregconf->getArray('redis');
 
 $tokenGenerator = new sspmod_userregistration_TokenGenerator($mailoptions['token.lifetime']);
-$extraStorage = new sspmod_userregistration_ExtraStorage($redis_config);
+$extraStorage = sspmod_userregistration_ExtraStorage::instantiateExtraStorage();
 
 $systemName = array('%SNAME%' => $uregconf->getString('system.name') );
 

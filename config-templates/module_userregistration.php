@@ -357,10 +357,17 @@ $config = array (
 		),
 	),
 
-	// Redis connection
-	'redis' => array(
-		'scheme' => 'tcp',
-		'host'   => '127.0.0.1',
-		'port'   => 6379,
-	),
+	// Extra storage. Use redis, mongodb
+    'extraStorage.backend' => 'redis',
+
+    'redis' => array(
+        'scheme' => 'tcp',
+        'host'   => '127.0.0.1',
+        'port'   => 6379,
+    ),
+    'mongodb' => array(
+        'scheme' => 'tcp',
+        'host'   => '127.0.0.1',
+        'port'   => 6379,
+    ),
 );
