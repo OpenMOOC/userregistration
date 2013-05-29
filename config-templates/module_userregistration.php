@@ -366,8 +366,9 @@ $config = array (
         'port'   => 6379,
     ),
     'mongodb' => array(
-        'scheme' => 'tcp',
+        'scheme' => 'mongodb',
         'host'   => '127.0.0.1',
-        'port'   => 6379,
+        'port'   => 27017,
+        'database' => 'idp',
     ),
 );

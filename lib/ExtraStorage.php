@@ -36,6 +36,8 @@ class sspmod_userregistration_ExtraStorage {
 		$rc = SimpleSAML_Configuration::getConfig('module_userregistration.php');
 		if($extraStoreSel == 'redis') {
 			return $rc->getArray('redis');
+		} elseif ($extraStoreSel == 'mongodb') {
+            return $rc->getArray('mongodb');
 		}
     }   
 
