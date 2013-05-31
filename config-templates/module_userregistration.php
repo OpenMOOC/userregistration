@@ -357,12 +357,18 @@ $config = array (
 		),
 	),
 
-	'extrastorage.driver' => 'redis',
-
+	// Extra storage. Use redis, mongodb
+	'extraStorage.backend' => 'redis',
 	// Redis connection
 	'redis' => array(
 		'scheme' => 'tcp',
 		'host'   => '127.0.0.1',
 		'port'   => 6379,
+	),
+	'mongodb' => array(
+		'scheme' => 'mongodb',
+		'host'   => '127.0.0.1',
+		'port'   => 27017,
+		'database' => 'idp',
 	),
 );
