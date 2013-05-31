@@ -6,9 +6,10 @@ $mailoptions = $uregconf->getArray('mail');
 $formFields = $uregconf->getArray('formFields');
 $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 $customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
+$redis_config = $uregconf->getArray('redis');
 
 $tokenGenerator = new sspmod_userregistration_TokenGenerator($mailoptions['token.lifetime']);
-$extraStorage = sspmod_userregistration_ExtraStorage::instantiateExtraStorage();
+$extraStorage = sspmod_userregistration_ExtraStorage_Manager::getInstance();
 
 $systemName = array('%SNAME%' => $uregconf->getString('system.name') );
 
@@ -47,8 +48,7 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
 	// Stage 3: User access page from url in e-mail
 	try{
 		$token_string = isset($_REQUEST['token']) ? $_REQUEST['token'] : null;
-		$helper_token = new sspmod_userregistration_ExtraData_MailChangeToken($token_string);
-		$token_struct = $extraStorage->retrieve($helper_token->getKey());
+		$token_struct = $extraStorage->retrieve($token_string, 'sspmod_userregistration_ExtraData_MailChangeToken');
 
 		if ($token_struct === false) {
 			throw new sspmod_userregistration_Error_UserException('invalid_token');
@@ -104,7 +104,7 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
             $store->updateUser($attributes[$uid_param][0], $userInfo);            
         }
 
-		$extraStorage->delete($token_struct->getKey());
+		$extraStorage->delete($token_struct);
         $as->logout(SimpleSAML_Module::getModuleURL('userregistration/changeMail.php?success'));
         exit();
 
@@ -168,7 +168,7 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
 		);
 
 		$token_struct = $tokenGenerator->newMailChangeToken($oldmail, $newmail);
-		$token_string = $token_struct->getToken();
+		$token_string = $token_struct->getKey();
 		$extraStorage->store($token_struct);
 
 	    $url = SimpleSAML_Utilities::selfURL();
@@ -265,7 +265,7 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
 		);
 
 		$token_struct = $tokenGenerator->newMailChangeToken($oldmail, $newmail);
-		$token_string = $token_struct->getToken();
+		$token_string = $token_struct->getKey();
 		$extraStorage->store($token_struct);
 
 		$url = SimpleSAML_Utilities::selfURL();

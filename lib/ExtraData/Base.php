@@ -1,6 +1,6 @@
 <?php
 
-class sspmod_userregistration_ExtraData_Base {
+abstract class sspmod_userregistration_ExtraData_Base {
 	protected $key;
 
 	protected $data;
@@ -27,5 +27,11 @@ class sspmod_userregistration_ExtraData_Base {
 	public function getExpire()
 	{
 		return $this->expire;
+	}
+
+	// Recreates this data using custom attributes
+	public function rebuild(Array $data)
+	{
+		$this->data = $data;
 	}
 }

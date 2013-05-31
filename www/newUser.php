@@ -18,7 +18,6 @@ $steps = new sspmod_userregistration_XHTML_Steps();
 $systemName = array('%SNAME%' => $uregconf->getString('system.name') );
 $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 
-
 $registration = new sspmod_userregistration_Registration($config);
 $registration->setFormFields($formFields);
 $registration->setTOS($tos);
@@ -28,7 +27,6 @@ $registration->setMailOptions($mailoptions);
 $registration->setKnownEmailProviders($known_email_providers);
 $registration->setCustomNavigation($customNavigation);
 $registration->setAs($as);
-$registration->setExtraStorageConfig();
 
 if (array_key_exists('savepw', $_REQUEST)) {
 	// Stage 4: Registration completed
