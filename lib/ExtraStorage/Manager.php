@@ -5,13 +5,23 @@ class sspmod_userregistration_ExtraStorage_Manager {
 
 	public static function getInstance()
 	{
+		// Expiration time
+		$config = SimpleSAML_Configuration::getConfig('module_userregistration.php');
+		$mailoptions = $config->getArray('mail');
+		$expire = $mailoptions['token.lifetime'];
+
 		if (self::$instance === null) {
-			$config = SimpleSAML_Configuration::getConfig('module_userregistration.php');
 			$driver = $config->getstring('extraStorage.backend');
 			switch($driver) {
 				case 'redis':
 					self::$instance = new sspmod_userregistration_ExtraStorage_Redis(
 						$config->getArray('redis')
+					);
+					break;
+				case 'mongodb':
+					self::$instance = new sspmod_userregistration_ExtraStorage_Mongodb(
+						$config->getArray('mongodb'),
+						$expire
 					);
 					break;
 				default:
