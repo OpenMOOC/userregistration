@@ -46,4 +46,18 @@ class sspmod_userregistration_TokenGenerator {
 
 		return $result;
 	}
+
+	public function newPasswordChangeToken($email)
+	{
+		$result = new sspmod_userregistration_ExtraData_PasswordChangeToken(
+			$this->generate(),
+			array(),
+			$this->lifetime
+		);
+
+		$result->setEmail($email);
+		$result->rebuild();
+
+		return $result;
+	}
 }

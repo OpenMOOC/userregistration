@@ -47,7 +47,8 @@ class sspmod_userregistration_ExtraStorage_Redis implements sspmod_userregistrat
 	{
 		$key = $data->getKey();
 		if ($data instanceof sspmod_userregistration_ExtraData_AccountCreationToken ||
-				$data instanceof sspmod_userregistration_ExtraData_MailChangeToken) {
+				$data instanceof sspmod_userregistration_ExtraData_MailChangeToken ||
+				$data instanceof sspmod_userregistration_ExtraData_PasswordChangeToken) {
 			return 'token:' . $key;
 		} elseif ($data instanceof sspmod_userregistration_ExtraData_GotoURL) {
 			return 'goto:' . $key;

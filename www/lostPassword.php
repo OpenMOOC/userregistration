@@ -10,7 +10,8 @@ $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 $customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
 $redis_config = $uregconf->getArray('redis');
 
-$tokenManager = new sspmod_userregistration_TokenManagement($redis_config, $mailoptions['token.lifetime']);
+$tokenGenerator = new sspmod_userregistration_TokenGenerator($mailoptions['token.lifetime']);
+$extraStorage = sspmod_userregistration_ExtraStorage_Manager::getInstance();
 
 
 if (array_key_exists('emailreg', $_REQUEST)) {
@@ -47,14 +48,16 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 			);
 		}
 
-		$token = $tokenManager->generate($email);
+		$token_struct = $tokenGenerator->newPasswordChangeToken($email);
+		$token_string = $token_struct->getKey();
+		$extraStorage->store($token_struct);
 
 		$url = SimpleSAML_Utilities::selfURL();
 
 		$registerurl = SimpleSAML_Utilities::addURLparameter(
 			$url,
 			array(
-				'token' => $token));
+				'token' => $token_string));
 
 		$systemName = array('%SNAME%' => $uregconf->getString('system.name') );
 		$mail_data = array(
@@ -99,9 +102,16 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 	// Stage 3: User access page from url in e-mail
 	try{
 
-		$token = $_GET['token'];
-		$token_data = $tokenManager->getDetails($token);
-		if ($token_data === false) {
+		$token_string = $_GET['token'];
+		$token_struct = $extraStorage->retrieve($token_string, 'sspmod_userregistration_ExtraData_PasswordChangeToken');
+
+		if ($token_struct === false) {
+			throw new sspmod_userregistration_Error_UserException('invalid_token');
+		}
+
+		$token_data = $token_struct->getData();
+
+		if ($token_data['type'] != 'password_change') {
 			throw new sspmod_userregistration_Error_UserException('invalid_token');
 		}
 
@@ -116,7 +126,7 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 
 		$hidden = array(
 			'emailconfirmed' => $email,
-			'token' => $token);
+			'token' => $token_string);
 		$formGen->addHiddenData($hidden);
 		$formGen->setSubmitter('submit_change');
 		$formHtml = $formGen->genFormHtml();
@@ -159,11 +169,17 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		  $listValidate);
 
 
-		$token = isset($_REQUEST['token']) ? $_REQUEST['token'] : null;
-		$token_data = $tokenManager->getDetails($token);
+		$token_string = isset($_REQUEST['token']) ? $_REQUEST['token'] : null;
+		$token_struct = $extraStorage->retrieve($token_string, 'sspmod_userregistration_ExtraData_PasswordChangeToken');
 
-		if ($token_data === false) {
-		  throw new sspmod_userregistration_Error_UserException('invalid_token');
+		if ($token_struct === false) {
+			throw new sspmod_userregistration_Error_UserException('invalid_token');
+		}
+
+		$token_data = $token_struct->getData();
+
+		if ($token_data['type'] != 'password_change') {
+			throw new sspmod_userregistration_Error_UserException('invalid_token');
 		}
 
 		$email = $token_data['email'];
@@ -177,7 +193,7 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		}
 
 		$store->changeUserPassword($userValues[$store->userIdAttr], $newPw);
-		$tokenManager->delete($token);
+		$extraStorage->delete($token_struct);
 		header('Location: '.SimpleSAML_Module::getModuleURL('userregistration/lostPassword.php?success'));
 		exit();
 

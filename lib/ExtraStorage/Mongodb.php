@@ -70,7 +70,8 @@ class sspmod_userregistration_ExtraStorage_Mongodb implements sspmod_userregistr
 	{
 		$collection = 'misc';
 		if ($data instanceof sspmod_userregistration_ExtraData_AccountCreationToken ||
-				$data instanceof sspmod_userregistration_ExtraData_MailChangeToken) {
+				$data instanceof sspmod_userregistration_ExtraData_MailChangeToken ||
+				$data instanceof sspmod_userregistration_ExtraData_PasswordChangeToken) {
 			$collection = 'tokens';
 		} elseif ($data instanceof sspmod_userregistration_ExtraData_GotoURL) {
 			$collection = 'gotos';
