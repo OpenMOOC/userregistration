@@ -97,7 +97,7 @@ For each attribute you have to define the following options inside the
 `formFields` setting:
 
 * `validate`: one of the filters defined by PHP as
-  [http://www.php.net/manual/es/filter.constants.php](Filter constants).
+  [Filter constants](http://www.php.net/manual/es/filter.constants.php).
 * `layout`: 
     * `control_type`: what type of field is this (valid types are `text`, `password` and
       `text`), 

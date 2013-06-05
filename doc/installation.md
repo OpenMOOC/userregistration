@@ -28,4 +28,4 @@ Create an empty `enable` file inside the `userregistration/` directory. An easy 
 
     touch userregistration/enable
 
-The module will be enabled. You can now proceed to [configuration.md](configure it).
+The module will be enabled. You can now proceed to [configure it](configuration.md).
