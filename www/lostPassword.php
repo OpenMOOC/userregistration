@@ -8,7 +8,6 @@ $formFields = $uregconf->getArray('formFields');
 $eppnRealm = $uregconf->getString('user.realm');
 $store = sspmod_userregistration_Storage_UserCatalogue::instantiateStorage();
 $customNavigation = $uregconf->getBoolean('custom.navigation', TRUE);
-$redis_config = $uregconf->getArray('redis');
 
 $tokenGenerator = new sspmod_userregistration_TokenGenerator($mailoptions['token.lifetime']);
 $extraStorage = sspmod_userregistration_ExtraStorage_Manager::getInstance();
