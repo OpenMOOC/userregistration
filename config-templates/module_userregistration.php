@@ -357,7 +357,7 @@ $config = array (
 		),
 	),
 
-	// Extra storage. Use redis, mongodb
+	// Extra storage. Use redis, mongodb, cachelite
 	'extraStorage.backend' => 'redis',
 	// Redis connection
 	'redis' => array(
@@ -370,5 +370,9 @@ $config = array (
 		'host'   => '127.0.0.1',
 		'port'   => 27017,
 		'database' => 'idp',
+	),
+	// Local cachelite
+	'cachelite' => array(
+		'cacheDir' => '/tmp/'
 	),
 );
