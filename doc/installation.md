@@ -9,6 +9,7 @@ Requirements
 * One of the following:
     * redis and php-redis extension
     * MongoDB and php MongoDB PECL extension
+    * PEAR::Cache_Lite
 
 Downloading userregistration
 ----------------------------

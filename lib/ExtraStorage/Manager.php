@@ -24,6 +24,12 @@ class sspmod_userregistration_ExtraStorage_Manager {
 						$expire
 					);
 					break;
+				case 'cachelite':
+					self::$instance = new sspmod_userregistration_ExtraStorage_CacheLite(
+						$config->getArray('cachelite'),
+						$expire
+					);
+					break;
 				default:
 					self::$instance = null;
 			}

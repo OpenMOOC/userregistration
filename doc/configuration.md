@@ -145,8 +145,9 @@ storage_.
 
 The following storages are currently supported:
 
-* redis
+* Redis
 * MongoDB
+* PEAR::Cache_Lite
 
 Specify which one of them you will use (`extraStorage.backend`) and configure it
-on its own option (`redis` or `mongodb`).
+on its own option (`redis`, `mongodb` or `cachelite`).
