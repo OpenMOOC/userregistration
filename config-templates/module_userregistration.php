@@ -6,13 +6,13 @@
 $config = array (
 
     /* The authentication source that should be used. */
-    'auth' => 'userregistration-ldap',
+    'auth' => 'ldap',
 
     /* The authentication source for admin views. */
     'admin.auth' => 'admin',
 
     // Realm for eduPersonPrincipalName
-    'user.realm' => 'example.org',
+    'user.realm' => 'example.com',
 
     // Usen in mail and on pages
     'system.name' => 'User registration module',
@@ -20,8 +20,8 @@ $config = array (
     // Mail options
     'mail' => array(
         'token.lifetime' => (3600*24*5),
-        'from'     => 'Example <na@example.org>',
-        'replyto'  => 'Example <na@example.org>',
+        'from'     => 'Example <na@example.com>',
+        'replyto'  => 'Example <na@example.com>',
         'subject'  => 'Example - email verification',
         'admin_create_subject'  => 'Example - user account created',
         'admin_modify_subject'  => 'Example - user account modified',
@@ -40,7 +40,7 @@ $config = array (
     // This is configured in authsources.php
     // FIXME: The name of this arrays shoud be the same as storage.backend value
     'ldap' => array(
-        'admin.dn' => 'cn=admin,dc=example,dc=org',
+        'admin.dn' => 'cn=admin,dc=example,dc=com',
         'admin.pw' => 'xyz',
 
         // Storage User Id indicate which of the attributes
