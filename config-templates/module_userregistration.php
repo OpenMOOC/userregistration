@@ -82,7 +82,7 @@ $config = array (
             'top',
             'eduPerson',
             'irisPerson',
-            'norEduPerson'
+//            'norEduPerson'
         ),
 
         // Multivalued attributes we want to retrieve as arrays
