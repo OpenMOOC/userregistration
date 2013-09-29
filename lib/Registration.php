@@ -155,7 +155,8 @@ class sspmod_userregistration_Registration {
 
 				$this->validator = new sspmod_userregistration_Registration_Validation(
 					$this->formFields,
-					$listValidate);
+					$listValidate,
+					'new_user');
 				$validValues = $this->validator->validateInput();
 
 				$this->userInfo = sspmod_userregistration_Util::processInput(
@@ -361,7 +362,8 @@ class sspmod_userregistration_Registration {
 			$listValidate = sspmod_userregistration_Util::getFieldsFor('first_password');
 			$this->validator = new sspmod_userregistration_Registration_Validation(
 				$this->formFields,
-				$listValidate);
+				$listValidate,
+				'first_password');
 			$validValues = $this->validator->validateInput();
 
 			$this->userInfo = sspmod_userregistration_Util::processInput(

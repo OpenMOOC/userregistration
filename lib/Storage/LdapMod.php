@@ -64,6 +64,7 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 		$this->adminBindLdap();
 		// FIXME: Use errorcode from ldap_add instead
 		$userdn = $this->searchfordn($this->searchBase, $this->userIdAttr, $rdn, TRUE);
+
 		if ($userdn){
 			$attrs = $this->getAttributes($userdn, array('userPassword'));
 
@@ -83,20 +84,19 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 		$entry = array();
 		$entry['objectClass'] = $this->objectClass;
 
-		foreach($this->attributes as $attrName => $fieldName){
-			if (isset($userInfo[$attrName])) {
-				switch ($attrName){
-				case "userPassword":
-					$entry[$attrName] = $this->encrypt_pass($userInfo[$attrName]);
-					break;
-				default:
-					$entry[$attrName] = $userInfo[$attrName];
+		foreach($this->attributes as $fieldName){
+			if (isset($userInfo[$fieldName]) && !empty($userInfo[$fieldName])) {
+				switch ($fieldName){
+					case "userPassword":
+						$entry[$fieldName] = $this->encrypt_pass($userInfo[$fieldName]);
+						break;
+					default:
+						$entry[$fieldName] = $userInfo[$fieldName];
 				}
 			}
 		}
 		return $entry;
 	}
-
 
 
 	public function encrypt_pass($plainPassword) {
@@ -211,7 +211,7 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
         $dn = $this->makeDn($oldvalue);
         $parent = $this->searchBase;
 
-        $newrdn = $keyName.'='.str_replace(",", "\\,", $newvalue);
+        $newrdn = $keyName.'='.addcslashes($newvalue, ',+"\\<>;*');
 
         $this->adminBindLdap();
         $result = ldap_rename($this->ldap, $dn, $newrdn, $parent, True);

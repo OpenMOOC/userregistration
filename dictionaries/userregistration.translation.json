@@ -24,6 +24,9 @@
 	"attribute_city": {
 		"es": "Ciudad"
 	},
+	"attribute_community": {
+		"es": "Comunidad autónoma"
+	},
 	"attribute_state": {
 		"es": "Estado/Provincia"
 	},
@@ -35,6 +38,27 @@
 	},
 	"attribute_institutional_affilliation": {
 		"es": "Organización"
+	},
+	"attribute_gender": {
+		"es": "Género"
+	},
+	"attribute_educationalcenter": {
+		"es": "Centro educativo"
+	},
+	"attribute_faculty": {
+		"es": "Cuerpo docente"
+	},
+	"attribute_subject": {
+		"es": "Especialidad"
+	},
+	"attribute_educationalrole": {
+		"es": "Funci\u00f3n educativa"
+	},
+	"attribute_administrativestatus": {
+		"es": "Situaci\u00f3n administrativa"
+	},
+	"attribute_nrp": {
+		"es": "NRP"
 	},
 	"mailNew_header": {
 		"no": "Registrering p\u00e5 %SNAME% - epost validering",

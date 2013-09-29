@@ -165,7 +165,8 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		$listValidate = array('pw1', 'pw2');
 		$validator = new sspmod_userregistration_Registration_Validation(
 		  $formFields,
-		  $listValidate);
+		  $listValidate,
+		  'lost_password');
 
 
 		$token_string = isset($_REQUEST['token']) ? $_REQUEST['token'] : null;

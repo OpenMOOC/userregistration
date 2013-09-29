@@ -20,18 +20,42 @@
 	"attribute_city": {
 		"en": "City"
 	},
-        "attribute_state": {
+	"attribute_community": {
+		"en": "Community"
+	},
+	"attribute_state": {
 		"en": "State"
 	},
 	"attribute_country": {
 		"en": "Country"
 	},
-        "attribute_zipcode": {
-                "en": "Zip Code"
-        },
-        "attribute_institutional_affilliation": {
-                "en": "Institutional Affilliation"
-        },
+	"attribute_zipcode": {
+		"en": "Zip Code"
+	},
+	"attribute_institutional_affilliation": {
+		"en": "Institutional Affilliation"
+	},
+	"attribute_gender": {
+		"en": "Gender"
+	},
+	"attribute_educationalcenter": {
+		"en": "Educational Center"
+	},
+	"attribute_faculty": {
+		"en": "Faculty"
+	},
+	"attribute_subject": {
+		"en": "Subject"
+	},
+	"attribute_educationalrole": {
+		"en": "Educational Role"
+	},
+	"attribute_administrativestatus": {
+		"en": "Administrative Status"
+	},
+	"attribute_nrp": {
+		"en": "NRP"
+	},
 	"mailNew_header": {
 		"en": "Registration at %SNAME% - email validation"
 	},

@@ -39,8 +39,8 @@ if(array_key_exists('sender', $_POST)) {
 		// Update user object
 		$validator = new sspmod_userregistration_Registration_Validation(
 			$formFields,
-			$showFields
-		);
+			$showFields,
+			'edit_user');
 		$validValues = $validator->validateInput();
 
 		$eppnRealm = $uregconf->getString('user.realm');

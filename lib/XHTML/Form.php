@@ -154,21 +154,23 @@ class sspmod_userregistration_XHTML_Form {
 				$attr .= 'disabled="disabled"';
 			}
 
-			if($type=='password') {
-				$attr .= 'aria-controls="'.$elementId.'_simplePassMeter"';
-			}
-			if($type=='country') {
-				return $this->writeCountrySelect($value, $attr);
-			}
-
-			if ($type=='multivalued') {
-				return $this->writeMultivaluedField($elementId, $value, $attr);
-			}
-
             $size = $this->size;
             if(isset($this->layout[$elementId]['size']) && is_numeric((int)$this->layout[$elementId]['size'])) {
                 $size = $this->layout[$elementId]['size'];
             }
+
+			if($type=='password') {
+				$attr .= 'aria-controls="'.$elementId.'_simplePassMeter"';
+			}
+			if($type=='country') {
+				return $this->writeCountrySelect($value, $attr, $size);
+			}
+			if($type=='gender') {
+				return $this->writeGenderSelect($value, $attr, $size);
+			}
+			if ($type=='multivalued') {
+				return $this->writeMultivaluedField($elementId, $value, $attr);
+			}
 
 			$format = '<input class="'.($type=='password'? 'inputelement simplePassMeterInput':'inputelement').'" type="%s" id="%s" name="%s" value="%s" size="%s" %s '.(isset($this->layout[$elementId]['size'])? 'maxlength="'.$size.'"':''). ' />';
 
@@ -211,7 +213,7 @@ class sspmod_userregistration_XHTML_Form {
 	private function writeFormButtons(){
 		$html = '';
 		$format = '<tr><td></td><td>'
-			.'<button type="submit" class="btn btn-primary" type="submit" name="%s">%s</button>';
+			.'<button type="submit" class="btn btn-primary" name="%s">%s</button>';
 		$trValue = htmlspecialchars($this->transDesc->t($this->submitValue));
 		$html = sprintf($format, $this->submitName, $trValue);
 		if ($this->cancelButton === true) {
@@ -260,12 +262,25 @@ class sspmod_userregistration_XHTML_Form {
 	}
 
 
-	private function writeCountrySelect($value, $attr){
+	private function writeGenderSelect($value, $attr){
 		if(empty($value)) {
-			$value = 'US';
+			$value = 'M';
 		}
 
-		$countries = array( 
+		$choices = array (
+			'1' => 'Male',
+			'2' => 'Female',
+		);
+		return $this->writeSelect('gender', $choices, $value, $attr);
+	}
+
+
+	private function writeCountrySelect($value, $attr){
+		if(empty($value)) {
+			$value = 'ES';
+		}
+
+		$choices = array( 
 			'AF'=>'AFGHANISTAN',
 			'AL'=>'ALBANIA',
 			'DZ'=>'ALGERIA',
@@ -506,21 +521,23 @@ class sspmod_userregistration_XHTML_Form {
 			'ZM'=>'ZAMBIA',
 			'ZW'=>'ZIMBABWE'			
 		);		
-		$html = '<select name="country" id="country" '.$attr.' >';
-		foreach ($countries as $code => $name) {
-			$html .= '<option value="' . $code . '" ' . ($value == $code ? 'selected="selected"' : '') . '>' . $name . '</option>';
+		return $this->writeSelect('country', $choices, $value, $attr);
+	}
+
+
+	private function writeSelect($name, $choices,$currentValue, $attr) {
+		$html = '<select name="'.$name.'" id="'.$name.'" '.$attr.'>';
+		foreach ($choices as $code => $value) {
+			$html .= '<option value="' . $code . '" ' . ($currentValue == $code ? 'selected="selected"' : '') . '>' . $value . '</option>';
 		}
 	
 		$html .= '</select>';
 		return $html;
 	}
 
-	private function writeMultivaluedField($elementId, $value, $attr){
+
+	private function writeMultivaluedField($elementId, $value, $attr, $size){
 		$html = '<div class="multivalued-attribute" id="attribute-'.$elementId.'">';
-		$size = $this->size;
-		if(isset($this->layout[$elementId]['size']) && is_numeric((int)$this->layout[$elementId]['size'])) {
-			$size = $this->layout[$elementId]['size'];
-		}
 		$format = '<input class="inputelement" type="text" name="%s[]" value="%s" size="%s" %s '.(isset($this->layout[$elementId]['size'])? 'maxlength="'.$size.'"':''). ' /> <a tabindex="-1" href="#" class="remove"><i class="icon-remove"></i></a>';
 
 		foreach ($value as $v) {

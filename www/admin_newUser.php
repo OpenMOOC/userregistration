@@ -23,7 +23,8 @@ if (array_key_exists('sender', $_POST)) {
 
 		$validator = new sspmod_userregistration_Registration_Validation(
 		 $formFields,
-		 $listValidate);
+		 $listValidate,
+		 'admin_new_user');
 		$validValues = $validator->validateInput();
 
 		$userInfo = sspmod_userregistration_Util::processInput($validValues, $listValidate, $attributes);

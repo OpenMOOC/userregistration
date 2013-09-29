@@ -132,7 +132,8 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
 
             $validator = new sspmod_userregistration_Registration_Validation(
 		             $formFields,
-		             $showFields);
+		             $showFields,
+					'change_mail');
 
 		    $values = $validator->getRawInput();
 
@@ -212,7 +213,8 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
 
         $validator = new sspmod_userregistration_Registration_Validation(
 		         $formFields,
-		         $showFields);
+		         $showFields,
+				 'change_mail');
 
 		$values = $validator->getRawInput();
 
@@ -246,7 +248,8 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
 
 		$validator = new sspmod_userregistration_Registration_Validation(
 		    $formFields,
-		    $showFields);
+		    $showFields,
+			'change_mail');
 		$validValues = $validator->validateInput();
 
 		$userInfo = sspmod_userregistration_Util::processInput($validValues, $showFields, $attributes);
@@ -309,7 +312,8 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
 
         $validator = new sspmod_userregistration_Registration_Validation(
 		         $formFields,
-		         $showFields);
+		         $showFields,
+				 'change_mail');
 
 		$values = $validator->getRawInput();
 

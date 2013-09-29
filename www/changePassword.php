@@ -35,7 +35,8 @@ if(array_key_exists('sender', $_REQUEST)) {
 		try{
 			$validator = new sspmod_userregistration_Registration_Validation(
 				$formFields,
-				$fields );
+				$fields,
+				'change_password');
 			$validValues = $validator->validateInput();
 			$newPw = sspmod_userregistration_Util::validatePassword($validValues);
 			if(!empty($store->passwordPolicy)) {
