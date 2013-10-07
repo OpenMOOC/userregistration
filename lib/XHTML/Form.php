@@ -168,6 +168,9 @@ class sspmod_userregistration_XHTML_Form {
 			if($type=='gender') {
 				return $this->writeGenderSelect($value, $attr, $size);
 			}
+			if($type=='spanish_communities') {
+				return $this->writesSpanishCommunitiesSelect($value, $attr, $size);
+			}
 			if ($type=='multivalued') {
 				return $this->writeMultivaluedField($elementId, $value, $attr);
 			}
@@ -263,11 +266,13 @@ class sspmod_userregistration_XHTML_Form {
 
 
 	private function writeGenderSelect($value, $attr){
+
 		if(empty($value)) {
-			$value = 'M';
+			$value = '-';
 		}
 
 		$choices = array (
+			'9' => '-',
 			'1' => 'Male',
 			'2' => 'Female',
 		);
@@ -275,7 +280,40 @@ class sspmod_userregistration_XHTML_Form {
 	}
 
 
+	private function writesSpanishCommunitiesSelect($value, $attr) {
+
+		if(empty($value)) {
+			$value = '-';
+		}
+
+		$choices = array (
+			'-' => '-',
+			'AN' => 'ANDALUCÍA',
+			'AR' => 'ARAGÓN',
+			'AS' => 'ASTURIAS',
+			'IB' => 'ISLAS BALEARES',
+			'IC' => 'CANARIAS',
+			'CA' => 'CANTABRIA',
+			'CM' => 'CASTILLA-LA MANCHA',
+			'CL' => 'CASTILLA Y LEÓN',
+			'CY' => 'CATALUÑA',
+			'EX' => 'EXTREMADURA',
+			'GA' => 'GALICIA',
+			'MA' => 'MADRID',
+			'MU' => 'MURCIA',
+			'NA' => 'NAVARRA',
+			'PV' => 'PAÍS VASCO',
+			'LR' => 'LA RIOJA',
+			'VA' => 'VALENCIA',
+			'CE' => 'CEUTA',
+			'ME' => 'MELILLA',
+		);
+		return $this->writeSelect('spanish_communities', $choices, $value, $attr);
+	}
+
+
 	private function writeCountrySelect($value, $attr){
+
 		if(empty($value)) {
 			$value = 'ES';
 		}
