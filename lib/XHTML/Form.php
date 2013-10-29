@@ -268,11 +268,10 @@ class sspmod_userregistration_XHTML_Form {
 	private function writeGenderSelect($value, $attr){
 
 		if(empty($value)) {
-			$value = '-';
+			$value = '1';
 		}
 
 		$choices = array (
-			'9' => '-',
 			'1' => 'Male',
 			'2' => 'Female',
 		);
