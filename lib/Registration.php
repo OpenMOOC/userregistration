@@ -116,18 +116,24 @@ class sspmod_userregistration_Registration {
 			$values = $this->validator->getRawInput();
 			$formGen->setValues($values);
 
-			if ($error->getMesgId() == 'uid_taken_but_not_verified') {
-				$email = $this->userInfo[$this->store->userRegisterEmailAttr];
-				$html->data['refreshtoken'] = true;
-				$html->data['email'] = $email;
-			} elseif ($error->getMesgId() == 'uid_taken' || $error->getMesgId() == 'mail_already_registered') {
-				$html->data['url_lostpassword'] = SimpleSAML_Module::getModuleURL('userregistration/lostPassword.php');
-			}
+			if(method_exists($error, 'getMesgId')) {
 
-			$error_msg = $html->t(
-				$error->getMesgId(),
-				$error->getTrVars()
-			);
+				if ($error->getMesgId() == 'uid_taken_but_not_verified') {
+					$email = $this->userInfo[$this->store->userRegisterEmailAttr];
+					$html->data['refreshtoken'] = true;
+					$html->data['email'] = $email;
+				} elseif ($error->getMesgId() == 'uid_taken' || $error->getMesgId() == 'mail_already_registered') {
+					$html->data['url_lostpassword'] = SimpleSAML_Module::getModuleURL('userregistration/lostPassword.php');
+				}
+
+				$error_msg = $html->t(
+					$error->getMesgId(),
+					$error->getTrVars()
+				);
+			}
+			else {
+				$error_msg = $html->t($error->getMessage());
+			}
 
 			$html->data['error'] = htmlspecialchars($error_msg);
 		}
