@@ -163,13 +163,13 @@ class sspmod_userregistration_XHTML_Form {
 				$attr .= 'aria-controls="'.$elementId.'_simplePassMeter"';
 			}
 			if($type=='country') {
-				return $this->writeCountrySelect($value, $attr, $size);
+				return $this->writeCountrySelect($elementId, $value, $attr);
 			}
 			if($type=='gender') {
-				return $this->writeGenderSelect($value, $attr, $size);
+				return $this->writeGenderSelect($elementId, $value, $attr);
 			}
 			if($type=='spanish_communities') {
-				return $this->writesSpanishCommunitiesSelect($value, $attr, $size);
+				return $this->writesSpanishCommunitiesSelect($elementId, $value, $attr);
 			}
 			if ($type=='multivalued') {
 				return $this->writeMultivaluedField($elementId, $value, $attr);
@@ -265,7 +265,7 @@ class sspmod_userregistration_XHTML_Form {
 	}
 
 
-	private function writeGenderSelect($value, $attr){
+	private function writeGenderSelect($elementId, $value, $attr){
 
 		if(empty($value)) {
 			$value = '1';
@@ -275,11 +275,11 @@ class sspmod_userregistration_XHTML_Form {
 			'1' => 'Male',
 			'2' => 'Female',
 		);
-		return $this->writeSelect('gender', $choices, $value, $attr);
+		return $this->writeSelect($elementId, $choices, $value, $attr);
 	}
 
 
-	private function writesSpanishCommunitiesSelect($value, $attr) {
+	private function writesSpanishCommunitiesSelect($elementId, $value, $attr) {
 
 		if(empty($value)) {
 			$value = '-';
@@ -307,11 +307,11 @@ class sspmod_userregistration_XHTML_Form {
 			'CE' => 'CEUTA',
 			'ME' => 'MELILLA',
 		);
-		return $this->writeSelect('spanish_communities', $choices, $value, $attr);
+		return $this->writeSelect($elementId, $choices, $value, $attr);
 	}
 
 
-	private function writeCountrySelect($value, $attr){
+	private function writeCountrySelect($elementId, $value, $attr){
 
 		if(empty($value)) {
 			$value = 'ES';
@@ -558,7 +558,7 @@ class sspmod_userregistration_XHTML_Form {
 			'ZM'=>'ZAMBIA',
 			'ZW'=>'ZIMBABWE'			
 		);		
-		return $this->writeSelect('country', $choices, $value, $attr);
+		return $this->writeSelect($elementId, $choices, $value, $attr);
 	}
 
 
