@@ -56,6 +56,79 @@
 	"attribute_nrp": {
 		"en": "NRP"
 	},
+	"attribute_countryofcitizen": {
+		"en": "Country of citizen"
+	},
+	"attribute_countryofresidence": {
+		"en": "Country of residence"
+	},
+	"attribute_birthyear": {
+		"en": "Year of birth"
+	},
+	"attribute_levelofeducation": {
+		"en": "Level of education"
+	},
+	"attribute_employmentstatus": {
+		"en": "Employment status"
+	},
+	"attribute_relation": {
+		"en": "Relation with the organization"
+	},
+	"male": {
+		"en": "Male"
+	},
+	"female": {
+		"en": "Female"
+	},
+	"level_no_study": {
+		"en": "No studies"
+	},
+	"level_basic_study": {
+		"en": "Basic Education"
+	},
+	"level_high_school": {
+		"en": "High school"
+	},
+	"level_bachelor": {
+		"en": "Bachelor"
+	},
+	"level_jobtraining": {
+		"en": "Job training"
+	},
+	"level_universitary": {
+		"en": "Universitary"
+	},
+	"level_doctorate": {
+		"en": "Doctorate"
+	},
+	"employment_student": {
+		"en": "Student"
+	},
+	"employment_for_others": {
+		"en": "Working for others"
+	},
+	"employment_freelance": {
+		"en": "Freelance"
+	},
+	"employment_unemployed": {
+		"en": "Unemployed"
+	},
+	"employment_retired": {
+		"en": "Retired"
+	},
+	"relation_unknown": {
+		"en": "I did not know the institution before I discovered the MOOC platform"
+	},
+	"relation_known": {
+		"en": "I knew about the institution but I've never been enrolled"
+	},
+	"relation_regulated_student": {
+		"en": "I'am or I've been a student of formal education or access course of the institution (graduate, degree)"
+	},
+	"relation_permanent_student": {
+		"en": "I'am or I've been a student of permanent education of the institution (own titles, cuid)"
+	},
+
 	"mailNew_header": {
 		"en": "Registration at %SNAME% - email validation"
 	},

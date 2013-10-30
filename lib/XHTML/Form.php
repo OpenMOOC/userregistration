@@ -20,6 +20,7 @@ class sspmod_userregistration_XHTML_Form {
 	private $tos = false;
 	private $sendemail = false;
 	private $autogeneratepassword = false;
+	private $template;
 
 
 	public function __construct($fieldsDef = array(), $actionEndpoint = NULL){
@@ -37,6 +38,11 @@ class sspmod_userregistration_XHTML_Form {
 			$config,
 			'userregistration:step1email.php', // Selected as a dummy
 			'userregistration:userregistration');
+
+		$this->template = new SimpleSAML_XHTML_Template(
+		SimpleSAML_Configuration::getInstance(),
+		'userregistration:step1_register.tpl.php',
+		'userregistration:userregistration');
 
 	}
 
@@ -168,6 +174,18 @@ class sspmod_userregistration_XHTML_Form {
 			if($type=='gender') {
 				return $this->writeGenderSelect($elementId, $value, $attr);
 			}
+			if($type=='year') {
+				return $this->writeYearSelect($elementId, $value, $attr);
+			}
+			if($type=='education') {
+				return $this->writeEducationSelect($elementId, $value, $attr);
+			}
+			if($type=='employment_status') {
+				return $this->writesEmploymentStatusSelect($elementId, $value, $attr);
+			}
+			if($type=='relation') {
+				return $this->writesRelationSelect($elementId, $value, $attr);
+			}
 			if($type=='spanish_communities') {
 				return $this->writesSpanishCommunitiesSelect($elementId, $value, $attr);
 			}
@@ -227,34 +245,19 @@ class sspmod_userregistration_XHTML_Form {
 	}
 
 	private function writeTOS($tos){
-		$template = new SimpleSAML_XHTML_Template(
-		SimpleSAML_Configuration::getInstance(),
-		'userregistration:step1_register.tpl.php',
-		'userregistration:userregistration');
-
-		$html = '<tr><td></td><td><input type="checkbox" name="tos" id="tos" value="tos"><label for="tos"> '.$template->t('tos').' (<a href="'.$tos.'" target="_new">'.$template->t('see_tos').'</a>)</label></td></tr>';
+		$html = '<tr><td></td><td><input type="checkbox" name="tos" id="tos" value="tos"><label for="tos"> '.$this->template->t('tos').' (<a href="'.$tos.'" target="_new">'.$this->template->t('see_tos').'</a>)</label></td></tr>';
 		return $html;
 	}
 
 	private function writeSendEmail()
 	{
-		$template = new SimpleSAML_XHTML_Template(
-		SimpleSAML_Configuration::getInstance(),
-		'userregistration:step1_register.tpl.php',
-		'userregistration:userregistration');
-
-		$html = '<tr><td></td><td><input type="checkbox" name="sendemail" id="sendemail" value="sendemail"><label for="sendemail"> '.$template->t('sendemail').'</label></td></tr>';
+		$html = '<tr><td></td><td><input type="checkbox" name="sendemail" id="sendemail" value="sendemail"><label for="sendemail"> '.$$this->template->t('sendemail').'</label></td></tr>';
 		return $html;
 	}
 
 	private function writeGeneratePassword()
 	{
-		$template = new SimpleSAML_XHTML_Template(
-		SimpleSAML_Configuration::getInstance(),
-		'userregistration:step1_register.tpl.php',
-		'userregistration:userregistration');
-
-		$html = '<tr><td></td><td><a id="generate-password" class="btn btn-small">'.$template->t('generate_password').'</a></td></tr>';
+		$html = '<tr><td></td><td><a id="generate-password" class="btn btn-small">'.$this->template->t('generate_password').'</a></td></tr>';
 		return $html;
 	}
 	private function writeCancel(){
@@ -264,6 +267,69 @@ class sspmod_userregistration_XHTML_Form {
 		return $html;
 	}
 
+	private function writeEducationSelect($elementId, $value, $attr) {
+		if(empty($value)) {
+			$value = '5';
+		}
+
+		$choices = array(
+			'0' => $this->template->t('level_no_study'),
+			'1' => $this->template->t('level_basic_study'),
+			'2' => $this->template->t('level_high_school'),
+			'3' => $this->template->t('level_bachelor'),
+			'4' => $this->template->t('level_jobtraining'),
+			'5' => $this->template->t('level_universitary'),
+			'6' => $this->template->t('level_doctorate'),
+		);
+
+		return $this->writeSelect($elementId, $choices, $value, $attr);
+	}
+
+	private function writesEmploymentStatusSelect($elementId, $value, $attr) {
+		if(empty($value)) {
+			$value = '0';
+		}
+
+		$choices = array(
+			'0' => $this->template->t('employment_student'),
+			'1' => $this->template->t('employment_for_others'),
+			'2' => $this->template->t('employment_freelance'),
+			'3' => $this->template->t('employment_unemployed'),
+			'4' => $this->template->t('employment_retired'),
+		);
+
+		return $this->writeSelect($elementId, $choices, $value, $attr);
+	}
+
+	private function writesRelationSelect($elementId, $value, $attr) {
+		if(empty($value)) {
+			$value = '5';
+		}
+
+		$choices = array(
+			'0' => $this->template->t('relation_unknown'),
+			'1' => $this->template->t('relation_known'),
+			'2' => $this->template->t('relation_regulated_student'),
+			'3' => $this->template->t('relation_permanent_student'),
+		);
+
+		return $this->writeSelect($elementId, $choices, $value, $attr);
+	}
+
+	private function writeYearSelect($elementId, $value, $attr) {
+
+		if(empty($value)) {
+			$value = '1980';
+		}
+
+		$choices = array();
+
+		for ($i=1910 ; $i< date("Y") - 10; $i++) {
+			$choices[$i] = $i;
+		}
+
+		return $this->writeSelect($elementId, $choices, $value, $attr);
+	}
 
 	private function writeGenderSelect($elementId, $value, $attr){
 
@@ -272,8 +338,8 @@ class sspmod_userregistration_XHTML_Form {
 		}
 
 		$choices = array (
-			'1' => 'Male',
-			'2' => 'Female',
+			'1' => $this->template->t('male'),
+			'2' => $this->template->t('female'),
 		);
 		return $this->writeSelect($elementId, $choices, $value, $attr);
 	}

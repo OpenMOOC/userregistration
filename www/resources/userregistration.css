@@ -47,6 +47,9 @@ tr.element input.inputelement {
 	display: inline;
 	margin: 2px;
 }
+tr.element select {
+        width: auto;
+}
 tr.element p {
 	font-size: 90%;
 	margin-top: .2em;

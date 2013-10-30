@@ -60,6 +60,78 @@
 	"attribute_nrp": {
 		"es": "NRP"
 	},
+	"attribute_countryofcitizen": {
+		"es": "País de origen"
+	},
+	"attribute_countryofresidence": {
+		"es": "País de residencia"
+	},
+	"attribute_birthyear": {
+		"es": "Año de nacimiento"
+	},
+	"attribute_levelofeducation": {
+		"es": "Nivel de estudios"
+	},
+	"attribute_employmentstatus": {
+		"es": "Situación laboral"
+	},
+	"attribute_relation": {
+		"es": "Relación con la organización"
+	},
+	"male": {
+		"es": "Hombre"
+	},
+	"female": {
+		"es": "Mujer"
+	},
+	"level_no_study": {
+		"es": "Sin estudios"
+	},
+	"level_basic_study": {
+		"es": "Educación básica/primaria"
+	},
+	"level_high_school": {
+		"es": "Educación secundaria obligatoria"
+	},
+	"level_bachelor": {
+		"es": "Bachillerato"
+	},
+	"level_jobtraining": {
+		"es": "Formación profesional"
+	},
+	"level_universitary": {
+		"es": "Estudios universitarios (diplomatura, ingeniería, licenciatura, grado)"
+	},
+	"level_doctorate": {
+		"es": "Posgrado (máster o doctorado)"
+	},
+	"employment_student": {
+		"es": "Estudiante"
+	},
+	"employment_for_others": {
+		"es": "Trabajo por cuenta ajena"
+	},
+	"employment_freelance": {
+		"es": "Trabajo autónomo"
+	},
+	"employment_unemployed": {
+		"es": "En situación de desempleo"
+	},
+	"employment_retired": {
+		"es": "Jubilación/pensionista"
+	},
+	"relation_unknown": {
+		"es": "No conocía la Institución antes de registrarme en la plataforma de MOOC"
+	},
+	"relation_known": {
+		"es": "Conocía la Institución pero nunca he estado matriculado/a"
+	},
+	"relation_regulated_student": {
+		"es": "Soy o he sido estudiante de enseñanzas regladas o curso de acceso en la institución (grado, licenciatura, etc.)"
+	},
+	"relation_permanent_student": {
+		"es": "Soy o he sido estudiante de formación permanente de la institución (títulos propios, cuid)"
+	},
 	"mailNew_header": {
 		"no": "Registrering p\u00e5 %SNAME% - epost validering",
 		"es": "Registro en %SNAME% - validaci\u00f3n de email",
