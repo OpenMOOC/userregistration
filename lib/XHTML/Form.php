@@ -269,17 +269,17 @@ class sspmod_userregistration_XHTML_Form {
 
 	private function writeEducationSelect($elementId, $value, $attr) {
 		if(empty($value)) {
-			$value = '5';
+			$value = '6';
 		}
 
 		$choices = array(
-			'0' => $this->template->t('level_no_study'),
-			'1' => $this->template->t('level_basic_study'),
-			'2' => $this->template->t('level_high_school'),
-			'3' => $this->template->t('level_bachelor'),
-			'4' => $this->template->t('level_jobtraining'),
-			'5' => $this->template->t('level_universitary'),
-			'6' => $this->template->t('level_doctorate'),
+			'1' => $this->template->t('level_no_study'),
+			'2' => $this->template->t('level_basic_study'),
+			'3' => $this->template->t('level_high_school'),
+			'4' => $this->template->t('level_bachelor'),
+			'5' => $this->template->t('level_jobtraining'),
+			'6' => $this->template->t('level_universitary'),
+			'7' => $this->template->t('level_doctorate'),
 		);
 
 		return $this->writeSelect($elementId, $choices, $value, $attr);
@@ -287,15 +287,15 @@ class sspmod_userregistration_XHTML_Form {
 
 	private function writesEmploymentStatusSelect($elementId, $value, $attr) {
 		if(empty($value)) {
-			$value = '0';
+			$value = '1';
 		}
 
 		$choices = array(
-			'0' => $this->template->t('employment_student'),
-			'1' => $this->template->t('employment_for_others'),
-			'2' => $this->template->t('employment_freelance'),
-			'3' => $this->template->t('employment_unemployed'),
-			'4' => $this->template->t('employment_retired'),
+			'1' => $this->template->t('employment_student'),
+			'2' => $this->template->t('employment_for_others'),
+			'3' => $this->template->t('employment_freelance'),
+			'4' => $this->template->t('employment_unemployed'),
+			'5' => $this->template->t('employment_retired'),
 		);
 
 		return $this->writeSelect($elementId, $choices, $value, $attr);
@@ -303,14 +303,14 @@ class sspmod_userregistration_XHTML_Form {
 
 	private function writesRelationSelect($elementId, $value, $attr) {
 		if(empty($value)) {
-			$value = '5';
+			$value = '1';
 		}
 
 		$choices = array(
-			'0' => $this->template->t('relation_unknown'),
-			'1' => $this->template->t('relation_known'),
-			'2' => $this->template->t('relation_regulated_student'),
-			'3' => $this->template->t('relation_permanent_student'),
+			'1' => $this->template->t('relation_unknown'),
+			'2' => $this->template->t('relation_known'),
+			'3' => $this->template->t('relation_regulated_student'),
+			'4' => $this->template->t('relation_permanent_student'),
 		);
 
 		return $this->writeSelect($elementId, $choices, $value, $attr);
