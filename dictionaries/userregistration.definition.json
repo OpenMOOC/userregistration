@@ -537,6 +537,9 @@
 	"redirect_to_course": {
 		"en": "You're being redirected to the course you were interested in. Please wait"
 	},
+	"redirect_to_mooc": {
+		"en": "Please click here to go back to the MOOC platform"
+	},
 	"mail_already_registered": {
 		"en": "The requested email address is already taken by another user"
 	}

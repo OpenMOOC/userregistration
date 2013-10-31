@@ -635,6 +635,10 @@
 	"redirect_to_course": {
 		"es": "Estás siendo redirigido al curso en el que estabas interesado. Por favor, espera"
 	},
+        "redirect_to_mooc": {
+                "es": "Por favor pulse en este enlace para acceder a la plataforma de MOOC"
+        },
+
 	"mail_already_registered": {
 		"es": "El correo solicitado ya está siendo usado por otro usuario"
 	}

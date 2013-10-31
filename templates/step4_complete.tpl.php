@@ -19,13 +19,13 @@ if (isset($this->data['stepsHtml'])) {
   <p><?php echo $this->t('new_complete_para1', $this->data['systemName']); ?></p>
 
 <?php
-if (isset($this->data['goto'])):
-?>
-<div class="alert alert-success">
-<?php echo $this->t('redirect_to_course') ?>
-</div>
-<?php
-endif;
+if (isset($this->data['goto'])) {
+  echo '<div class="alert alert-success">'.$this->t('redirect_to_course').'</div>';
+}
+else if (isset($this->data['login'])) {
+
+  echo '<p><a href="'.$this->data['login'].'">'.$this->t('redirect_to_mooc').'</a></p>';
+}
 	if (!$this->data['customNavigation']) {
 ?>
 

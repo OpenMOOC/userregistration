@@ -413,6 +413,15 @@ class sspmod_userregistration_Registration {
 				$this->extraStorage->delete($gotoURL_struct);
 			}
 
+		        if (SimpleSAML_Module::isModuleEnabled('sspopenmooc')) {
+				$themeconf = SimpleSAML_Configuration::getConfig('module_sspopenmooc.php');
+				$urls = $themeconf->getArray('urls');
+				if (isset($urls['login']) && !empty($urls['login'])) {
+					$html->data['login'] = $urls['login'];
+				}
+			}
+
+
 			$html->show();
 
 			$this->extraStorage->delete($token_struct);
