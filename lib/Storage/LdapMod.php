@@ -154,6 +154,7 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 		$this->adminBindLdap();
 		if($this->searchfordn($this->searchBase, $this->userIdAttr, $userId, TRUE) ){
 			// User found in the catalog
+			$userInfo['objectClass'] = $this->objectClass;
 			$this->replaceAttribute($dn, $userInfo);
 		}else{
 			// User not found
@@ -289,7 +290,7 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 				throw new sspmod_userregistration_Error_UserException('id_violation');
 			}
 			else {
-				throw new Exception($error_msg);
+				throw new Exception($error_msg.var_export($entry, TRUE).var_export($dn, TRUE));
 			}
 		}
 	}
