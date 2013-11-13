@@ -251,7 +251,7 @@ class sspmod_userregistration_XHTML_Form {
 
 	private function writeSendEmail()
 	{
-		$html = '<tr><td></td><td><input type="checkbox" name="sendemail" id="sendemail" value="sendemail"><label for="sendemail"> '.$$this->template->t('sendemail').'</label></td></tr>';
+		$html = '<tr><td></td><td><input type="checkbox" name="sendemail" id="sendemail" value="sendemail"><label for="sendemail"> '.$this->template->t('sendemail').'</label></td></tr>';
 		return $html;
 	}
 
