@@ -280,7 +280,17 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 
 
 	private function replaceAttribute($dn, $entry){
+
+		$to_be_deleted = array();
+		foreach($entry as $name => $value) {
+			if (empty($value)) {
+				$to_be_deleted[] = $name;
+				unset($entry[$name]);
+			}
+		}
+
 		$result = @ldap_mod_replace($this->ldap, $dn, $entry);
+
 		if (!$result) {
 			$error_msg = ldap_error($this->ldap);
 			if($error_msg == 'No such object') {
@@ -291,6 +301,14 @@ class sspmod_userregistration_Storage_LdapMod extends SimpleSAML_Auth_LDAP imple
 			}
 			else {
 				throw new Exception($error_msg.var_export($entry, TRUE).var_export($dn, TRUE));
+			}
+		}
+		else {
+			if (!empty($to_be_deleted)) {
+				// If I try to delete an attr that does not exist, ldap_mod_del will fail.
+				foreach($to_be_deleted as $attr_field) { 
+					@ldap_mod_del($this->ldap, $dn, array($attr_field => array()));
+				}
 			}
 		}
 	}

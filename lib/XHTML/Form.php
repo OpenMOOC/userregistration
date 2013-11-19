@@ -269,10 +269,11 @@ class sspmod_userregistration_XHTML_Form {
 
 	private function writeEducationSelect($elementId, $value, $attr) {
 		if(empty($value)) {
-			$value = '6';
+			$value = '';
 		}
 
 		$choices = array(
+			'' => '--',
 			'1' => $this->template->t('level_no_study'),
 			'2' => $this->template->t('level_basic_study'),
 			'3' => $this->template->t('level_high_school'),
@@ -287,10 +288,11 @@ class sspmod_userregistration_XHTML_Form {
 
 	private function writesEmploymentStatusSelect($elementId, $value, $attr) {
 		if(empty($value)) {
-			$value = '1';
+			$value = '';
 		}
 
 		$choices = array(
+			'' => '--',
 			'1' => $this->template->t('employment_student'),
 			'2' => $this->template->t('employment_for_others'),
 			'3' => $this->template->t('employment_freelance'),
@@ -303,10 +305,11 @@ class sspmod_userregistration_XHTML_Form {
 
 	private function writesRelationSelect($elementId, $value, $attr) {
 		if(empty($value)) {
-			$value = '1';
+			$value = '';
 		}
 
 		$choices = array(
+			'' => '--',
 			'1' => $this->template->t('relation_unknown'),
 			'2' => $this->template->t('relation_known'),
 			'3' => $this->template->t('relation_regulated_student'),
@@ -319,10 +322,11 @@ class sspmod_userregistration_XHTML_Form {
 	private function writeYearSelect($elementId, $value, $attr) {
 
 		if(empty($value)) {
-			$value = '1980';
+			$value = '';
 		}
 
 		$choices = array();
+		$choices[''] = '--';
 
 		for ($i=1910 ; $i< date("Y") - 10; $i++) {
 			$choices[$i] = $i;
@@ -334,10 +338,11 @@ class sspmod_userregistration_XHTML_Form {
 	private function writeGenderSelect($elementId, $value, $attr){
 
 		if(empty($value)) {
-			$value = '1';
+			$value = '';
 		}
 
 		$choices = array (
+			'' => '--',
 			'1' => $this->template->t('male'),
 			'2' => $this->template->t('female'),
 		);
@@ -347,12 +352,12 @@ class sspmod_userregistration_XHTML_Form {
 
 	private function writesSpanishCommunitiesSelect($elementId, $value, $attr) {
 
-		if(empty($value)) {
-			$value = '-';
+		if(empty($value) || $value == '-') {
+			$value = '';
 		}
 
 		$choices = array (
-			'-' => '-',
+			'' => '--',
 			'AN' => 'ANDALUCÍA',
 			'AR' => 'ARAGÓN',
 			'AS' => 'ASTURIAS',
@@ -380,10 +385,11 @@ class sspmod_userregistration_XHTML_Form {
 	private function writeCountrySelect($elementId, $value, $attr){
 
 		if(empty($value)) {
-			$value = 'ES';
+			$value = '';
 		}
 
-		$choices = array( 
+		$choices = array(
+			'' => '--',
 			'AF'=>'AFGHANISTAN',
 			'AL'=>'ALBANIA',
 			'DZ'=>'ALGERIA',
