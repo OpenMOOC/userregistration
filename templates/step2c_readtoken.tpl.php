@@ -18,11 +18,21 @@ if (isset($this->data['stepsHtml'])) {
 
 
 <div style="margin: 1em">
-	<form method="POST" action="<?php echo $this->data['url'];?>">
-
-		<label>Token</label>: <input class="inputelement" type="text" value="" name="token" id="token" size="50">
-		<input type="submit" value="<?php echo $this->t('save');?>" name="savetoken">
-	</form>
+        <form method="POST" action="<?php echo $this->data['url'];?>">
+                <table class="formTable">
+                        <tr class="element">
+                                <td class="labelcontainer">
+                                        <label for="token">Token:</label>
+                                </td>
+                                <td>
+                                        <input class="inputelement" type="text" value="" name="token" id="token" size="50">
+                                </td>
+                        </tr>
+                        <tr>
+                                <td></td><td><button type="submit" class="btn btn-primary" name="savetoken"><?php echo $this->t('save');?></button></td>
+                        </tr>
+                </table>
+        </form>
 </div>
 
 <?php
