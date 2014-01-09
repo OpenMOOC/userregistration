@@ -45,6 +45,14 @@ if (array_key_exists('savepw', $_REQUEST)) {
 		$registration->step3($result_step_3);
 	}
 
+} elseif(array_key_exists('manualtoken', $_REQUEST) && !array_key_exists('refreshtoken', $_REQUEST)){
+	// Stage 2 (c): User access page from alternative url in e-mail
+	$result_step_2c = $registration->step2c();
+
+	if (is_a($result_step_2c, 'Exception')) {
+		$registration->step1($result_step_2c);
+	}
+
 } elseif(array_key_exists('refreshtoken', $_POST)){
 	// Stage 2 (b): Resend email token
 	$registration->step2(TRUE);

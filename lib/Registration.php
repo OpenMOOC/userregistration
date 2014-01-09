@@ -113,8 +113,10 @@ class sspmod_userregistration_Registration {
 
 		// Are we coming from an error?
 		if ($error !== null) {
-			$values = $this->validator->getRawInput();
-			$formGen->setValues($values);
+			if (isset($this->validator)) {
+				$values = $this->validator->getRawInput();
+				$formGen->setValues($values);
+			}
 
 			if(method_exists($error, 'getMesgId')) {
 
@@ -212,11 +214,19 @@ class sspmod_userregistration_Registration {
 			}
 
 			$url = SimpleSAML_Utilities::selfURL();
-
+			$token_string = $token_struct->getKey();
+			
 			$registerurl = SimpleSAML_Utilities::addURLparameter(
 				$url,
 				array(
-					'token' => $token_struct->getKey()
+					'token' => $token_string
+				)
+			);
+
+			$registerManualTokenUrl = SimpleSAML_Utilities::addURLparameter(
+				$url,
+				array(
+					'manualtoken' => '1'
 				)
 			);
 
@@ -224,7 +234,9 @@ class sspmod_userregistration_Registration {
 			$mail_data = array(
 				'email' => $email,
 				'tokenLifetime' => $tokenExpiration,
+				'tokenValue' => $token_string,
 				'registerurl' => $registerurl,
+				'registerManualTokenUrl' => $registerManualTokenUrl,
 				'systemName' => $this->systemName,
 			);
 
@@ -252,6 +264,27 @@ class sspmod_userregistration_Registration {
 			if ($provider->isAKnownEmailProvider()) {
 				$html->data['emailProvider'] = $provider->getProvider();
 			}
+			$html->show();
+		} catch (Exception $e) {
+			return $e;
+		}
+	}
+
+
+	// Stage 2c: User copies a URL and manually set the token.
+	public function step2c()
+	{
+		try {
+			$this->steps->setCurrent(2);
+
+			$html = new SimpleSAML_XHTML_Template(
+				$this->config,
+				'userregistration:step2c_readtoken.tpl.php',
+				'userregistration:userregistration');
+			$html->data['stepsHtml'] = $this->steps->generate();
+			$html->data['url'] = SimpleSAML_Utilities::selfURLNoQuery();
+			$html->data['customNavigation'] = $this->customNavigation;
+
 			$html->show();
 		} catch (Exception $e) {
 			return $e;
@@ -338,7 +371,7 @@ class sspmod_userregistration_Registration {
 		}
 	}
 
-
+	
 	public function step4()
 	{
 		try {

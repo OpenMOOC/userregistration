@@ -53,16 +53,27 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 
 		$url = SimpleSAML_Utilities::selfURL();
 
-		$registerurl = SimpleSAML_Utilities::addURLparameter(
+		$pw_reset_url = SimpleSAML_Utilities::addURLparameter(
 			$url,
 			array(
-				'token' => $token_string));
+				'token' => $token_string)
+		);
+
+		$pw_manual_reset_url = SimpleSAML_Utilities::addURLparameter(
+			$url,
+			array(
+				'manualtoken' => '1'
+			)
+		);
+
 
 		$systemName = array('%SNAME%' => $uregconf->getString('system.name') );
 		$mail_data = array(
-			'registerurl' => $registerurl,
+			'pwResetUrl' => $pw_reset_url,
 			'systemName' => $systemName,
 			'tokenLifetime' => $mailoptions['token.lifetime'],
+			'pwManualResetUrl' => $pw_manual_reset_url,
+			'tokenValue' => $token_string,
 		);
 
 		$emailto = $email;
@@ -96,12 +107,27 @@ if (array_key_exists('emailreg', $_REQUEST)) {
 		$terr->data['customNavigation'] = $customNavigation;
 		$terr->show();
 	}
+} elseif(array_key_exists('manualtoken', $_REQUEST)) {
+	// Stage 2c: User copies a URL and manually set the token.
+	try {
 
-} elseif(array_key_exists('token', $_GET)) {
+		$html = new SimpleSAML_XHTML_Template(
+			$config,
+			'userregistration:step2c_readtoken.tpl.php',
+			'userregistration:userregistration');
+		$html->data['url'] = SimpleSAML_Utilities::selfURLNoQuery();
+		$html->data['customNavigation'] = $customNavigation;
+
+		$html->show();
+	} catch (Exception $e) {
+		return $e;
+	}
+
+} elseif(array_key_exists('token', $_REQUEST) && ! array_key_exists('emailconfirmed', $_REQUEST)) {
 	// Stage 3: User access page from url in e-mail
 	try{
 
-		$token_string = $_GET['token'];
+		$token_string = $_REQUEST['token'];
 		$token_struct = $extraStorage->retrieve($token_string, 'sspmod_userregistration_ExtraData_PasswordChangeToken');
 
 		if ($token_struct === false) {

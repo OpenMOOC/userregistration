@@ -162,8 +162,14 @@
 	},
 	"mail_tokeninfo": {
 		"no": "Denne URL-en inneholder en billett som validerer epostadressen din. Denne billetten er gyldig i %DAYS% dager. Dersom den utl\u00f8per blir du n\u00f8dt til \u00e5 be om en ny billett og starte registreringen om igjen.",
-		"es": "Esta URL contiene un token secreto que valida tu direcci\u00f3n de correo. Este token es v\u00e1lido s\u00f3lo durante %DAYS% d\u00edas. Si el token expira deber\u00e1s repetir la solicitud.",
+		"es": "El token secreto valida tu direcci\u00f3n de correo. Este token es v\u00e1lido s\u00f3lo durante %DAYS% d\u00edas. Si el token expira deber\u00e1s repetir la solicitud.",
 		"de": "Dieser URL enth\u00e4lt einen Code, um Ihre E-Mail-Adresse zu best\u00e4tigen. Dieser Code gilt f\u00fcnf Tage lang. Danach m\u00fcssten Sie die Registrierung von Neuem beginnen (und erhalten dann auch einen neuen Code)."
+	},
+	"mail_manualtoken_url": {
+		"es": "Si experimenta problemas con el enlace anterior, intente copiar manualmente el siguiente enlace en un navegador"
+	},
+	"mail_manualtoken_token": {
+		"es": "Y añada el siguiente token al formulario que le aparecerá al acceder a dicha dirección"
 	},
 	"mail1_signature": {
 		"no": "Vennlig hilsen %SNAME%",
@@ -177,6 +183,12 @@
 	},
 	"s1_sent_head": {
 		"es": "Correo de confirmación enviado"
+	},
+	"s1_readtoken_head": {
+		"es": "Inserta el token"
+	},
+	"s1_readtoken_info": {
+		"es": "Copia el token que te fue enviado al correo"
 	},
 	"s3_head": {
 		"no": "Data for ny bruker",

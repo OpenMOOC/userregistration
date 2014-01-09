@@ -148,7 +148,13 @@
 		"en": "To reset your password at %SNAME%, use the following URL:"
 	},
 	"mail_tokeninfo": {
-		"en": "This URL contains a secret token that validates your e-mail address. This token is valid for only %DAYS% days. If this token expires, you have to request a new token by starting the process over again."
+		"en": "That secret token validates your e-mail address. This token is valid for only %DAYS% days. If this token expires, you have to request a new token by starting the process over again."
+	},
+	"mail_manualtoken_url": {
+		"en": "If you experience problems with the previous link, try to manually copy the following link in a browser"
+	},
+	"mail_manualtoken_token": {
+		"en": "And add the following token to the field that will appear when accessing this view"
 	},
 	"mail1_signature": {
 		"en": "Kind regards\n%SNAME%"
@@ -158,6 +164,12 @@
 	},
 	"s1_sent_head": {
 		"en": "Verification email sent"
+	},
+	"s1_readtoken_head": {
+		"en": "Set the token"
+	},
+	"s1_readtoken_info": {
+		"en": "Copy the token that appears on the mail"
 	},
 	"s1_para1": {
 		"en": "The first step is to register and verify your e-mail address. Make sure that you fill in an e-mail address where you can receive e-mail. Notice that some servers could mark this email as SPAM."

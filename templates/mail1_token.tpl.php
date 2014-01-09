@@ -6,6 +6,11 @@
 <p><?php echo $this->t('mailNew_urlintro', $this->data['systemName']);?></p>
 <p><tt><a href="<?php echo $this->data['registerurl']; ?>"><?php echo $this->data['registerurl']; ?></a></tt></p>
 
+<p><?php echo $this->t('mail_manualtoken_url');?>:</p>
+<p><?php echo $this->data['registerManualTokenUrl'];?></p>
+<p><?php echo $this->t('mail_manualtoken_token');?>:</p>
+<p><?php echo $this->data['tokenValue'];?></p>
+
 <p><?php echo $this->t('mail_tokeninfo', array('%DAYS%' => $this->data['tokenLifetime']/(3600*24)));?></p>
 
 <p><?php echo $this->t('mail1_signature', $this->data['systemName']);?></p>

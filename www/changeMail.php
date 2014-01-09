@@ -147,7 +147,7 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
 		$terr->data['customNavigation'] = $customNavigation;
 		$terr->show();
 	}
-} elseif(array_key_exists('refreshtoken', $_POST)){
+} else if(array_key_exists('refreshtoken', $_POST)){
 	// Resend token
 
     try {
@@ -202,7 +202,6 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
 	    $html->data['systemName'] = $systemName;
 	    $html->data['customNavigation'] = $customNavigation;
 	    $html->show();
-        exit();
 
 	} catch(sspmod_userregistration_Error_UserException $e) {
 		// Some user error detected
@@ -240,7 +239,21 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
 		$terr->data['customNavigation'] = $customNavigation;
 		$terr->show();
 	}
+} else if(array_key_exists('manualtoken', $_REQUEST)) {
+	// Stage 2c: User copies a URL and manually set the token.
+	try {
 
+		$html = new SimpleSAML_XHTML_Template(
+			$config,
+			'userregistration:step2c_readtoken.tpl.php',
+			'userregistration:userregistration');
+		$html->data['url'] = SimpleSAML_Utilities::selfURLNoQuery();
+		$html->data['customNavigation'] = $customNavigation;
+
+		$html->show();
+	} catch (Exception $e) {
+		return $e;
+	}
 } else if (array_key_exists('sender', $_REQUEST) && array_key_exists('newmail', $_REQUEST) && !empty($_REQUEST['newmail'])) {
 
     try {
@@ -279,11 +292,20 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
 			)
 		);
 
+		$changemailmanualurl = SimpleSAML_Utilities::addURLparameter(
+			$url,
+			array(
+				'manualtoken' => '1'
+			)
+		);
+
 		$mail_data = array(
 			'newmail' => $newmail,
 			'tokenLifetime' => $mailoptions['token.lifetime'],
 			'changemailurl' => $changemailurl,
 			'systemName' => $systemName,
+			'mailChangeManualUrl' => $changemailmanualurl,
+			'tokenValue' => $token_string,
 		);
 
 		sspmod_userregistration_Util::sendEmail(
@@ -340,7 +362,7 @@ if (array_key_exists('token', $_REQUEST) && !array_key_exists('refreshtoken', $_
 		$terr->show();
 	}
 
-} elseif (array_key_exists('logout', $_GET)) {
+} else if (array_key_exists('logout', $_GET)) {
 	if ($customNavigation) {
 		$as->logout($as->getLoginURL());
 	}
