@@ -107,6 +107,7 @@ Content-Transfer-Encoding: 8bit
 			$this->headers[]= 'Reply-To: ' . $this->replyto;
 
 		$this->headers[] = 'Content-Type: multipart/alternative; boundary="simplesamlphp-' . $random_hash . '"'; 
+		$this->headers[] = 'MIME-Version: 1.0';
 
 		$headers = join("\r\n", $this->headers);
 
