@@ -1,4 +1,4 @@
-Copyright Rooter 2012 http://rooter.es/
+Copyright UNED 2012
 
 userregistration is based on selfregister which does not have any license.
 We decided to fix this using the Apache License
