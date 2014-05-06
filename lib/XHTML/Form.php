@@ -645,7 +645,7 @@ class sspmod_userregistration_XHTML_Form {
 	}
 
 
-	private function writeMultivaluedField($elementId, $value, $attr, $size){
+	private function writeMultivaluedField($elementId, $value, $attr, $size=1){
 		$html = '<div class="multivalued-attribute" id="attribute-'.$elementId.'">';
 		$format = '<input class="inputelement" type="text" name="%s[]" value="%s" size="%s" %s '.(isset($this->layout[$elementId]['size'])? 'maxlength="'.$size.'"':''). ' /> <a tabindex="-1" href="#" class="remove"><i class="icon-remove"></i></a>';
 
