@@ -46,7 +46,8 @@ $config = array (
         // Storage User Id indicate which of the attributes
         // that is the key in the storage
         // This relates to the attributs mapping
-        'user.id.param' => 'uid',
+        'user.id.param' => 'mail',
+        //'user.id.param' => 'uid',
         //'user.id.param' => 'cn',
 
         // Password encryption
@@ -69,7 +70,7 @@ $config = array (
             // Require that password contains a non alphanumeric letter.
             'require.any.non.alphanumerics' => true,
             // Check if password contains the user values of the params of the array. Empty array to don't check
-            'no.contains' => array('uid','givenName', 'sn'),
+            'no.contains' => array('uid','cn', 'sn'),
             // Dictionay filenames inside hooks folder. Empty array to don't check
             'check.dicctionaries' => array('dict1.txt'),
         ),
@@ -171,6 +172,7 @@ $config = array (
             ),
         ), // end uid
 
+        /*
         'givenName' => array(
             'validate' => FILTER_DEFAULT,
             'layout' => array(
@@ -185,6 +187,24 @@ $config = array (
                 ),
             ),
         ), // end givenName
+        */
+
+        // Common name: read only
+        'cn' => array(
+            'validate' => FILTER_DEFAULT,
+            'layout' => array(
+                'control_type' => 'text',
+                'size' => '35',
+                'show' => array(
+                    'new_user',
+                    'edit_user',
+                    'admin_new_user',
+                    'admin_edit_user',
+                ),
+                'read_only' => array(
+                ),
+            ),
+        ), // end cn
 
         // Surname (ldap: sn)
         'sn' => array(
@@ -217,23 +237,6 @@ $config = array (
                 ),
             ),
         ), // end mail
-
-        // Common name: read only
-        'cn' => array(
-            'validate' => FILTER_DEFAULT,
-            'layout' => array(
-                'control_type' => 'text',
-                'size' => '35',
-                'show' => array(
-                    'new_user',
-                    'edit_user',
-                    'admin_new_user',
-                    'admin_edit_user',
-                ),
-                'read_only' => array(
-                ),
-            ),
-        ), // end cn
 
         // eduPersonPrincipalName
         'eduPersonPrincipalName' => array(
@@ -358,7 +361,7 @@ $config = array (
 	),
 
 	// Extra storage. Use redis, mongodb, cachelite
-	'extraStorage.backend' => 'redis',
+	'extraStorage.backend' => 'mongodb',
 	// Redis connection
 	'redis' => array(
 		'scheme' => 'tcp',
